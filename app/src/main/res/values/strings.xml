@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Relay</string>
+
+    <string-array name="bunchOfButtons">
+        <item>English</item>
+        <item>Hindi</item>
+    </string-array>
+</resources>
