@@ -1,6 +1,7 @@
 package com.example.relay
 
 //import android.R
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +14,9 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_verify_phone.*
+import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
 
@@ -106,37 +107,51 @@ class verifyPhoneNumber : AppCompatActivity() {
                 OnCompleteListener<AuthResult?> { task ->
                     if (task.isSuccessful) {
                         //verification successful we will start the profile activity
-
-                        var currentUser : FirebaseUser?  = mAuth!!.currentUser
-//                        intent.putExtra("user", currentUser!!)
-                        //checking if user is signing in or signing up for the first time
-                       val usersTable = fb!!.child("relay-28f2e-default-rtdb")
-                        val query1 = usersTable.orderByChild("phone_number").equalTo("+91" + mobile)
-                        Log.d("sqsf","$query1")
-                        if(query1 != null){
-                            val intent =
-                                Intent(this@verifyPhoneNumber, getCustomerDetails::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            intent.putExtra("phoneNumber", mobile)
-                            //signin
-                            startActivity(intent)
-                            //go to homescreen
-
-                        }
-                        else{
-                            //signup, go to getCustomerDetails, as well as save the phone number and make an entry in the database
-//                            val ref = FirebaseDatabase.getInstance().getReference("users")
-//                            ref.child(currentUser!!.uid).setValue(User::class.java)
-                            val intent = Intent(this@verifyPhoneNumber, homeScreen::class.java)
-
-                            intent.putExtra("phoneNumber", mobile)
-                            startActivity(intent)
-                        }
-
+                       isUserInDb(mobile!!)
                     } else {
                         Toast.makeText(this@verifyPhoneNumber, "doesnt work", Toast.LENGTH_LONG).show()
                     }
                 })
     }
+
+    private fun isSignedIn(): Boolean {
+        return mAuth!!.currentUser != null
+    }
+
+    private fun isUserInDb(phoneNumber: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                        Log.d("verify", "inside if datasnapshot")
+                        goToHomeScreen()
+                    }
+                    else{
+                        Log.d("verify","inside else datasnapshot")
+                        goToGetCustomerDetails()
+                    }
+                }
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+    }
+
+    private fun goToHomeScreen(){
+        //if user in db then send to homescreen
+        Log.d("verify","I am in if")
+        val intent = Intent(this@verifyPhoneNumber, homeScreen::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra("phoneNumber", mobile)
+        startActivity(intent)
+    }
+
+    private fun goToGetCustomerDetails(){
+        //if user not in db then signingup send to getCustomerDetails
+        Log.d("verify","I am in else")
+        val intent = Intent(this@verifyPhoneNumber, getCustomerDetails::class.java)
+        intent.putExtra("phoneNumber", mobile)
+        startActivity(intent)
+    }
+
 }

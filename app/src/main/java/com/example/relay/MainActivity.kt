@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
             if(user!= null) {
                 //already signed in
-                val myIntent = Intent(this,homeScreen::class.java)
+                val myIntent = Intent(this,LoginByNumber::class.java)
                 startActivity(myIntent)
             }
            else{
@@ -32,13 +32,6 @@ class MainActivity : AppCompatActivity() {
             val myIntent = Intent(this, LoginByNumber::class.java)
             startActivity(myIntent)
         }
-
         }
-
-
     }
-
-
-
-
 }

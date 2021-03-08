@@ -1,37 +1,46 @@
 package com.example.relay
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_customer_details.*
 
 
 class getCustomerDetails : AppCompatActivity() {
-    //
-    private var mobile:String? = null
+
+    private lateinit var mobile:String
+    private lateinit var fb: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_details)
-        mobile = intent.getStringExtra("phoneNumber")
-        Log.d("mobile","$mobile.toString()")
-        FirebaseAuth.getInstance().signOut()
+        mobile = intent.getStringExtra("phoneNumber")!!
+        fb = FirebaseDatabase.getInstance().reference
     }
     public fun storeInDB(view:View){
         val businessName = enterBusinessName.text.toString()
         val yourName = enterYourName.text.toString()
-//        val usersTable =
-        val user = FirebaseAuth.getInstance().currentUser
+        makeUserInDb(businessName, yourName)
 
-        val fb = FirebaseDatabase.getInstance().reference
-        val table = fb.child("relay-28f2e-default-rtdb/users")
+        //create an intent and send
+        val intent = Intent(this@getCustomerDetails, homeScreen::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra("phoneNumber", mobile)
+        startActivity(intent)
+    }
+
+    private fun makeUserInDb(businessName:String, userName:String){
+        val user = FirebaseAuth.getInstance().currentUser
+        val table = fb.child("users")
         val newCustomer = table.push()
         newCustomer.child("business_name").setValue(businessName)
-        newCustomer.child("name").setValue(yourName)
+        newCustomer.child("name").setValue(userName)
         newCustomer.child("phone_number").setValue(mobile)
-//        val ref = FirebaseDatabase.getInstance().getReference("relay-28f2e-default-rtdb/users")
-//        ref.child(user!!.uid).setValue()
     }
 }

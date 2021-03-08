@@ -13,9 +13,6 @@ class LoginByNumber : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_by_number)
-
-
-
     }
     public fun verifyPhone(myView: View){
 

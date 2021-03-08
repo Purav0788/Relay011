@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Relay">
-        <activity android:name=".verifyPhoneNumber"></activity>
+        <activity android:name=".Chat"></activity>
+        <activity android:name=".chat" />
+        <activity android:name=".verifyPhoneNumber" />
         <activity android:name=".homeScreen" />
         <activity android:name=".getCustomerDetails" />
         <activity android:name=".LoginByNumber" />
