@@ -27,6 +27,7 @@ class getCustomerDetails : AppCompatActivity() {
         val businessName = enterBusinessName.text.toString()
         val yourName = enterYourName.text.toString()
         makeUserInDb(businessName, yourName)
+        makeUser1InChat(mobile)
 
         //create an intent and send
         val intent = Intent(this@getCustomerDetails, homeScreen::class.java)
@@ -42,5 +43,17 @@ class getCustomerDetails : AppCompatActivity() {
         newCustomer.child("business_name").setValue(businessName)
         newCustomer.child("name").setValue(userName)
         newCustomer.child("phone_number").setValue(mobile)
+    }
+
+    public fun makeUser1InChat(user1:String){
+        val reference = FirebaseDatabase.getInstance().reference
+        val chatRef = reference.child("chats")
+        val map: MutableMap<String, String> = HashMap()
+        map["username"] = ""
+        map["time"] = "0"
+        chatRef.child("$user1").setValue(" ").addOnSuccessListener {
+            //making empty user initially
+            chatRef.child("$user1").push().setValue(map).addOnSuccessListener {  }
+        }
     }
 }

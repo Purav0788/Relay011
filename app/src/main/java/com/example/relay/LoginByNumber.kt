@@ -28,7 +28,5 @@ class LoginByNumber : AppCompatActivity() {
 
         myIntent.putExtra("mobile", mobile)
         startActivity(myIntent)
-
-
     }
 }

@@ -2,6 +2,7 @@ package com.example.relay
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
+import java.net.URLEncoder
 
 
 class homeScreen : AppCompatActivity() {
@@ -29,16 +31,8 @@ class homeScreen : AppCompatActivity() {
         setContentView(R.layout.activity_home_screen)
         mobile = intent.getStringExtra("phoneNumber")!!
         var user = findUserInDb(mobile!!)
-        if(user == null){
-            _yourBusinessName.text = ""
-            _yourName.text = ""
-            _yourPhoneNumber.text = ""
-        }
-
-//        FirebaseAuth.getInstance().signOut()
         list =  _listOfChats
         arrayList = ArrayList<String>()
-
         adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, arrayList!!)
         list!!.setAdapter(adapter)
         _listOfChats.setOnItemClickListener{parent,view,id,position->
@@ -46,10 +40,13 @@ class homeScreen : AppCompatActivity() {
             val user1 = mobile
             openChat(user1,user2)
         }
-
-        //the intent is not to actually add the contact but rather to get the number
+        //the idea is not to actually add the contact but rather to get the number
         // which the user wants to add to the app
-
+    }
+    override fun onResume() {  // After a pause OR at startup
+        //When the user presses the back button on chat activity
+        super.onResume()
+        loadAllPastChats(mobile)
     }
 
     private fun findUserInDb(phoneNumber: String) {
@@ -96,9 +93,16 @@ class homeScreen : AppCompatActivity() {
                 val nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
                 val numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                 val name = cursor.getString(nameIndex)
-                val number = cursor.getString(numberIndex)
-
-                initChat(mobile, number)
+                var number1 = cursor.getString(numberIndex)
+                //cleaning the string, removing all non numeric characters
+                var number = number1
+                number = number.replace("[^0-9]", "")
+                //cutting the extra 91 or any 0 prefix from this number
+                var extraPrefix : Int = number.length-10
+                number = number.drop(extraPrefix)
+                //checking if user2 is registered in db, if not then the pop comes up to direct them to whatsapp
+                //if user2 is registered then direct to initChat
+                isUser2InDb(number)
             }
             cursor?.close()
         }
@@ -139,7 +143,8 @@ class homeScreen : AppCompatActivity() {
         }.addOnFailureListener {}
 
         //add the newly initiated chat to the user chat
-        addUser2ToChat(user1, user2)
+        makeUser2InUser1Chat(user1, user2)
+        makeUser1InUser2Chat(user1, user2)
     }
 
     public fun openChat(user1:String, user2:String){
@@ -158,11 +163,14 @@ class homeScreen : AppCompatActivity() {
         FirebaseDatabase.getInstance().reference.child("chats/$user1")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        Log.d("home", "chats/"+user1)
+
                         for (snapshot in dataSnapshot.children) {
                             val chat = snapshot.getValue(oneChat::class.java)!!
                             var name = chat.username
-                            Log.d("home", "$name")
+                            //case when username is ""
+                            if(name == ""){
+                                continue
+                            }
                             (arrayList as ArrayList<String>).add("$name")
                             adapter!!.notifyDataSetChanged()
                         }
@@ -174,50 +182,17 @@ class homeScreen : AppCompatActivity() {
 
 
     public fun makeUser2InUser1Chat(user1:String, user2:String){
+        Log.d("arpan", "i am here")
         val reference = FirebaseDatabase.getInstance().reference
         val chatRef = reference.child("chats")
         val map: MutableMap<String, String> = HashMap()
         map["username"] = user2
         map["time"] = "0"
         chatRef.child(user1).push().setValue(map).addOnSuccessListener {  }
+        openChat(user1, user2)
     }
 
-    public fun makeUser1InChat(user1:String, user2:String){
-        val reference = FirebaseDatabase.getInstance().reference
-        val chatRef = reference.child("chats")
-        val map: MutableMap<String, String> = HashMap()
-        map["username"] = user2
-        map["time"] = "0"
-        chatRef.child("$user1").setValue(" ").addOnSuccessListener {
-            //making user 2
-            chatRef.child("$user1").push().setValue(map).addOnSuccessListener {  }
-        }
-    }
 
-    public fun addUser2ToChat(user1: String, user2: String){
-        //check if the user1 is already there in chat
-        isUser1InChat(user1, user2)
-        //it also checks if the user2 is in chat and makes one if its not
-    }
-
-    public fun isUser1InChat(user1:String, user2:String){
-        val reference = FirebaseDatabase.getInstance().reference
-        val chatRef = reference.child("chats")
-        chatRef.orderByKey().equalTo(user1).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    //Key exists
-                    //check if user2 exists there
-                    isUser2InUser1sChat(user1, user2)
-                } else {
-                   makeUser1InChat(user1, user2)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
     public fun isUser2InUser1sChat(user1:String, user2:String){
         //whichever is not make that and update that
         val reference = FirebaseDatabase.getInstance().reference
@@ -226,7 +201,8 @@ class homeScreen : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     //if exists do nothing
-                    //this should never happen, as they are called upon their first chat init
+                    //one has the others chat implies they both will have each others chat
+                    return
                 }
                 else{
                     makeUser2InUser1Chat(user1, user2)
@@ -235,4 +211,55 @@ class homeScreen : AppCompatActivity() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
+
+    private fun isUser2InDb(phoneNumber: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                   //user2 exists in db(user2 is registered)
+                    //checking if user2 is already chat initiated with user1
+                    isUser2InUser1sChat(mobile, phoneNumber)
+                }
+                else{
+                   //user2 doesn't exist in db(user2 is not registered), so direct to whatsapp popup
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    public fun makeUser1InUser2Chat(user1:String, user2:String){
+        Log.d("arpan", "i am here")
+        val reference = FirebaseDatabase.getInstance().reference
+        val chatRef = reference.child("chats")
+        val map: MutableMap<String, String> = HashMap()
+        map["username"] = user1
+        map["time"] = "0"
+        chatRef.child(user2).push().setValue(map).addOnSuccessListener {  }
+    }
+
+    private fun onWhatsAppClick(phone:String) {
+        val pm = packageManager
+        val message:String = "Install relay"
+        try {
+            val url =
+                "https://api.whatsapp.com/send?phone=" + phone + "&text=" + URLEncoder.encode(
+                    message,
+                    "UTF-8"
+                )
+            val i = Intent(Intent.ACTION_VIEW)
+            i.setPackage("com.whatsapp")
+            i.setData(Uri.parse(url))
+            if (i.resolveActivity(packageManager) != null) {
+                startActivity(i)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    //check out these guys flow chart
+    //fix the chat db not getting updated
 }                                                                                                                                                                                               
