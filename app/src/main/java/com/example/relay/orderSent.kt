@@ -33,11 +33,12 @@ class orderSent : AppCompatActivity() {
                 textView2.text = notes.toString()
                 val delimiter = "#"
                 var orders = ""
-//                orderList.ge
+                var count = 0;
                 for ( i in orderList.children){
 
                     if ( i!= null) {
                         var t = i.value as String
+                        count++;
                         val splitString = t.split(delimiter).toTypedArray();
                         orders+=splitString[0]+" "+splitString[1]+" "+splitString[2]
                         orders += '\n';
@@ -45,6 +46,8 @@ class orderSent : AppCompatActivity() {
                 }
                 val textView3 = findViewById(R.id.order) as TextView
                 textView3.text = orders
+                val textView4 = findViewById(R.id.items) as TextView
+                textView4.text = count.toString();
 
 
             }
