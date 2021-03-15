@@ -17,20 +17,24 @@ class orderDetails : AppCompatActivity() {
     private var deliveryDate ="";
     lateinit var reference1: DatabaseReference;
     private var orderList:ArrayList<kotlin.String?>? = ArrayList<kotlin.String?>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        Change needed here where copied into original source code
         setContentView(R.layout.activity_main)
-        orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<String?>?)
+        orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String?>?)
         val textview = findViewById(R.id.order) as TextView
+        val delimiter = '#'
+
         var orders = "";
 //        Appending all the orders into a string to be shown in the text view
-//        for (i in orderList)
-//        {
-//            orders+=i;
-//            orders+='\n';
-//        }
+        for (i in this!!.orderList!!)
+        {
+            if ( i!= null) {
+                val splitString = i.split(delimiter).toTypedArray();
+                orders+=splitString[0]+" "+splitString[1]+" "+splitString[2]
+                orders += '\n';
+            }
+        }
         textview.text = orders;
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
         calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
@@ -51,13 +55,7 @@ class orderDetails : AppCompatActivity() {
         val textView1 = findViewById(R.id.notes) as TextView
         var notesEntered : String = textView1.text.toString()
         var key = UUID.randomUUID()
-        val map: MutableMap<String, String> = HashMap()
-        map["orders_list"] = ""
-        map["delivery_date"] = deliveryDate
-        map["address"] = addressEntered
-        map["notes"] = notesEntered
-        reference1.child("orders").child(key.toString()).setValue(map)
-        reference1.child("orders").child(key.toString()).child("orders_list").setValue(orderList);
+        reference1.child("orders").child(key.toString()).setValue(Record(deliveryDate,addressEntered,notesEntered, orderList ))
 
         val intent = Intent()
         val result = key

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Relay">
-        <activity android:name=".orderSent"></activity>
+        <activity android:name=".orderSent" />
         <activity android:name=".orderDetails" />
         <activity android:name=".orderList" />
         <activity android:name=".Chat" />
