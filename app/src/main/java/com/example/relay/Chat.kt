@@ -170,11 +170,12 @@ class Chat : AppCompatActivity() {
             params.gravity = Gravity.RIGHT
         }
         orderButton.layoutParams = params
-        orderButton.setTag(1, orderID)
+
+        orderButton.setTag(R.id.myOrderId, orderID)
         orderButton.setOnClickListener(View.OnClickListener {
             val v1 = it
             val intent = Intent(this@Chat, orderSent::class.java)
-            val orderID:String = v1.getTag(1) as String
+            val orderID:String = v1.getTag(R.id.myOrderId) as String
             intent.putExtra("orderID",orderID)
             startActivityForResult(intent, LAUNCH_ORDER_SENT);
         })

@@ -48,8 +48,6 @@ class orderSent : AppCompatActivity() {
                 textView3.text = orders
                 val textView4 = findViewById(R.id.items) as TextView
                 textView4.text = count.toString();
-
-
             }
 
         })
