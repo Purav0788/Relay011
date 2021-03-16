@@ -4,6 +4,7 @@ package com.example.relay
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.order_list_item.view.*
 
 class orderList : AppCompatActivity() {
     private var layoutID = 0
-    private var listOfOrders:ArrayList<kotlin.String?>? = ArrayList<kotlin.String?>()
+    private var listOfOrders:ArrayList<kotlin.String> = ArrayList<kotlin.String>()
     private val LAUNCH_ORDER_DETAILS :Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,11 @@ class orderList : AppCompatActivity() {
         neu.layoutParams = params
         setUpSpinner(neu.spinner)
         parent.addView(neu)
-        neu.imageButton
-            .setOnClickListener(View.OnClickListener {
-                neu.orderQuantity.setText((neu.orderQuantity.toString().toInt()+1).toString())
+        neu.imageButton.setOnClickListener(View.OnClickListener {
+                neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()+1).toString())
             })
         neu.imageButton2.setOnClickListener(View.OnClickListener {
-            neu.orderQuantity.setText((neu.orderQuantity.toString().toInt()-1).toString())
+            neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()-1).toString())
         })
         layoutID++
     }
@@ -51,17 +51,22 @@ class orderList : AppCompatActivity() {
         dropdown.adapter = adapter
     }
 
-    public fun next(view:View){
+    public fun goToOrderDetails(view:View){
+        Log.d("orderlist", "I am here")
         for(i:Int in 0..layoutID-1){
+            Log.d("orderlist", "I am in for loop")
             var order:String
-            var neu:View = findViewById<View>(i)
-            order = neu.orderName.toString()
-            order = order + "#"+ neu.orderQuantity.toString()
-            order = order + "#" + neu.spinner.selectedItem.toString()
-            listOfOrders!!.add(order)
+            var newOrderItem:View = findViewById<View>(i)
+            order = newOrderItem.orderName.text.toString()
+            order = order + "#"+ newOrderItem.orderQuantity.text.toString()
+            order = order + "#" + newOrderItem.spinner.selectedItem.toString()
+            Log.d("orderlist", order)
+            listOfOrders.add(order)
+            Log.d("orderlistindex", listOfOrders.elementAt(0).toString())
         }
         val intent = Intent(this@orderList, orderDetails::class.java)
         intent.putExtra("listOfOrders", listOfOrders)
+//        startActivity(intent)
         startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

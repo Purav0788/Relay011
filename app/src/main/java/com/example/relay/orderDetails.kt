@@ -16,24 +16,22 @@ import java.util.*
 class orderDetails : AppCompatActivity() {
     private var deliveryDate ="";
     lateinit var reference1: DatabaseReference;
-    private var orderList:ArrayList<kotlin.String?>? = ArrayList<kotlin.String?>()
+    private var orderList:ArrayList<kotlin.String> = ArrayList<kotlin.String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        Change needed here where copied into original source code
-        setContentView(R.layout.activity_main)
-        orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String?>?)
+        setContentView(R.layout.activity_order_details)
+        orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String>)
         val textview = findViewById(R.id.order) as TextView
         val delimiter = '#'
 
         var orders = "";
 //        Appending all the orders into a string to be shown in the text view
-        for (i in this!!.orderList!!)
+        for (i in this.orderList)
         {
-            if ( i!= null) {
-                val splitString = i.split(delimiter).toTypedArray();
-                orders+=splitString[0]+" "+splitString[1]+" "+splitString[2]
-                orders += '\n';
-            }
+            val splitString = i.split(delimiter).toTypedArray();
+            orders+=splitString[0]+" "+splitString[1]+" "+splitString[2]
+            orders += '\n';
         }
         textview.text = orders;
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
@@ -46,7 +44,6 @@ class orderDetails : AppCompatActivity() {
         }
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/")
-
     }
 
     public fun placeOrder(myview: View){
