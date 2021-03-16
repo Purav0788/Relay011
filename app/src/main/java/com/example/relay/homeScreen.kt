@@ -18,10 +18,10 @@ import java.net.URLEncoder
 
 class homeScreen : AppCompatActivity() {
 
-    private var arrayList: MutableList<String>? = null
+    var arraylist = ArrayList<String>()
     private var adapter: ArrayAdapter<String>? = null
-    private var list: ListView? = null
     var mobile:String = " "
+    private val InitializeChat:Int = 2
     companion object {
         private const val SELECT_PHONE_NUMBER = 111
     }
@@ -30,11 +30,9 @@ class homeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
         mobile = intent.getStringExtra("phoneNumber")!!
-        var user = findUserInDb(mobile!!)
-        list =  _listOfChats
-        arrayList = ArrayList<String>()
-        adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, arrayList!!)
-        list!!.setAdapter(adapter)
+        var user = findUserInDb(mobile)
+        adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, arraylist)
+        _listOfChats.setAdapter(adapter)
         _listOfChats.setOnItemClickListener{parent,view,id,position->
             val user2 = (view as TextView).text.toString()
             val user1 = mobile
@@ -43,11 +41,7 @@ class homeScreen : AppCompatActivity() {
         //the idea is not to actually add the contact but rather to get the number
         // which the user wants to add to the app
     }
-    override fun onResume() {  // After a pause OR at startup
-        //When the user presses the back button on chat activity
-        super.onResume()
-        loadAllPastChats(mobile)
-    }
+
 
     private fun findUserInDb(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
@@ -96,10 +90,12 @@ class homeScreen : AppCompatActivity() {
                 var number1 = cursor.getString(numberIndex)
                 //cleaning the string, removing all non numeric characters
                 var number = number1
-                number = number.replace("[^0-9]", "")
+                number = number.replace("[^0-9]","")
                 //cutting the extra 91 or any 0 prefix from this number
+                number = number.filter { !it.isWhitespace() }
                 var extraPrefix : Int = number.length-10
                 number = number.drop(extraPrefix)
+                Log.d("Chat", number)
                 //checking if user2 is registered in db, if not then the pop comes up to direct them to whatsapp
                 //if user2 is registered then direct to initChat
                 isUser2InDb(number)
@@ -134,6 +130,8 @@ class homeScreen : AppCompatActivity() {
             val map: MutableMap<String, String> = HashMap()
             map["message"] = " "
             map["user"] = user1
+            arraylist.add(user2)
+            adapter!!.notifyDataSetChanged()
             reference1.push().setValue(map).addOnSuccessListener {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                 reference2.push().setValue(map).addOnSuccessListener {
                     Log.d("chat","i am just before starting new activity")
@@ -142,9 +140,10 @@ class homeScreen : AppCompatActivity() {
             }.addOnFailureListener {}
         }.addOnFailureListener {}
 
-        //add the newly initiated chat to the user chat
         makeUser2InUser1Chat(user1, user2)
         makeUser1InUser2Chat(user1, user2)
+        //add the newly initiated chat to the user chat
+
     }
 
     public fun openChat(user1:String, user2:String){
@@ -153,6 +152,7 @@ class homeScreen : AppCompatActivity() {
         intent.putExtra("user2", user2)
         startActivity(intent)
     }
+
 
     public fun reloadChat(user1:String, user2:String){
         openChat(user1, user2)
@@ -163,15 +163,17 @@ class homeScreen : AppCompatActivity() {
         FirebaseDatabase.getInstance().reference.child("chats/$user1")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        Log.d("Chat","I am in sfdsfs")
 
                         for (snapshot in dataSnapshot.children) {
                             val chat = snapshot.getValue(oneChat::class.java)!!
                             var name = chat.username
+                            Log.d("Chat" , name!!)
                             //case when username is ""
                             if(name == ""){
                                 continue
                             }
-                            (arrayList as ArrayList<String>).add("$name")
+                            arraylist.add(name)
                             adapter!!.notifyDataSetChanged()
                         }
 
@@ -189,7 +191,6 @@ class homeScreen : AppCompatActivity() {
         map["username"] = user2
         map["time"] = "0"
         chatRef.child(user1).push().setValue(map).addOnSuccessListener {  }
-        openChat(user1, user2)
     }
 
 
@@ -202,10 +203,12 @@ class homeScreen : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     //if exists do nothing
                     //one has the others chat implies they both will have each others chat
-                    return
+                    Log.d("Chat","I am here in isUser2InUser1sChat")
+                    openChat(user1, user2)
                 }
                 else{
-                    makeUser2InUser1Chat(user1, user2)
+                    Log.d("Chat","I am here in else of isUser2InUser1sChat")
+                    initChat(user1, user2)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -214,16 +217,19 @@ class homeScreen : AppCompatActivity() {
 
     private fun isUser2InDb(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
+        Log.d("Chat", phoneNumber)
         val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                    //user2 exists in db(user2 is registered)
                     //checking if user2 is already chat initiated with user1
+                    Log.d("Chat","I am here in isUser2InDb")
                     isUser2InUser1sChat(mobile, phoneNumber)
                 }
                 else{
                    //user2 doesn't exist in db(user2 is not registered), so direct to whatsapp popup
+                    Log.d("Chat","I am here in else of isUser2InDb")
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {}

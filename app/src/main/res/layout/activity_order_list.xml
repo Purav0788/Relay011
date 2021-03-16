@@ -58,7 +58,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="24dp"
-        android:onClick="next"
+        android:onClick="goToOrderDetails"
         android:text="Continue"
         android:textColor="#0B0000"
         app:backgroundTint="#FAF8F8"

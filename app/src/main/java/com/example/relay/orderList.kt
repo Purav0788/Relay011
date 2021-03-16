@@ -51,7 +51,7 @@ class orderList : AppCompatActivity() {
         dropdown.adapter = adapter
     }
 
-    public fun next(view:View){
+    public fun goToOrderDetails(view:View){
         Log.d("orderlist", "I am here")
         for(i:Int in 0..layoutID-1){
             Log.d("orderlist", "I am in for loop")

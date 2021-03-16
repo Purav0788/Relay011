@@ -55,10 +55,10 @@ class Chat : AppCompatActivity() {
                     val orderID = map["orderID"].toString()
                     val userName = map["user"].toString()
                     if(userName == user1){
-                        addOrderBox(orderID, 1)
+                        addOrderBox(orderID, 2)
                     }
                     else{
-                        addOrderBox(orderID, 2)
+                        addOrderBox(orderID, 1)
                     }
 
                 }
@@ -66,9 +66,9 @@ class Chat : AppCompatActivity() {
                     val message = map["message"].toString()
                     val userName = map["user"].toString()
                     if (userName == user1){
-                        addMessageBox(message, 1)
-                    } else{
                         addMessageBox(message, 2)
+                    } else{
+                        addMessageBox(message, 1)
                     }
                 }
             }
@@ -103,10 +103,10 @@ class Chat : AppCompatActivity() {
         )
         lp2.weight = 7.0f
         if (type == 1) {
-            lp2.gravity = Gravity.LEFT
+            lp2.gravity = Gravity.RIGHT
 //            textView.setBackgroundResource()
         } else {
-            lp2.gravity = Gravity.RIGHT
+            lp2.gravity = Gravity.LEFT
 //            textView.setBackgroundResource(R.drawable.bubble_out)
         }
         textView.layoutParams = lp2
@@ -164,10 +164,10 @@ class Chat : AppCompatActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT)
         orderButton.text = "Order Sent"
         if(type == 1){
-            params.gravity = Gravity.LEFT
+            params.gravity = Gravity.RIGHT
         }
         else{
-            params.gravity = Gravity.RIGHT
+            params.gravity = Gravity.LEFT
         }
         orderButton.layoutParams = params
 
