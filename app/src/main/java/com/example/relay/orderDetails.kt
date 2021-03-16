@@ -42,7 +42,7 @@ class orderDetails : AppCompatActivity() {
             val msg = "" + dayOfMonth + "/" + (month + 1) + "/" + year
             deliveryDate = msg;
 //            Change needed here ( context needs to be changed )
-            Toast.makeText(this@orderDetails, msg, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@orderDetails, msg, Toast.LENGTH_SHORT).show()
         }
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/")

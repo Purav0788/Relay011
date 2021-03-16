@@ -21,9 +21,9 @@ class orderSent : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                var deliveryDate = snapshot.child("deliveryDate")
-                var notes = snapshot.child("notes")
-                var address = snapshot.child("address")
+                var deliveryDate = snapshot.child("deliveryDate").value
+                var notes = snapshot.child("notes").value
+                var address = snapshot.child("address").value
                 var orderList: DataSnapshot = snapshot.child("orderList")
                 val textView = findViewById(R.id.deliveryDate) as TextView
                 textView.text= deliveryDate.toString()
