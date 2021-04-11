@@ -14,10 +14,14 @@ class settings : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         user1 = intent.getStringExtra("user1")!!
-        findUserInDb(user1)
+        findUserInDbAndRefreshData(user1)
+    }
+    override fun onResume() {
+        super.onResume()
+        findUserInDbAndRefreshData(user1)
     }
 
-    private fun findUserInDb(phoneNumber: String) {
+    private fun findUserInDbAndRefreshData(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {

@@ -104,6 +104,7 @@ class Chat : AppCompatActivity() {
 
             fun onCancelled(firebaseError: FirebaseError?) {}
         })
+       setActionBar(user2)
     }
 
     fun addMessageBox(message: String?, type: Int) {
@@ -272,6 +273,26 @@ class Chat : AppCompatActivity() {
         map["orderConfirmed"] = "true"
         reference1.push().setValue(map)
         reference2.push().setValue(map)
+    }
+
+    private fun setActionBar(phoneNumber: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        val actionBar = supportActionBar
+                        actionBar!!.title = user.child("name").value as String
+                    }
+                }
+                else{
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
 }

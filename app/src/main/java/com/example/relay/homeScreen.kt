@@ -30,7 +30,7 @@ class homeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
         mobile = intent.getStringExtra("phoneNumber")!!
-        var user = findUserInDb(mobile)
+        var user = findUserInDbAndRefreshData(mobile)
         adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, chatsList)
         _listOfChats.setAdapter(adapter)
         _listOfChats.setOnItemClickListener{parent,view,id,position->
@@ -41,9 +41,13 @@ class homeScreen : AppCompatActivity() {
         //the idea is not to actually add the contact but rather to get the number
         // which the user wants to add to the app
     }
+    override fun onResume() {
+        super.onResume()
+        findUserInDbAndRefreshData2(mobile)
+    }
 
 
-    private fun findUserInDb(phoneNumber: String) {
+    private fun findUserInDbAndRefreshData(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -66,7 +70,7 @@ class homeScreen : AppCompatActivity() {
         _yourBusinessName.text = myUser.child("business_name").value.toString()
         _yourName.text = myUser.child("name").value.toString()
         _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
-        loadAllPastChats(/*myUser.child("name").value.toString()*/ mobile)
+        loadAllPastChats(mobile)
     }
 
     public fun createChat(view:View){
@@ -177,8 +181,6 @@ class homeScreen : AppCompatActivity() {
                             chatsList.add(name)
                             adapter!!.notifyDataSetChanged()
 //                            addUserNameInChat(name)
-
-
                         }
 
                     }
@@ -276,5 +278,30 @@ class homeScreen : AppCompatActivity() {
         val intent = Intent(this@homeScreen, settings::class.java)
         intent.putExtra("user1", mobile)
         startActivity(intent)
+    }
+
+    private fun findUserInDbAndRefreshData2(phoneNumber: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        refreshData2(user)
+                    }
+                }
+                else{
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun refreshData2(myUser:DataSnapshot){
+        _yourBusinessName.text = myUser.child("business_name").value.toString()
+        _yourName.text = myUser.child("name").value.toString()
+        _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
     }
 }                                                                                                                                                                                               
