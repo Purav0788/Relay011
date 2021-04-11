@@ -102,9 +102,12 @@
         android:layout_marginEnd="88dp"
         android:layout_marginRight="88dp"
         android:layout_marginBottom="108dp"
+        android:onClick="changeName"
         android:text="Edit"
         app:layout_constraintBottom_toTopOf="@+id/changeBusinessName"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView10" />
 
     <Button
         android:id="@+id/changeBusinessName"
@@ -112,8 +115,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="88dp"
         android:layout_marginRight="88dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="76dp"
+        android:onClick="changeBusinessName"
         android:text="Edit"
         app:layout_constraintBottom_toTopOf="@+id/button12"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView14" />
 </androidx.constraintlayout.widget.ConstraintLayout>

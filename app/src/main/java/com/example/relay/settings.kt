@@ -50,4 +50,15 @@ class settings : AppCompatActivity() {
         startActivity(intent)
     }
 
+    public fun changeBusinessName(view:View){
+        val intent = Intent(this@settings, changeBusinessName()::class.java)
+        intent.putExtra("user1", user1)
+        startActivity(intent);
+    }
+    public fun changeName(view:View){
+        val intent = Intent(this@settings, changeName()::class.java)
+        intent.putExtra("user1", user1)
+        startActivity(intent)
+    }
+
 }
