@@ -8,7 +8,6 @@ import android.provider.ContactsContract
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
@@ -18,20 +17,21 @@ import java.net.URLEncoder
 
 class homeScreen : AppCompatActivity() {
 
-    var arraylist = ArrayList<String>()
+    var chatsList = ArrayList<String>()
     private var adapter: ArrayAdapter<String>? = null
     var mobile:String = " "
     private val InitializeChat:Int = 2
     companion object {
         private const val SELECT_PHONE_NUMBER = 111
     }
+    private lateinit var originalAddContactNumber: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
         mobile = intent.getStringExtra("phoneNumber")!!
         var user = findUserInDb(mobile)
-        adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, arraylist)
+        adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, chatsList)
         _listOfChats.setAdapter(adapter)
         _listOfChats.setOnItemClickListener{parent,view,id,position->
             val user2 = (view as TextView).text.toString()
@@ -90,6 +90,7 @@ class homeScreen : AppCompatActivity() {
                 var number1 = cursor.getString(numberIndex)
                 //cleaning the string, removing all non numeric characters
                 var number = number1
+                originalAddContactNumber = number1
                 number = number.replace("[^0-9]","")
                 //cutting the extra 91 or any 0 prefix from this number
                 number = number.filter { !it.isWhitespace() }
@@ -130,12 +131,12 @@ class homeScreen : AppCompatActivity() {
             val map: MutableMap<String, String> = HashMap()
             map["message"] = " "
             map["user"] = user1
-            arraylist.add(user2)
+            chatsList.add(user2)
             adapter!!.notifyDataSetChanged()
             reference1.push().setValue(map).addOnSuccessListener {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                 reference2.push().setValue(map).addOnSuccessListener {
                     Log.d("chat","i am just before starting new activity")
-                    openChat(user1, user2)
+//                    openChat(user1, user2)
                 }.addOnFailureListener {}
             }.addOnFailureListener {}
         }.addOnFailureListener {}
@@ -173,8 +174,11 @@ class homeScreen : AppCompatActivity() {
                             if(name == ""){
                                 continue
                             }
-                            arraylist.add(name)
+                            chatsList.add(name)
                             adapter!!.notifyDataSetChanged()
+//                            addUserNameInChat(name)
+
+
                         }
 
                     }
@@ -230,6 +234,7 @@ class homeScreen : AppCompatActivity() {
                 else{
                    //user2 doesn't exist in db(user2 is not registered), so direct to whatsapp popup
                     Log.d("Chat","I am here in else of isUser2InDb")
+                    onWhatsAppClick(originalAddContactNumber)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -266,6 +271,10 @@ class homeScreen : AppCompatActivity() {
         }
     }
 
-    //check out these guys flow chart
-    //fix the chat db not getting updated
+
+    public fun more(view:View){
+        val intent = Intent(this@homeScreen, settings::class.java)
+        intent.putExtra("user1", mobile)
+        startActivity(intent)
+    }
 }                                                                                                                                                                                               

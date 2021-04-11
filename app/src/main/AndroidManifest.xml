@@ -9,11 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Relay">
+        <activity android:name=".changeName"></activity>
+        <activity android:name=".changeBusinessName" />
+        <activity android:name=".settings" />
+        <activity android:name=".orderConfirmed2" />
+        <activity android:name=".invoice" />
+        <activity android:name=".orderConfirmed" />
         <activity android:name=".orderSent" />
         <activity android:name=".orderDetails" />
         <activity android:name=".orderList" />
         <activity android:name=".Chat" />
-        <activity android:name=".chat" />
         <activity android:name=".verifyPhoneNumber" />
         <activity android:name=".homeScreen" />
         <activity android:name=".getCustomerDetails" />

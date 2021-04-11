@@ -38,8 +38,7 @@ class getCustomerDetails : AppCompatActivity() {
 
     private fun makeUserInDb(businessName:String, userName:String){
         val user = FirebaseAuth.getInstance().currentUser
-        val table = fb.child("users")
-        val newCustomer = table.push()
+        val newCustomer  = fb.child("users").child(mobile)
         newCustomer.child("business_name").setValue(businessName)
         newCustomer.child("name").setValue(userName)
         newCustomer.child("phone_number").setValue(mobile)

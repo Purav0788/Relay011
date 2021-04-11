@@ -17,7 +17,6 @@ class orderSent : AppCompatActivity() {
         )
         reference1.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {

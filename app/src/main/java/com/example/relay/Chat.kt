@@ -4,6 +4,7 @@ package com.example.relay
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,9 @@ class Chat : AppCompatActivity() {
     private lateinit var user2:String //secondary user,
     private val LAUNCH_ORDER_LIST :Int = 2
     private val LAUNCH_ORDER_SENT:Int = 3
+    private val LAUNCH_ORDER_CONFIRMED:Int = 4
+    private val LAUNCH_INVOICE:Int = 5
+    private val LAUNCH_MYORDERS:Int = 6
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //expecting intent with the username_usernameofchatter, this string is expected
@@ -54,21 +58,29 @@ class Chat : AppCompatActivity() {
                 if(map["orderID"] != null){
                     val orderID = map["orderID"].toString()
                     val userName = map["user"].toString()
-                    if(userName == user1){
-                        addOrderBox(orderID, 2)
+                    if(map["orderConfirmed"] != null){
+                        if(userName == user1){
+                            addOrderConfirmedBox(orderID, 1)
+                        }
+                        else{
+                            addOrderConfirmedBox(orderID, 2)
+                        }
+                    }else{
+                        if(userName == user1){
+                            addOrderBox(orderID, 1)
+                        }
+                        else{
+                            addOrderBox(orderID, 2)
+                        }
                     }
-                    else{
-                        addOrderBox(orderID, 1)
-                    }
-
                 }
                 else{
                     val message = map["message"].toString()
                     val userName = map["user"].toString()
                     if (userName == user1){
-                        addMessageBox(message, 2)
-                    } else{
                         addMessageBox(message, 1)
+                    } else{
+                        addMessageBox(message, 2)
                     }
                 }
             }
@@ -148,6 +160,24 @@ class Chat : AppCompatActivity() {
         if(requestCode == LAUNCH_ORDER_SENT) {
             //do nothing for now
         }
+
+        if(requestCode == LAUNCH_ORDER_CONFIRMED){
+        //this happens when supplier clicks on ordersent box which buyer created
+            // here i am supposed to either add to the db the
+            if (resultCode == Activity.RESULT_OK) {
+                val result:String = data!!.getStringExtra("result")!!
+               var uuidResult = UUID.fromString(result)
+                saveOrderConfirmation(uuidResult)
+                Log.d("I am here","in here in activity for order confirmation")
+            }
+        }
+
+        if(resultCode == LAUNCH_INVOICE){
+        //this happens when supplier clicks on orderConfirmed box which he himself created
+        }
+        if(resultCode == LAUNCH_MYORDERS){
+
+        }
     }
 
     private fun saveOrderUUID(result:UUID){
@@ -174,14 +204,74 @@ class Chat : AppCompatActivity() {
         orderButton.setTag(R.id.myOrderId, orderID)
         orderButton.setOnClickListener(View.OnClickListener {
             val v1 = it
-            val intent = Intent(this@Chat, orderSent::class.java)
-            val orderID:String = v1.getTag(R.id.myOrderId) as String
-            intent.putExtra("orderID",orderID)
-            startActivityForResult(intent, LAUNCH_ORDER_SENT);
+
+            //check if the user1 is the guy who sent this message,if so send him to Order Sent
+            //So if type is 1 then send to orderSent
+            //otherwise send him to orderConfirmed
+
+            if(type == 1 ){
+                val intent = Intent(this@Chat, orderSent::class.java)
+                val orderID:String = v1.getTag(R.id.myOrderId) as String
+                intent.putExtra("orderID",orderID)
+                startActivityForResult(intent, LAUNCH_ORDER_SENT)
+            }else{
+                val intent = Intent(this@Chat,orderConfirmed::class.java)
+                val orderID:String = v1.getTag(R.id.myOrderId) as String
+                intent.putExtra("orderID",orderID)
+                startActivityForResult(intent,LAUNCH_ORDER_CONFIRMED)
+            }
+
+
         })
         layout1.addView(orderButton)
         scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
+    private fun addOrderConfirmedBox(orderID: String, type:Int){
+        val orderButton = Button(this)
+        var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
+        orderButton.text = "Order Confirmed"
+        if(type == 1){
+            params.gravity = Gravity.RIGHT
+        }
+        else{
+            params.gravity = Gravity.LEFT
+        }
+        orderButton.layoutParams = params
+
+        orderButton.setTag(R.id.myOrderId, orderID)
+        orderButton.setOnClickListener(View.OnClickListener {
+            val v1 = it
+            if(type == 1 ){
+                //TYPE 1 MEANS the user who sent this message is looking at it
+                //so the order confirmed box is sent by the supplier
+                //so if he clicks at it, he should be taken to invoice
+                Log.d("launching Invoice", "hi")
+                val intent = Intent(this@Chat, invoice::class.java)
+                val orderID:String = v1.getTag(R.id.myOrderId) as String
+                intent.putExtra("orderID",orderID)
+                startActivityForResult(intent, LAUNCH_INVOICE)
+            }else{
+                //take the buyer to go to myOrders, which is not yet implemented
+//                val intent = Intent(this@Chat, myOrders::class.java)
+//                val orderID:String = v1.getTag(R.id.myOrderId) as String
+//                intent.putExtra("orderID",orderID)
+//                startActivityForResult(intent,LAUNCH_MYORDERS)
+                Log.d("launching Invoice", "bye")
+            }
+        })
+        layout1.addView(orderButton)
+        scrollView.fullScroll(View.FOCUS_DOWN)
+
+    }
+    private fun saveOrderConfirmation(result:UUID){
+        val map: MutableMap<String, String> = HashMap()
+        map["orderID"] = result.toString()
+        map["user"] = user1
+        map["orderConfirmed"] = "true"
+        reference1.push().setValue(map)
+        reference2.push().setValue(map)
+    }
 
 }

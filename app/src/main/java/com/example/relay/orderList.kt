@@ -10,19 +10,21 @@ import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_order_list.view.*
 import kotlinx.android.synthetic.main.order_list_item.view.*
 
 
 class orderList : AppCompatActivity() {
-    private var layoutID = 0
+    private var layoutID = 1
     private var listOfOrders:ArrayList<kotlin.String> = ArrayList<kotlin.String>()
     private val LAUNCH_ORDER_DETAILS :Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
+        addListItem()
     }
 
-    public fun addListItem(view:View){
+    public fun addListItem(view:View = findViewById<View>(R.id.orderList)){
         var parent = findViewById<View>(R.id.orderList) as RelativeLayout
         val neu: View = layoutInflater.inflate(R.layout.order_list_item, parent, false)
         neu.id = layoutID
@@ -30,7 +32,8 @@ class orderList : AppCompatActivity() {
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
             )
-        params.addRule(RelativeLayout.BELOW, layoutID-1)
+            params.addRule(RelativeLayout.BELOW, layoutID-1)
+
         neu.layoutParams = params
         setUpSpinner(neu.spinner)
         parent.addView(neu)
@@ -41,6 +44,7 @@ class orderList : AppCompatActivity() {
             neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()-1).toString())
         })
         layoutID++
+        increaseTotalItems()
     }
 
     private fun setUpSpinner(dropdown:Spinner){
@@ -53,7 +57,7 @@ class orderList : AppCompatActivity() {
 
     public fun goToOrderDetails(view:View){
         Log.d("orderlist", "I am here")
-        for(i:Int in 0..layoutID-1){
+        for(i:Int in 1..layoutID-1){
             Log.d("orderlist", "I am in for loop")
             var order:String
             var newOrderItem:View = findViewById<View>(i)
@@ -68,6 +72,14 @@ class orderList : AppCompatActivity() {
         intent.putExtra("listOfOrders", listOfOrders)
 //        startActivity(intent)
         startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
+    }
+
+    private fun increaseTotalItems(){
+        var totalItems = findViewById<View>(R.id.totalItems)
+        var quantity = totalItems.totalItems.text.toString().toInt()
+        Log.d("quantity",quantity.toString())
+        quantity = quantity + 1
+       totalItems.totalItems.setText(quantity.toString())
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
