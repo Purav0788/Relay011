@@ -3,6 +3,7 @@ package com.example.relay
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -11,12 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseError
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.message_place.*
 import kotlinx.android.synthetic.main.order_list_item.view.*
+import java.time.LocalTime
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -101,8 +104,6 @@ class Chat : AppCompatActivity() {
                 s: String?
             ) {
             }
-
-            fun onCancelled(firebaseError: FirebaseError?) {}
         })
        setActionBar(user2)
     }
@@ -128,12 +129,14 @@ class Chat : AppCompatActivity() {
         scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     public fun sendMessage(v: View?) {
         val messageText = messageArea.getText().toString()
         if (messageText != "") {
-            val map: MutableMap<String, String> = HashMap()
+            val map: MutableMap<String, Any> = HashMap()
             map["message"] = messageText
             map["user"] = user1
+            map["time"] = LocalTime.now()
             reference1.push().setValue(map)
             reference2.push().setValue(map)
             messageArea.setText("")

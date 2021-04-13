@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.order_confirm_list_item.view.*
@@ -25,6 +26,7 @@ class orderConfirmed : AppCompatActivity() {
     lateinit var reference1: DatabaseReference
     private var listOfUnitPrices:ArrayList<kotlin.Int> = ArrayList<kotlin.Int>()
     private var LAUNCH_ORDER_CONFIRMED2:Int = 2
+    private var totalPrice:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_confirmed)
@@ -76,10 +78,15 @@ class orderConfirmed : AppCompatActivity() {
         val unitPrice = neu.unitPrice as EditText
         unitPrice.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable) {
+                totalPrice = totalPrice + s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
+                var totalPriceView = findViewById(R.id.totalPrice) as TextView
+                totalPriceView.setText(totalPrice.toString())
+            }
 
             override fun beforeTextChanged(s: CharSequence, start: Int,
                                            count: Int, after: Int) {
+                totalPrice = totalPrice - s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
             }
 
             override fun onTextChanged(s: CharSequence, start: Int,

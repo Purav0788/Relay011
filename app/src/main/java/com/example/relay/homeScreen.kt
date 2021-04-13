@@ -3,47 +3,63 @@ package com.example.relay
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
 import java.net.URLEncoder
+import java.time.LocalTime
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class homeScreen : AppCompatActivity() {
 
-    var chatsList = ArrayList<String>()
-    private var adapter: ArrayAdapter<String>? = null
-    var mobile:String = " "
+    var chatsList = ArrayList<myDataClass>()
+    private lateinit var adapter: myCustomAdapter
+    var user1:String = " "
     private val InitializeChat:Int = 2
     companion object {
         private const val SELECT_PHONE_NUMBER = 111
     }
     private lateinit var originalAddContactNumber: String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
-        mobile = intent.getStringExtra("phoneNumber")!!
-        var user = findUserInDbAndRefreshData(mobile)
-        adapter = ArrayAdapter<String>(this@homeScreen, android.R.layout.simple_spinner_item, chatsList)
+        user1 = intent.getStringExtra("phoneNumber")!!
+        var user = findUserInDbAndRefreshData(user1)
+        adapter = myCustomAdapter(this@homeScreen, chatsList)
         _listOfChats.setAdapter(adapter)
         _listOfChats.setOnItemClickListener{parent,view,id,position->
-            val user2 = (view as TextView).text.toString()
-            val user1 = mobile
-            openChat(user1,user2)
+            val user2ChatData = chatsList.get(position.toInt())
+            val user1 = user1
+            openChat(user1,user2ChatData.getphoneNumber())
         }
+
         //the idea is not to actually add the contact but rather to get the number
         // which the user wants to add to the app
+        //my change starts from here, lets see if it works
+
+//        try{
+//            val reference = FirebaseDatabase.getInstance().reference
+//            val query: Query = reference.child("users")
+//                    .orderByChild("phone_number").equalTo(mobile)
+//
+//        } catch(e:FirebaseException){
+//
+//        }
+        setActionBar(user1)
     }
     override fun onResume() {
         super.onResume()
-        findUserInDbAndRefreshData2(mobile)
+        findUserInDbAndRefreshData2(user1)
     }
 
 
@@ -70,7 +86,7 @@ class homeScreen : AppCompatActivity() {
         _yourBusinessName.text = myUser.child("business_name").value.toString()
         _yourName.text = myUser.child("name").value.toString()
         _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
-        loadAllPastChats(mobile)
+        loadAllPastChats(user1)
     }
 
     public fun createChat(view:View){
@@ -110,6 +126,7 @@ class homeScreen : AppCompatActivity() {
     }
 
     //initializing chat between user1 and user2 for the first time
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initChat(user1:String, user2: String){
 
         //how to make user1_user2 entry
@@ -132,28 +149,27 @@ class homeScreen : AppCompatActivity() {
                 "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
                         + user2.toString() + "_" + user1)
 
-            val map: MutableMap<String, String> = HashMap()
+            val map: MutableMap<String, Any> = HashMap()
             map["message"] = " "
             map["user"] = user1
-            chatsList.add(user2)
-            adapter!!.notifyDataSetChanged()
-            reference1.push().setValue(map).addOnSuccessListener {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-                reference2.push().setValue(map).addOnSuccessListener {
-                    Log.d("chat","i am just before starting new activity")
-//                    openChat(user1, user2)
-                }.addOnFailureListener {}
-            }.addOnFailureListener {}
+//need to change some stuff here, for fetching the name as the user initializes
+            //basically loadAllpastchats , reinit the chatslist tehre and then add that stuff from loadall past chats
+            //and here attach listener on reference1.push() then run the loadallpast chats
+            var time = LocalTime.now()
+            map["time"] = time
+            reference1.push().setValue(map).addOnSuccessListener { loadAllPastChats(user1) }
+            reference2.push().setValue(map)
         }.addOnFailureListener {}
 
+        //these can and should be clubber together,they will never be called individually
         makeUser2InUser1Chat(user1, user2)
         makeUser1InUser2Chat(user1, user2)
         //add the newly initiated chat to the user chat
-
     }
 
     public fun openChat(user1:String, user2:String){
         val intent = Intent(this@homeScreen, Chat::class.java)
-        intent.putExtra("user1", mobile)
+        intent.putExtra("user1", this.user1)
         intent.putExtra("user2", user2)
         startActivity(intent)
     }
@@ -164,23 +180,75 @@ class homeScreen : AppCompatActivity() {
     }
 
     public fun loadAllPastChats(user1:String){
-        Log.d("home", "I am in load")
+        chatsList.clear()
         FirebaseDatabase.getInstance().reference.child("chats/$user1")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        Log.d("Chat","I am in sfdsfs")
+                        Log.d("Chat", "I am in sfdsfs")
 
                         for (snapshot in dataSnapshot.children) {
                             val chat = snapshot.getValue(oneChat::class.java)!!
-                            var name = chat.username
-                            Log.d("Chat" , name!!)
-                            //case when username is ""
-                            if(name == ""){
-                                continue
-                            }
-                            chatsList.add(name)
-                            adapter!!.notifyDataSetChanged()
-//                            addUserNameInChat(name)
+                            var user2 = chat.username as String
+                            //case when username is "", not sure why a username can be blank,
+                            // its there when user registers, not sure, i think the queries would still work, or maybe not
+                            Log.d("user2", user2)
+                            //note there are many users in this for loop
+                            //get last message between user 1 and user2
+                            //get name of user2
+                            //get time of last message between user1 and user2
+                            val ref = FirebaseDatabase
+                                .getInstance().reference.child("messages/" + user1 + "_" + user2)
+                            ref.orderByKey().limitToLast(1)
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    @RequiresApi(Build.VERSION_CODES.O)
+                                    @Override
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                                        if (snapshot.exists()) {
+                                            for (datasnapshot in snapshot.children) {
+                                                // do something with the individual "user"
+//                                                val time = datasnapshot.child("time").value as LocalTime
+                                                val time = LocalTime.now()
+//                                                val lastMessageText =
+//                                                    datasnapshot.child("message").value as String
+                                                val lastMessageText = "My last message"
+                                                val reference =
+                                                    FirebaseDatabase.getInstance().reference
+                                                val query: Query = reference.child("users")
+                                                    .orderByChild("phone_number").equalTo(user2)
+                                                query.addListenerForSingleValueEvent(object :
+                                                    ValueEventListener {
+                                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                        if (dataSnapshot.exists()) {
+                                                            for (mysnapshot in dataSnapshot.children) {
+                                                                val user2Name =
+                                                                    mysnapshot.child("name").value as String
+//                                                                  val user2Name = "MyUser"
+                                                                chatsList.add(
+                                                                    myDataClass(
+                                                                        time,
+                                                                        lastMessageText,
+                                                                        user2Name,
+                                                                        user2
+                                                                    )
+                                                                )
+                                                                adapter.notifyDataSetChanged()
+                                                            }
+                                                        } else {
+                                                        }
+                                                    }
+
+                                                    override fun onCancelled(databaseError: DatabaseError) {}
+                                                })
+                                            }
+                                        } else {
+                                        }
+
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
+
                         }
 
                     }
@@ -205,6 +273,7 @@ class homeScreen : AppCompatActivity() {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query = reference.child("chats/$user1").orderByChild("username").equalTo(user2)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     //if exists do nothing
@@ -231,7 +300,7 @@ class homeScreen : AppCompatActivity() {
                    //user2 exists in db(user2 is registered)
                     //checking if user2 is already chat initiated with user1
                     Log.d("Chat","I am here in isUser2InDb")
-                    isUser2InUser1sChat(mobile, phoneNumber)
+                    isUser2InUser1sChat(user1, phoneNumber)
                 }
                 else{
                    //user2 doesn't exist in db(user2 is not registered), so direct to whatsapp popup
@@ -276,7 +345,7 @@ class homeScreen : AppCompatActivity() {
 
     public fun more(view:View){
         val intent = Intent(this@homeScreen, settings::class.java)
-        intent.putExtra("user1", mobile)
+        intent.putExtra("user1", user1)
         startActivity(intent)
     }
 
@@ -303,5 +372,27 @@ class homeScreen : AppCompatActivity() {
         _yourBusinessName.text = myUser.child("business_name").value.toString()
         _yourName.text = myUser.child("name").value.toString()
         _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
+    }
+
+
+
+    private fun setActionBar(phoneNumber: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        val actionBar = supportActionBar
+                        actionBar!!.title = user.child("business_name").value as String
+                    }
+                }
+                else{
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 }                                                                                                                                                                                               

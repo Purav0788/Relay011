@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="@+id/view"
         app:srcCompat="@android:drawable/editbox_background" />
 
-    <TextView
+    <EditText
         android:id="@+id/itemPrice"
         android:layout_width="38dp"
         android:layout_height="48dp"

@@ -14,7 +14,7 @@ import java.util.*
 
 
 class orderDetails : AppCompatActivity() {
-    private var deliveryDate ="";
+    private var deliveryDate =""
     lateinit var reference1: DatabaseReference;
     private var orderList:ArrayList<kotlin.String> = ArrayList<kotlin.String>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class orderDetails : AppCompatActivity() {
         val delimiter = '#'
 
         var orders = "";
-//        Appending all the orders into a string to be shown in the text view
+
         for (i in this.orderList)
         {
             val splitString = i.split(delimiter).toTypedArray();
@@ -39,8 +39,7 @@ class orderDetails : AppCompatActivity() {
             // Note that months are indexed from 0. So, 0 means January, 1 means february, 2 means march etc.
             val msg = "" + dayOfMonth + "/" + (month + 1) + "/" + year
             deliveryDate = msg;
-//            Change needed here ( context needs to be changed )
-//            Toast.makeText(this@orderDetails, msg, Toast.LENGTH_SHORT).show()
+
         }
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/")

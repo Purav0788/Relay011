@@ -48,11 +48,5 @@ class getCustomerDetails : AppCompatActivity() {
         val reference = FirebaseDatabase.getInstance().reference
         val chatRef = reference.child("chats")
         val map: MutableMap<String, String> = HashMap()
-        map["username"] = ""
-        map["time"] = "0"
-        chatRef.child("$user1").setValue(" ").addOnSuccessListener {
-            //making empty user initially
-            chatRef.child("$user1").push().setValue(map).addOnSuccessListener {  }
-        }
     }
 }
