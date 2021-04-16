@@ -43,10 +43,14 @@ class homeScreen : AppCompatActivity() {
             val lastMessage = intent.getStringExtra("lastMessageText")!!
             val lastMessageTime = intent.getStringExtra("lastMessageTime")!!
             lateinit var user2Name:String
-                for(chatItem in chatsList){
-                if(chatItem.getphoneNumber() == user2){
-                    user2Name = chatItem.getName()
-                    chatsList.remove(chatItem)
+            val iterator = chatsList.listIterator()
+            //assumption is that all the names are in chat and thus user2Name will always be populate, which
+            //may not be true
+            while(iterator.hasNext()){
+                val it = iterator.next()
+                if (it.getphoneNumber() == user2) {
+                    user2Name = it.getName()
+                    iterator.remove()
                 }
             }
             val chatItem = myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
