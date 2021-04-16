@@ -79,9 +79,12 @@ class orderList : AppCompatActivity() {
             listOfOrders.add(order)
             Log.d("orderlistindex", listOfOrders.elementAt(0).toString())
         }
-        val intent = Intent(this@orderList, orderDetails::class.java)
-        intent.putExtra("listOfOrders", listOfOrders)
-        startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
+        if(listOfOrders.size != 0){
+            val intent = Intent(this@orderList, orderDetails::class.java)
+            intent.putExtra("listOfOrders", listOfOrders)
+            startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
+        }
+
     }
 
     private fun increaseTotalItems(){

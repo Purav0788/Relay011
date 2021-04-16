@@ -99,5 +99,4 @@ class orderConfirmed2 : AppCompatActivity() {
         setResult(Activity.RESULT_OK,intent)
         finish()
     }
-
 }

@@ -1,24 +1,52 @@
 package com.example.relay
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
 
 
 class settings : AppCompatActivity() {
+    private val businessNameChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            var businessName = intent!!.getStringExtra("newBusinessName")!!
+            _yourBusinessName.setText(businessName)
+        }
+    }
+
+    private val userNameChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            var userName = intent!!.getStringExtra("newName")!!
+            _yourName.setText(userName)
+        }
+    }
     private lateinit var user1:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         user1 = intent.getStringExtra("user1")!!
         findUserInDbAndRefreshData(user1)
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(businessNameChangeReceiver, IntentFilter("changedBusinessName"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(userNameChangeReceiver, IntentFilter("changedUserName"))
     }
-    override fun onResume() {
-        super.onResume()
-        findUserInDbAndRefreshData(user1)
+//    override fun onResume() {
+//        super.onResume()
+////        findUserInDbAndRefreshData(user1)
+//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(userNameChangeReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(businessNameChangeReceiver);
     }
 
     private fun findUserInDbAndRefreshData(phoneNumber: String) {
@@ -55,12 +83,12 @@ class settings : AppCompatActivity() {
     }
 
     public fun changeBusinessName(view:View){
-        val intent = Intent(this@settings, changeBusinessName()::class.java)
+        val intent = Intent(this@settings, changeBusinessName::class.java)
         intent.putExtra("user1", user1)
         startActivity(intent);
     }
     public fun changeName(view:View){
-        val intent = Intent(this@settings, changeName()::class.java)
+        val intent = Intent(this@settings, changeName::class.java)
         intent.putExtra("user1", user1)
         startActivity(intent)
     }

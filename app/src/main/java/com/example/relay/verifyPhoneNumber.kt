@@ -153,5 +153,4 @@ class verifyPhoneNumber : AppCompatActivity() {
         intent.putExtra("phoneNumber", mobile)
         startActivity(intent)
     }
-
 }

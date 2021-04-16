@@ -1,9 +1,9 @@
 package com.example.relay
 
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 public class myDataClass(
-    private  var time: LocalTime,
+    private  var time: LocalDateTime,
     private  var lastMessage: String,
     private  var name: String,
     private  var phoneNumber: String
@@ -11,7 +11,7 @@ public class myDataClass(
     public fun getName():String{
         return name
     }
-    public fun getTime():LocalTime{
+    public fun getTime():LocalDateTime{
         return time
     }
     public fun getphoneNumber():String{
@@ -23,7 +23,7 @@ public class myDataClass(
     public fun setName(name:String){
         this.name = name
     }
-    public fun setTime(time:LocalTime){
+    public fun setTime(time:LocalDateTime){
         this.time = time
     }
     public fun setLastMessage(lastMessage:String){
@@ -32,4 +32,5 @@ public class myDataClass(
     public fun setPhoneNumber(phoneNumber: String){
         this.phoneNumber = phoneNumber
     }
+
 }

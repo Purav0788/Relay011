@@ -1,11 +1,15 @@
 package com.example.relay
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_change_name.*
+import java.time.LocalDateTime
 
 class changeName : AppCompatActivity() {
     private lateinit var user1:String
@@ -20,6 +24,14 @@ class changeName : AppCompatActivity() {
 
     public fun changeName(view:View){
         reference1.child("name").setValue(yourName.text.toString())
+        sendChangedUserNameBroadCast()
         finish()
+    }
+
+    private fun sendChangedUserNameBroadCast(){
+        Log.d("receiverinChat","hello")
+        val intent = Intent("changedUserName")
+        intent.putExtra("newName", yourName.text.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 }
