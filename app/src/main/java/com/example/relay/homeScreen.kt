@@ -42,21 +42,22 @@ class homeScreen : AppCompatActivity() {
             val user2 = intent!!.getStringExtra("user2")!!
             val lastMessage = intent.getStringExtra("lastMessageText")!!
             val lastMessageTime = intent.getStringExtra("lastMessageTime")!!
-            lateinit var user2Name:String
+            lateinit var user2Name: String
             val iterator = chatsList.listIterator()
             //assumption is that all the names are in chat and thus user2Name will always be populate, which
             //may not be true
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 val it = iterator.next()
                 if (it.getphoneNumber() == user2) {
                     user2Name = it.getName()
                     iterator.remove()
                 }
             }
-            val chatItem = myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
+            val chatItem =
+                myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
             chatsList.add(0, chatItem)
             adapter.notifyDataSetChanged()
-            Log.d("receiver","in my tempreceiver")
+            Log.d("receiver", "in my tempreceiver")
         }
     }
 
@@ -69,7 +70,7 @@ class homeScreen : AppCompatActivity() {
 
     private val userNameChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-        var userName = intent!!.getStringExtra("newName")!!
+            var userName = intent!!.getStringExtra("newName")!!
             _yourName.setText(userName)
         }
     }
@@ -255,6 +256,11 @@ class homeScreen : AppCompatActivity() {
         makeUser2InUser1Chat(user1, user2)
         makeUser1InUser2Chat(user1, user2)
         //add the newly initiated chat to the user chat
+
+        //here if one removes the " " value , then it would mean chat has initialzied in the chats but
+        //but there wont be any message or even the parent key in the messages
+        //which is bad, while it will still work, but things can indeed crash and its just
+        //bad stuff
     }
 
     public fun openChat(user1: String, user2: String) {
@@ -270,6 +276,16 @@ class homeScreen : AppCompatActivity() {
     }
 
     public fun loadAllPastChats(user1: String) {
+        //in my understanding this only runs once , and so when the other user sends a message, these listeners
+        //are not listening and thus dont update the chats, thus need to make an on child kind of listener in the
+        //on create and make that send a broadcast , whenever some other user messages us or some other user
+        //initiates a chat with us, that needs to update the chats UI
+
+        //changed these to valueEventListener so that they might load on their own, detecting those changes
+        //also notice that there are basically 100s of listeners here for each user2
+        //stemming from a single listener of chats/user1
+        //changing them back to the singlevalueevent Listeners, because as expected they work, but here it creates a mess
+        //in behaviour, will just attach explicit listeners for listening
         chatsList.clear()
         FirebaseDatabase.getInstance().reference.child("chats/$user1")
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -600,7 +616,18 @@ class homeScreen : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     public fun updateChatsListInUIThread(myDataClass: myDataClass) {
         //hopefully this function gets called in the ui thread
-        chatsList.add(0,myDataClass)
+        chatsList.add(0, myDataClass)
         adapter.notifyDataSetChanged()
+    }
+
+    //update chats whenever the last message sent by user2 is changed(not user 1 as its already detected(from broadcast)
+    //update chats whenever the name of a user2 is changed(still keep the chats sorted according to the message time)
+    //or some other user initiated a chat with user1, all three dimensions will need to detect
+    //set that listener in teh oncreate, which strictly runs on such an operation(and doesnt detect the initial values, or set them on loadall past chats
+    //but just detects changes
+    //i can put those listeners in between the already implemented single value event listeners, but that will be a pain
+    // should i change the db strucuture, nah lets not do that, its a pain to now update from other activities
+    public fun detectChangeAndUpdateChats(){
+
     }
 }                                                                                                                                                                                               

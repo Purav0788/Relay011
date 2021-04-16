@@ -20,12 +20,15 @@ import kotlinx.android.synthetic.main.order_confirm_list_item.view.orderQuantity
 import kotlinx.android.synthetic.main.order_confirm_list_item.view.unit
 import kotlinx.android.synthetic.main.order_confirm_list_item.view.unitPrice
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.properties.Delegates
 
 class orderConfirmed2 : AppCompatActivity() {
     private lateinit var orderID:String
     lateinit var reference1: DatabaseReference;
     private var layoutID = 1
     private var listOfUnitPrices:ArrayList<kotlin.Int> = ArrayList<kotlin.Int>()
+    private lateinit var totalPrice:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,13 @@ class orderConfirmed2 : AppCompatActivity() {
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/orders/$orderID"
         )
-        reference1.addValueEventListener(object : ValueEventListener {
+       totalPrice = intent.getStringExtra("totalPrice").toString()
+        var totalPriceView = findViewById(R.id.totalPrice) as TextView
+        totalPriceView.setText(totalPrice)
+        //as this is a listener realtime , so when we press on confirm order, it takes that entry as soon as
+        //as that button is pressed and showing bad behaviour
+        //so chnaged it to add listener for single value event
+        reference1.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -93,7 +102,12 @@ class orderConfirmed2 : AppCompatActivity() {
     }
 
     public fun confirmOrder(view: View){
-        reference1.child("listOfUnitPrices").setValue(orderPricesRecordClass(listOfUnitPrices))
+        var orderConfirmed:String = "true"
+        val myMap: MutableMap<String, Any> = HashMap()
+        myMap["listOfUnitPrices"] = listOfUnitPrices
+        myMap["totalPrice"] = totalPrice
+        myMap["orderConfirmed"] = orderConfirmed
+        reference1.updateChildren(myMap)
         val intent = Intent()
         intent.putExtra("result", orderID)
         setResult(Activity.RESULT_OK,intent)

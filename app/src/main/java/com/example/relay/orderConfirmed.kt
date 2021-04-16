@@ -80,7 +80,7 @@ class orderConfirmed : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable) {
                 totalPrice = totalPrice + s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
-                var totalPriceView = findViewById(R.id.totalPrice) as TextView
+                var totalPriceView = findViewById(R.id.totalPrice) as EditText
                 totalPriceView.setText(totalPrice.toString())
             }
 
@@ -117,6 +117,8 @@ class orderConfirmed : AppCompatActivity() {
             val intent = Intent(this@orderConfirmed, orderConfirmed2::class.java)
             intent.putExtra("listOfUnitPrices", listOfUnitPrices)
             intent.putExtra("orderID", orderID)
+            var totalPriceSetByUser = findViewById<EditText>(R.id.totalPrice).text.toString()
+            intent.putExtra("totalPrice", totalPriceSetByUser )
             startActivityForResult(intent, LAUNCH_ORDER_CONFIRMED2)
     }
 

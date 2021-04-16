@@ -58,42 +58,24 @@ class Chat : AppCompatActivity() {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 val map = dataSnapshot.value as Map<String, Any>
                 //checking if the message is actually an order:
+                val userName = map["user"].toString()
+                var type = if(userName == user1) 1 else 2
                 if(map["orderID"] != null){
                     val orderID = map["orderID"].toString()
-                    val userName = map["user"].toString()
-                    if((map["orderConfirmed"] != null)&&(map["orderCanceled"] == null)){
-                        if(userName == user1){
-                            addOrderConfirmedBox(orderID, 1)
-                        }
-                        else{
-                            addOrderConfirmedBox(orderID, 2)
-                        }
+
+                    if(map["orderCancelled"] == "true"){
+                        addOrderCancelledBox(orderID, type)
                     }
-                    if(map["orderCanceled"]!= null){
-                        if(userName == user1){
-                            addOrderCanceledBox(orderID, 1)
-                        }
-                        else{
-                            addOrderCanceledBox(orderID, 2)
-                        }
+                    else if(map["orderConfirmed"] == "true"){
+                        addOrderConfirmedBox(orderID, type)
                     }
                     else{
-                        if(userName == user1){
-                            addOrderBox(orderID, 1)
-                        }
-                        else{
-                            addOrderBox(orderID, 2)
-                        }
+                        addOrderBox(orderID, type)
                     }
                 }
                 else{
                     val message = map["message"].toString()
-                    val userName = map["user"].toString()
-                    if (userName == user1){
-                        addMessageBox(message, 1)
-                    } else{
-                        addMessageBox(message, 2)
-                    }
+                    addMessageBox(message, type)
                 }
             }
 
@@ -116,7 +98,7 @@ class Chat : AppCompatActivity() {
         })
        setActionBar(user2)
     }
-    private fun addOrderCanceledBox(orderID:String, type:Int){
+    private fun addOrderCancelledBox(orderID:String, type:Int){
         val orderButton = Button(this)
         var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -240,7 +222,10 @@ class Chat : AppCompatActivity() {
         if(requestCode == LAUNCH_ORDER_CANCEL){
             //this happens when the user cancels the order
             if (resultCode == Activity.RESULT_OK){
-
+                val result:String = data!!.getStringExtra("result")!!
+                var uuidResult = UUID.fromString(result)
+                saveOrderCancellation(uuidResult)
+                Log.d("I am here","in here in activity for order confirmation")
             }
         }
     }
@@ -356,6 +341,18 @@ class Chat : AppCompatActivity() {
         sendMessageBroadCast("An order Confirmed",time, user2 )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveOrderCancellation(result:UUID){
+        val map: MutableMap<String, Any> = HashMap()
+        val time = LocalDateTime.now()
+        map["orderID"] = result.toString()
+        map["user"] = user1
+        map["orderCancelled"] = "true"
+        map["time"] = time
+        reference1.push().setValue(map)
+        reference2.push().setValue(map)
+        sendMessageBroadCast("An order Cancelled",time, user2 )
+    }
     private fun setActionBar(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)

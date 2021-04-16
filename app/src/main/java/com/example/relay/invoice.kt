@@ -30,7 +30,7 @@ class invoice : AppCompatActivity() {
                 Log.d("confirm", " I am here in orderConfirmed2")
                 var notes = snapshot.child("notes").value
                 var address = snapshot.child("address").value
-                var listOfUnitPricesSnapshot = snapshot.child("listOfUnitPrices").child("listOfUnitPrices")
+                var listOfUnitPricesSnapshot = snapshot.child("listOfUnitPrices")
                 var deliveryAddress = findViewById(R.id.deliveryAddress) as TextView
                 deliveryAddress.setText(address.toString())
                 var orderNotes = findViewById(R.id.orderNotes) as TextView

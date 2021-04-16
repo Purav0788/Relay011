@@ -82,6 +82,8 @@ class orderList : AppCompatActivity() {
         if(listOfOrders.size != 0){
             val intent = Intent(this@orderList, orderDetails::class.java)
             intent.putExtra("listOfOrders", listOfOrders)
+            intent.putExtra("user1", user1)
+            intent.putExtra("user2", user2)
             startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
         }
 
