@@ -59,9 +59,9 @@ class Chat : AppCompatActivity() {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 val map = dataSnapshot.value as Map<String, Any>
                 //checking if the message is actually an order:
-                val userName = map["user"].toString()
+                val user = map["user"].toString()
                 val time: HashMap<String, Any> = map["time"] as HashMap<String, Any>
-                var type = if (userName == user1) 1 else 2
+                var type = if (user == user1) 1 else 2
                 if (map["orderID"] != null) {
                     val orderID = map["orderID"].toString()
 
@@ -315,6 +315,7 @@ class Chat : AppCompatActivity() {
                 //TYPE 1 MEANS the user who sent this message is looking at it
                 //so the order confirmed box is sent by the supplier
                 //so if he clicks at it, he should be taken to invoice
+
                 Log.d("launching Invoice", "hi")
                 val intent = Intent(this@Chat, invoice::class.java)
                 val orderID: String = v1.getTag(R.id.myOrderId) as String
@@ -433,9 +434,7 @@ class Chat : AppCompatActivity() {
         //this guy is responsible to just change the db whenever it sends a message and then
         //it updates that to both user1 and user2
         //need to make sure this stuff is there in the init
-        myReference1.child("$user1").child("lastMessageDetails").updateChildren(map1)
-        myReference2.child("$user2").child("lastMessageDetails").updateChildren(map1)
-
+        myReference1.child(user1).child("lastMessageDetails").updateChildren(map1)
+        myReference2.child(user2).child("lastMessageDetails").updateChildren(map1)
     }
-
 }

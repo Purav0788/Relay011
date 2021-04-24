@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
 
@@ -79,6 +80,7 @@ class settings : AppCompatActivity() {
         finishAffinity()
         val intent = Intent(applicationContext, LoginByNumber::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        FirebaseAuth.getInstance().signOut();
         startActivity(intent)
     }
 

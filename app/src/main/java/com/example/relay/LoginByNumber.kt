@@ -16,7 +16,7 @@ class LoginByNumber : AppCompatActivity() {
     }
     public fun verifyPhone(myView: View){
 
-        val mobile: String = userNumber.getText().toString().trim()
+        val mobile: String = userNumber.text.toString().trim()
 
         if(mobile.isEmpty() || mobile.length < 10){
             userNumber.setError("Enter a valid mobile")

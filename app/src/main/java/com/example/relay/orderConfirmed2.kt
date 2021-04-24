@@ -1,6 +1,7 @@
 package com.example.relay
 
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.order_confirm2_list_item.view.*
 import kotlinx.android.synthetic.main.order_confirm_list_item.view.*
@@ -102,15 +104,36 @@ class orderConfirmed2 : AppCompatActivity() {
     }
 
     public fun confirmOrder(view: View){
+
         var orderConfirmed:String = "true"
         val myMap: MutableMap<String, Any> = HashMap()
         myMap["listOfUnitPrices"] = listOfUnitPrices
         myMap["totalPrice"] = totalPrice
         myMap["orderConfirmed"] = orderConfirmed
-        reference1.updateChildren(myMap)
-        val intent = Intent()
-        intent.putExtra("result", orderID)
-        setResult(Activity.RESULT_OK,intent)
-        finish()
+        val query:Query = reference1
+        query.addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    var myOrderMap = snapshot.value as HashMap<String, Any>
+                    Log.d("myOrderMap", myOrderMap.toString())
+                    if(myOrderMap["orderConfirmed"] == "false"){
+                        reference1.updateChildren(myMap)
+                        val intent = Intent()
+                        intent.putExtra("result", orderID)
+                        setResult(Activity.RESULT_OK,intent)
+                        finish()
+                    }else{
+                        Toast.makeText(this@orderConfirmed2, "order is already confirmed once!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+        })
+
     }
 }

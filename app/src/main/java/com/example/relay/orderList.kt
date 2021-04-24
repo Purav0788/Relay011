@@ -65,6 +65,7 @@ class orderList : AppCompatActivity() {
 
     public fun goToOrderDetails(view:View){
         Log.d("orderlist", "I am here")
+        listOfOrders.clear()
         for(i:Int in 1..layoutID-1){
             Log.d("orderlist", "I am in for loop")
             var order:String

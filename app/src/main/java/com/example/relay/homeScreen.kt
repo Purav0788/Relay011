@@ -32,32 +32,32 @@ class homeScreen : AppCompatActivity() {
         private const val SELECT_PHONE_NUMBER = 111
     }
 
-    private val lastChatMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        @RequiresApi(Build.VERSION_CODES.O)
-        override fun onReceive(context: Context?, intent: Intent?) {
-            //get the item which is the user2 chatlist item and update that item and then put that item on
-            //the first of this chatslist and datasetnotified
-            val user2 = intent!!.getStringExtra("user2")!!
-            val lastMessage = intent.getStringExtra("lastMessageText")!!
-            val lastMessageTime = intent.getStringExtra("lastMessageTime")!!
-            lateinit var user2Name: String
-            val iterator = chatsList.listIterator()
-            //assumption is that all the names are in chat and thus user2Name will always be populate, which
-            //may not be true
-            while (iterator.hasNext()) {
-                val it = iterator.next()
-                if (it.getphoneNumber() == user2) {
-                    user2Name = it.getName()
-                    iterator.remove()
-                }
-            }
-            val chatItem =
-                    myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
-            chatsList.add(0, chatItem)
-            adapter.notifyDataSetChanged()
-            Log.d("receiver", "in my tempreceiver")
-        }
-    }
+//    private val lastChatMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        @RequiresApi(Build.VERSION_CODES.O)
+//        override fun onReceive(context: Context?, intent: Intent?) {
+//            //get the item which is the user2 chatlist item and update that item and then put that item on
+//            //the first of this chatslist and datasetnotified
+//            val user2 = intent!!.getStringExtra("user2")!!
+//            val lastMessage = intent.getStringExtra("lastMessageText")!!
+//            val lastMessageTime = intent.getStringExtra("lastMessageTime")!!
+//            lateinit var user2Name: String
+//            val iterator = chatsList.listIterator()
+//            //assumption is that all the names are in chat and thus user2Name will always be populate, which
+//            //may not be true
+//            while (iterator.hasNext()) {
+//                val it = iterator.next()
+//                if (it.getphoneNumber() == user2) {
+//                    user2Name = it.getName()
+//                    iterator.remove()
+//                }
+//            }
+//            val chatItem =
+//                    myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
+//            chatsList.add(0, chatItem)
+//            adapter.notifyDataSetChanged()
+//            Log.d("receiver", "in my tempreceiver")
+//        }
+//    }
 
     private val businessNameChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -92,7 +92,7 @@ class homeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
-        user1 = intent.getStringExtra("phoneNumber")!!
+        user1 = intent.getStringExtra("user1")!!
         var user = findUserInDbAndRefreshData(user1)
         adapter = myCustomAdapter(this@homeScreen, chatsList)
         _listOfChats.setAdapter(adapter)
@@ -116,8 +116,8 @@ class homeScreen : AppCompatActivity() {
 //        }
         setActionBar(user1)
 //        applicationContext.registerReceiver(receiver2, IntentFilter("SHARE_ACTION"));
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(lastChatMessageReceiver, IntentFilter("lastMessageData"))
+//        LocalBroadcastManager.getInstance(this)
+//                .registerReceiver(lastChatMessageReceiver, IntentFilter("lastMessageData"))
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(businessNameChangeReceiver, IntentFilter("changedBusinessName"))
         LocalBroadcastManager.getInstance(this)
@@ -127,7 +127,7 @@ class homeScreen : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         //needed to use LocalBroadcastManager because otherwise with simple unregister the app crashes
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(lastChatMessageReceiver)
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(lastChatMessageReceiver)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(userNameChangeReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(businessNameChangeReceiver);
     }
@@ -528,6 +528,12 @@ class homeScreen : AppCompatActivity() {
 
     private fun onSmsAppClick(phone: String) {
 
+    }
+
+    public fun goToMyOrders(view: View){
+        val intent = Intent(this@homeScreen, myOrders::class.java)
+        intent.putExtra("user1", user1)
+        startActivity(intent)
     }
 
 //    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)

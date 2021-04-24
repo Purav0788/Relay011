@@ -142,7 +142,7 @@ class verifyPhoneNumber : AppCompatActivity() {
         Log.d("verify","I am in if")
         val intent = Intent(this@verifyPhoneNumber, homeScreen::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra("phoneNumber", mobile)
+        intent.putExtra("user1", mobile)
         startActivity(intent)
     }
 
