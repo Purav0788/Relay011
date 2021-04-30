@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#d7e0da"
+            android:background="#6200ed"
             android:orientation="horizontal">
 <!--            <ImageView-->
 <!--                android:layout_width="30dp"-->
@@ -104,15 +104,16 @@
                 android:gravity="center">
             </TextView>
 
-            <TextView
+            <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center_horizontal"
-                android:text="The Address is displayed here">
+                android:hint="The address is displayed here"
+                android:inputType="textPersonName"
+                />
 
-            </TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -133,14 +134,16 @@
                 android:gravity="center">
             </TextView>
 
-            <TextView
+            <EditText
                 android:id="@+id/notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="Order Notes displayed here"
-                android:textSize="12dp"></TextView>
+                android:hint="Order notes are displayed here"
+                android:inputType="textPersonName"
+                android:textSize="12dp"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

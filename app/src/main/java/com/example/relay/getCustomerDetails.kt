@@ -38,8 +38,7 @@ class getCustomerDetails : AppCompatActivity() {
 
     private fun makeUserInDb(businessName:String, userName:String){
         val user = FirebaseAuth.getInstance().currentUser
-        val table = fb.child("users")
-        val newCustomer = table.push()
+        val newCustomer  = fb.child("users").child(mobile)
         newCustomer.child("business_name").setValue(businessName)
         newCustomer.child("name").setValue(userName)
         newCustomer.child("phone_number").setValue(mobile)
@@ -49,11 +48,5 @@ class getCustomerDetails : AppCompatActivity() {
         val reference = FirebaseDatabase.getInstance().reference
         val chatRef = reference.child("chats")
         val map: MutableMap<String, String> = HashMap()
-        map["username"] = ""
-        map["time"] = "0"
-        chatRef.child("$user1").setValue(" ").addOnSuccessListener {
-            //making empty user initially
-            chatRef.child("$user1").push().setValue(map).addOnSuccessListener {  }
-        }
     }
 }

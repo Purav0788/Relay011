@@ -80,6 +80,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginBottom="40dp"
+        android:onClick="goToMyOrders"
         android:text="Order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button6" />
@@ -91,6 +92,7 @@
         android:layout_marginStart="52dp"
         android:layout_marginLeft="52dp"
         android:layout_marginBottom="40dp"
+        android:onClick="more"
         android:text="More"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button7" />

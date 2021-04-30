@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.relay">
 
     <application
+        android:name=".myApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Relay">
-        <activity android:name=".orderSent"></activity>
+        <activity android:name=".myOrders" />
+        <activity android:name=".orderCancel" />
+        <activity android:name=".changeName" />
+        <activity android:name=".changeBusinessName" />
+        <activity android:name=".settings" />
+        <activity android:name=".orderConfirmed2" />
+        <activity android:name=".invoice" />
+        <activity android:name=".orderConfirmed" />
+        <activity android:name=".orderSent" />
         <activity android:name=".orderDetails" />
         <activity android:name=".orderList" />
         <activity android:name=".Chat" />
-        <activity android:name=".chat" />
         <activity android:name=".verifyPhoneNumber" />
         <activity android:name=".homeScreen" />
         <activity android:name=".getCustomerDetails" />

@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
 
-class verifyPhoneNumber : AppCompatActivity() {
+class verifyPhoneNumber : AppCompatActivity() { 
     //firebase token
     private var mVerificationId: String? = null
     //firebase auth object
@@ -142,7 +142,7 @@ class verifyPhoneNumber : AppCompatActivity() {
         Log.d("verify","I am in if")
         val intent = Intent(this@verifyPhoneNumber, homeScreen::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra("phoneNumber", mobile)
+        intent.putExtra("user1", mobile)
         startActivity(intent)
     }
 
@@ -153,5 +153,4 @@ class verifyPhoneNumber : AppCompatActivity() {
         intent.putExtra("phoneNumber", mobile)
         startActivity(intent)
     }
-
 }
