@@ -1,6 +1,7 @@
 package com.example.relay
 
 //import android.R
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class myOrdersAdapter internal constructor(myOrdersList: MutableList<myOrdersItem>) :
@@ -68,10 +72,31 @@ class myOrdersAdapter internal constructor(myOrdersList: MutableList<myOrdersIte
             if (constraint == null || constraint.length == 0) {
                 filteredList.addAll(ordersListFull)
             } else {
-                val filterPattern =
-                    constraint.toString().toLowerCase().trim { it <= ' ' }
+//                val filterPattern =
+//                        constraint.toString().toLowerCase(Locale.ROOT).trim { it <= ' ' }
+                val delimiter = "#"
+                val splitString = constraint.split(delimiter).toTypedArray();
+                val endDateTimeText = splitString[0]
+                val startDateTimeText = splitString[1]
+                val orderSentOrReceived = splitString[2]
+                val sdf = SimpleDateFormat("dd/MM/yyyy")
+
+                val startDate: Date = sdf.parse(startDateTimeText)!!
+                val endDate: Date = sdf.parse(endDateTimeText)!!
+
+
                 for (item in ordersListFull) {
-                    if (item.user2Name.toLowerCase().contains(filterPattern)) {
+//                    if (item.user2Name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
+//                        filteredList.add(item)
+//                    }
+                    if(item.orderDate == "Not Given"){
+                        continue
+                    }
+                    val myOrderDate = sdf.parse(item.orderDate)
+                    Log.d("myOrdersAdapStart", startDate.toString())
+                    Log.d("myOrdersAdapEnd", endDate.toString())
+                    Log.d("myOrdersAdapOrder", myOrderDate.toString())
+                    if (myOrderDate.after(startDate)&&myOrderDate.before(endDate)) {
                         filteredList.add(item)
                     }
                 }
@@ -85,9 +110,15 @@ class myOrdersAdapter internal constructor(myOrdersList: MutableList<myOrdersIte
             constraint: CharSequence?,
             results: FilterResults
         ) {
-            myOrdersList.clear()
-            myOrdersList.addAll((results.values as List<myOrdersItem>))
-            notifyDataSetChanged()
+            if(results.values != null){
+                myOrdersList.clear()
+                myOrdersList.addAll((results.values as List<myOrdersItem>))
+                notifyDataSetChanged()
+            }else{
+                myOrdersList.clear()
+                notifyDataSetChanged()
+            }
+
         }
     }
 

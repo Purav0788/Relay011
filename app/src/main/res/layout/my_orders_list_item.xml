@@ -62,7 +62,7 @@
         app:layout_constraintStart_toEndOf="@+id/orderDate"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
-    <EditText
+    <TextView
         android:id="@+id/orderDate"
         android:layout_width="99dp"
         android:layout_height="49dp"

@@ -12,11 +12,12 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,7 +91,7 @@ class myOrders : AppCompatActivity() {
 
     private fun updateStartDateLabel() {
         val startDateEditText = findViewById<View>(R.id.startDate) as EditText
-        val myFormat = "MM/dd/yy" //In which you need put here
+        val myFormat = "dd/MM/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         startDateEditText.setText(sdf.format(myStartDateCalender.getTime()))
         //here call the function for the listener
@@ -99,7 +100,7 @@ class myOrders : AppCompatActivity() {
 
     private fun updateEndDateLabel() {
         val endDateEditText = findViewById<View>(R.id.endDate) as EditText
-        val myFormat = "MM/dd/yy" //In which you need put here
+        val myFormat = "dd/MM/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         endDateEditText.setText(sdf.format(myEndDateCalender.getTime()))
         //here call the function for hte listener
@@ -235,12 +236,16 @@ class myOrders : AppCompatActivity() {
                                         }
 
                                         override fun onDataChange(orderSnapshot: DataSnapshot) {
+
                                             Log.d("orrderSnapshotMap", orderSnapshot.value.toString())
                                             var orderSnapshotItem = orderSnapshot
                                             var orderSnapshotItemValueMap = orderSnapshotItem.value as HashMap<String, Any>
                                             Log.d("orrderSnapshotMap2", orderSnapshotItem.value.toString())
+
                                             Log.d("myorderssnaporderID", orderID)
 //                                                Log.d("myOrdersID", orderSnapshotItem.toString())
+
+
                                             lateinit var orderStatus: String
                                             lateinit var orderDate: String
                                             lateinit var orderUser2Name: String
@@ -255,6 +260,9 @@ class myOrders : AppCompatActivity() {
                                             } else {
                                                 orderStatus = "Awaiting Order Confirmation"
                                             }
+
+
+
                                             orderDate = (if ((orderSnapshotItemValueMap["deliveryDate"] == "") || (orderSnapshotItemValueMap["deliveryDate"] == null)) {
                                                 "Not Given"
                                             } else {
@@ -294,6 +302,17 @@ class myOrders : AppCompatActivity() {
                                                             val user2Name =
                                                                     userSnapshotItem.child("name").value.toString()
                                                             orderUser2Name = user2Name
+                                                            //handling the case that this should only show the final order
+                                                            //which is either orderConfirmed or Awaiting Order Confirmed
+                                                            //it is showing one for each order message for now
+                                                            //whenever the orderStatus is higher than the message status
+                                                            //then continue
+                                                            if ((messageSnapshot.child("orderCancelled").value == null) && (orderStatus == "Order Cancelled")) {
+                                                                continue
+
+                                                            } else if ((messageSnapshot.child("orderConfirmed").value == null) && (orderStatus == "Order Confirmed")) {
+                                                                continue
+                                                            }
                                                             (ordersList as ArrayList<myOrdersItem>).add(
                                                                     myOrdersItem(
                                                                             orderStatus,
@@ -356,27 +375,38 @@ class myOrders : AppCompatActivity() {
 
 
     private fun selectedItemsChanged() {
-
+        val myFormat = "dd/MM/yyyy" //In which you need put here
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        //here i should check if the endDateTime is set or not, or maybe I should initialize it with some time
+        val endDateTimeText = sdf.format(myEndDateCalender.time)
+        val startDateTimeText = sdf.format(myStartDateCalender.time)
+        val mySpinner = findViewById<View>(R.id.ordersLabel) as Spinner
+        val spinnerText = mySpinner.selectedItem.toString()
+        val filterText = "$endDateTimeText#$startDateTimeText#$spinnerText"
+        if(this::myOrdersAdapter.isInitialized){
+            //i think right at the start of the activity it was running this event
+            myOrdersAdapter.filter.filter(filterText);
+        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
-        val searchItem = menu.findItem(R.id.actionSearch)
-        val searchView = searchItem.actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                myOrdersAdapter.getFilter().filter(newText)
-                return false
-            }
-        })
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val inflater = menuInflater
+//        inflater.inflate(R.menu.main_menu, menu)
+//        val searchItem = menu.findItem(R.id.actionSearch)
+//        val searchView = searchItem.actionView as SearchView
+//        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                myOrdersAdapter.getFilter().filter(newText)
+//                return false
+//            }
+//        })
+//        return true
+//    }
 
 
     private fun setUpRecyclerView() {

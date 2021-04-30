@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
 
-class verifyPhoneNumber : AppCompatActivity() {
+class verifyPhoneNumber : AppCompatActivity() { 
     //firebase token
     private var mVerificationId: String? = null
     //firebase auth object
