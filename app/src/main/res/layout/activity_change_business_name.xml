@@ -7,26 +7,47 @@
     android:onClick="changeBusinessName"
     tools:context=".changeBusinessName">
 
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="CHANGE BUSINESS NAME"
+        android:textColor="#615D5D"
+        app:layout_constraintBottom_toTopOf="@+id/yourBusinessName"
+        app:layout_constraintStart_toStartOf="@+id/yourBusinessName"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/yourBusinessName"
-        android:layout_width="222dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginRight="128dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="#000000"
+        android:textColorHighlight="#0752AD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <Button
         android:id="@+id/button13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="188dp"
-        android:layout_marginRight="188dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:onClick="changeBusinessName"
         android:text="Change"
+        android:background="@drawable/button_background"
+        android:textColor="#0752AD"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourBusinessName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
