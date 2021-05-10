@@ -10,23 +10,44 @@
         android:id="@+id/yourName"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="#000000"
+        android:textColorHighlight="#0752AD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <Button
         android:id="@+id/button14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="156dp"
         android:layout_marginRight="156dp"
         android:onClick="changeName"
         android:text="Change"
+        android:background="@drawable/button_background"
+        android:textColor="#0752AD"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourName" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="CHANGE YOUR NAME"
+        android:textColor="#615D5D"
+        app:layout_constraintBottom_toTopOf="@+id/yourName"
+        app:layout_constraintStart_toStartOf="@+id/yourName"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
