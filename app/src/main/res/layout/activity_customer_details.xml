@@ -103,7 +103,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:fontFamily="@font/inter_medium"
-        android:text="One last step! Please provide us the following information so that we can setup your account."
+        android:text="One last step! Please provide us the following information
+        so that we can setup your account."
         android:textColor="#615D5D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
