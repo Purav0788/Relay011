@@ -97,17 +97,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button7" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="52dp"
-        android:onClick="createChat"
-        android:text="Add Contact"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/button9"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:layout_marginBottom="52dp"-->
+<!--        android:onClick="createChat"-->
+<!--        android:text="Add Contact"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button8"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <ListView
         android:id="@+id/_listOfChats"
@@ -117,4 +117,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_yourBusinessName" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button9"
+        android:onClick="createChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="4dp"
+        android:text="Add Contact"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
+        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
