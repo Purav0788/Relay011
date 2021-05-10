@@ -153,4 +153,9 @@ class verifyPhoneNumber : AppCompatActivity() {
         intent.putExtra("phoneNumber", mobile)
         startActivity(intent)
     }
+
+    fun changeNumber (view: View) {
+        val goBack = Intent(this, LoginByNumber::class.java)
+        startActivity(goBack)
+    }
 }
