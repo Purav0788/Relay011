@@ -24,7 +24,13 @@
         <activity android:name=".orderList" />
         <activity android:name=".Chat" />
         <activity android:name=".verifyPhoneNumber" />
-        <activity android:name=".homeScreen" />
+        <activity android:name=".homeScreen" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity android:name=".getCustomerDetails" />
         <activity android:name=".LoginByNumber" />
         <activity android:name=".MainActivity">

@@ -8,7 +8,10 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -92,6 +95,8 @@ class homeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
+        setSupportActionBar(_toolbar)
+        supportActionBar?.title = ""
         user1 = intent.getStringExtra("user1")!!
         var user = findUserInDbAndRefreshData(user1)
         adapter = myCustomAdapter(this@homeScreen, chatsList)
@@ -119,9 +124,9 @@ class homeScreen : AppCompatActivity() {
 //        LocalBroadcastManager.getInstance(this)
 //                .registerReceiver(lastChatMessageReceiver, IntentFilter("lastMessageData"))
         LocalBroadcastManager.getInstance(this)
-                .registerReceiver(businessNameChangeReceiver, IntentFilter("changedBusinessName"))
+            .registerReceiver(businessNameChangeReceiver, IntentFilter("changedBusinessName"))
         LocalBroadcastManager.getInstance(this)
-                .registerReceiver(userNameChangeReceiver, IntentFilter("changedUserName"))
+            .registerReceiver(userNameChangeReceiver, IntentFilter("changedUserName"))
     }
 
     override fun onDestroy() {
@@ -143,7 +148,7 @@ class homeScreen : AppCompatActivity() {
     private fun findUserInDbAndRefreshData(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query =
-                reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -180,19 +185,19 @@ class homeScreen : AppCompatActivity() {
         if (requestCode == SELECT_PHONE_NUMBER && resultCode == Activity.RESULT_OK) {
             val contactUri = data?.data ?: return
             val projection = arrayOf(
-                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER
             )
             val cursor = contentResolver.query(
-                    contactUri, projection,
-                    null, null, null
+                contactUri, projection,
+                null, null, null
             )
 
             if (cursor != null && cursor.moveToFirst()) {
                 val nameIndex =
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
                 val numberIndex =
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                 val name = cursor.getString(nameIndex)
                 var number1 = cursor.getString(numberIndex)
                 //cleaning the string, removing all non numeric characters
@@ -229,13 +234,13 @@ class homeScreen : AppCompatActivity() {
         mDbRef.updateChildren(mHashmap).addOnSuccessListener {
             //nested structure after user1_user2:
             var reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                    "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
-                            + user1.toString() + "_" + user2
+                "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
+                        + user1.toString() + "_" + user2
             )
 
             var reference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                    "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
-                            + user2.toString() + "_" + user1
+                "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
+                        + user2.toString() + "_" + user1
             )
             var time = LocalDateTime.now()
             val map: MutableMap<String, Any> = HashMap()
@@ -511,10 +516,10 @@ class homeScreen : AppCompatActivity() {
         val message: String = "Install relay"
         try {
             val url =
-                    "https://api.whatsapp.com/send?phone=" + "91" + phone + "&text=" + URLEncoder.encode(
-                            message,
-                            "UTF-8"
-                    )
+                "https://api.whatsapp.com/send?phone=" + "91" + phone + "&text=" + URLEncoder.encode(
+                    message,
+                    "UTF-8"
+                )
             val i = Intent(Intent.ACTION_VIEW)
 //            i.setPackage("com.whatsapp")
             i.setData(Uri.parse(url))
@@ -582,7 +587,7 @@ class homeScreen : AppCompatActivity() {
     private fun findUserInDbAndRefreshData2(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query =
-                reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -609,15 +614,14 @@ class homeScreen : AppCompatActivity() {
     private fun setActionBar(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query =
-                reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val actionBar = supportActionBar
-                        actionBar!!.title = user.child("business_name").value as String
+                        _tvName.text = user.child("business_name").value as String
                     }
                 } else {
                 }
@@ -655,7 +659,7 @@ class homeScreen : AppCompatActivity() {
             second = "0" + second
         }
         var fullDatetime: String =
-                date + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second
+            date + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         return LocalDateTime.parse(fullDatetime, formatter);
     }
@@ -680,7 +684,7 @@ class homeScreen : AppCompatActivity() {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(this@homeScreen)
         builder.setMessage("Do you want to send an invite through whatsapp?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show()
+            .setNegativeButton("No", dialogClickListener).show()
     }
 
     //update chats whenever the last message sent by user2 is changed(not user 1 as its already detected(from broadcast)
@@ -694,63 +698,63 @@ class homeScreen : AppCompatActivity() {
 
 
     private fun detectChangeAndUpdateChats() {
-    //this guy is not reponsible to update the chat when this user sends a message, but rather it just listens t
+        //this guy is not reponsible to update the chat when this user sends a message, but rather it just listens t
         //to when the other user sends a message
         var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                "https://relay-28f2e-default-rtdb.firebaseio.com/chats/")
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/")
         myReference1.child(user1).addChildEventListener(object : ChildEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 if(dataSnapshot.exists()){
 //                val map0 = dataSnapshot.value as Map<String, Any>
-                //checking if the message is actually an order:
-                //will need to fix makeUser1inUser2schat and vice versa as well
-                val map = dataSnapshot.value
+                    //checking if the message is actually an order:
+                    //will need to fix makeUser1inUser2schat and vice versa as well
+                    val map = dataSnapshot.value
                     Log.d("myMap", map.toString())
-                val map1 = dataSnapshot.child("lastMessageDetails").value as HashMap<Any, Any>
+                    val map1 = dataSnapshot.child("lastMessageDetails").value as HashMap<Any, Any>
 //                    datasnapshot.child("time").value as HashMap<Any, Any>
-                val user2 = dataSnapshot.child("user2").value.toString()
+                    val user2 = dataSnapshot.child("user2").value.toString()
 //                val user2Name = map["sentByUserName"].toString()
-                val timeHashMap = map1["time"] as HashMap<Any, Any>
-                val lastMessageTime = getLocalDateTime(timeHashMap)
-                val lastSentOrReceivedMessage = map1["lastSentOrReceivedMessage"].toString()
+                    val timeHashMap = map1["time"] as HashMap<Any, Any>
+                    val lastMessageTime = getLocalDateTime(timeHashMap)
+                    val lastSentOrReceivedMessage = map1["lastSentOrReceivedMessage"].toString()
 
 
-                val reference = FirebaseDatabase.getInstance().reference
-                val query: Query = reference.child("users")
+                    val reference = FirebaseDatabase.getInstance().reference
+                    val query: Query = reference.child("users")
                         .orderByChild("phone_number").equalTo(user2)
-                query.addListenerForSingleValueEvent(object :
+                    query.addListenerForSingleValueEvent(object :
                         ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
 
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (mysnapshot in dataSnapshot.children) {
-                                val user2Name =
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                for (mysnapshot in dataSnapshot.children) {
+                                    val user2Name =
                                         mysnapshot.child("name").value as String
 //                                                                  val user2Name = "MyUser"
-                                this@homeScreen.runOnUiThread({
-                                    updateChatsListInUIThread(
+                                    this@homeScreen.runOnUiThread({
+                                        updateChatsListInUIThread(
                                             myDataClass(
-                                                    lastMessageTime,
-                                                    lastSentOrReceivedMessage,
-                                                    user2Name,
-                                                    user2
+                                                lastMessageTime,
+                                                lastSentOrReceivedMessage,
+                                                user2Name,
+                                                user2
                                             )
-                                    )
-                                })
+                                        )
+                                    })
+                                }
                             }
                         }
-                    }
-                })
-            }}
+                    })
+                }}
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onChildChanged(
-                    dataSnapshot: DataSnapshot,
-                    s: String?
+                dataSnapshot: DataSnapshot,
+                s: String?
             ) {
                 val map = dataSnapshot.value as Map<String, Any>
                 //checking if the message is actually an order:
@@ -773,8 +777,8 @@ class homeScreen : AppCompatActivity() {
             }
 
             override fun onChildMoved(
-                    dataSnapshot: DataSnapshot,
-                    s: String?
+                dataSnapshot: DataSnapshot,
+                s: String?
             ) {
                 //should never happen, dont even know what it means
             }
@@ -790,4 +794,27 @@ class homeScreen : AppCompatActivity() {
         intent.putExtra("user2", user2)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
-}                                                                                                                                                                                               
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu_home, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_notifications -> {
+            Toast.makeText(this@homeScreen, "Notifications clicked", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        R.id.action_help -> {
+            Toast.makeText(this@homeScreen, "Help clicked", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+}
