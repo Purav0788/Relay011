@@ -20,16 +20,18 @@
         <activity android:name=".invoice" />
         <activity android:name=".orderConfirmed" />
         <activity android:name=".orderSent" />
-        <activity android:name=".orderDetails" />
-        <activity android:name=".orderList" />
-        <activity android:name=".Chat" />
+        <activity android:name=".orderDetails" >
+
+        </activity>
+        <activity android:name=".orderList" >
+
+        </activity>
+        <activity android:name=".Chat">
+
+        </activity>
         <activity android:name=".verifyPhoneNumber" />
         <activity android:name=".homeScreen" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity android:name=".getCustomerDetails" />
         <activity android:name=".LoginByNumber" />

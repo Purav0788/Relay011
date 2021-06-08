@@ -18,13 +18,15 @@ class myCustomAdapter(private var context: Context,
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var myView = convertView
         myView = LayoutInflater.from(context).inflate(R.layout.home_screen_chat_box, parent, false)
-        var lastMessageView:TextView = myView.findViewById(R.id.lastMessage)
-        var lastMessageTimeView:TextView = myView.findViewById(R.id.lastMessageTime)
-        var chatUserView:TextView = myView.findViewById(R.id.chatUser)
 
-        lastMessageView.setText((arrayList.get(position)).getLastMessage().toString())
-        lastMessageTimeView.setText((arrayList.get(position).getTime()).toString())
-        chatUserView.setText((arrayList.get(position).getName()))
+        // TODO: 6/7/2021 Uncomment this
+//        var lastMessageView:TextView = myView.findViewById(R.id.lastMessage)
+//        var lastMessageTimeView:TextView = myView.findViewById(R.id.lastMessageTime)
+//        var chatUserView:TextView = myView.findViewById(R.id.chatUser)
+//
+//        lastMessageView.setText((arrayList.get(position)).getLastMessage().toString())
+//        lastMessageTimeView.setText((arrayList.get(position).getTime()).toString())
+//        chatUserView.setText((arrayList.get(position).getName()))
 
         return myView
     }
@@ -38,7 +40,9 @@ class myCustomAdapter(private var context: Context,
     }
 
     override fun getCount(): Int {
-        return arrayList.size
+        return 5;
+        //TODO: Uncomment this
+//        return arrayList.size
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

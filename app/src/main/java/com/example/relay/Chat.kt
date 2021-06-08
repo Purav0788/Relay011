@@ -6,18 +6,21 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.setMargins
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.viewbinding.ViewBinding
+import com.example.relay.databinding.ActivityChatBinding
+import com.example.relay.databinding.LayoutMessageItemBinding
+import com.example.relay.databinding.LayoutMessageMineItemBinding
+import com.example.relay.databinding.LayoutOrderStatusItemBinding
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.message_place.*
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.HashMap
@@ -35,16 +38,36 @@ class Chat : AppCompatActivity() {
     private val LAUNCH_INVOICE: Int = 5
     private val LAUNCH_MYORDERS: Int = 6
     private val LAUNCH_ORDER_CANCEL: Int = 7
-    private lateinit var user1Name:String
+    private lateinit var user1Name: String
+    private lateinit var binding: ActivityChatBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //expecting intent with the username_usernameofchatter, this string is expected
         //expecting the same intent as UserDetails
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat)
+        binding = ActivityChatBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // TODO: 6/8/2021 Remove this
+        val time: HashMap<String, Any> = HashMap<String, Any>()
+        time.put("dayOfMonth", "8")
+        time.put("monthValue", "6")
+        time.put("year", "2021")
+        addMessageBox("Bhai kab deliver hoga?", 1)
+        addMessageBox("Kal tak hoajye ga", 2)
+        addOrderBox("123", 1, time)
+        addOrderBox("123", 2, time)
+        addOrderCancelledBox("123", 1, time)
+        addOrderCancelledBox("123", 2, time)
+        addOrderConfirmedBox("123", 1, time)
+        addOrderConfirmedBox("123", 2, time)
+
+        // TODO: 6/8/2021 Uncomment this all
+/*
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
         user1Name = intent.getStringExtra("user1Name")!!
+
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
                 "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
                         + user1 + "_" + user2)
@@ -86,7 +109,6 @@ class Chat : AppCompatActivity() {
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
             override fun onChildMoved(
@@ -95,23 +117,63 @@ class Chat : AppCompatActivity() {
             ) {
             }
         })
+*/
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = ""
+
+        // TODO: 6/8/2021 Uncomment this
+/*
         setActionBar(user2)
+*/
+
+        binding.messageLayout.messageAreaTextInputLayout.setEndIconOnClickListener {
+            sendMessage()
+        }
+
     }
 
     private fun addOrderCancelledBox(orderID: String, type: Int, time: HashMap<String, Any>) {
+        // TODO: 6/8/2021 Uncomment this
         val date = getTime(time)
+        // TODO: 6/8/2021 Remove this
+//        val date = time
         val orderButton = Button(this)
-        var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
-        orderButton.text = "Order Canceled\n" + date
-        if (type == 1) {
-            params.gravity = Gravity.RIGHT
-        } else {
-            params.gravity = Gravity.LEFT
-        }
-        orderButton.layoutParams = params
 
-        orderButton.setTag(R.id.myOrderId, orderID)
+        val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
+            LayoutOrderStatusItemBinding.inflate(
+                LayoutInflater.from(this@Chat),
+                null,
+                false
+            )
+        bindingLayoutOrderStatusItemBinding.tvOrderStatus.text =
+            "Order Cancelled"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            bindingLayoutOrderStatusItemBinding.tvOrderStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_baseline_clear_24,
+                0
+            )
+        }
+        bindingLayoutOrderStatusItemBinding.dateTime.text = date
+//        val params = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.WRAP_CONTENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+//        params.weight = 0.7f
+//        orderButton.text = "Order Canceled\n" + date
+        if (type == 1) {
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.END
+//            params.gravity = Gravity.END
+        } else {
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.START
+//            params.gravity = Gravity.START
+        }
+//        params.topMargin = 10
+//        bindingLayoutOrderStatusItemBinding.root.layoutParams = params
+
+        bindingLayoutOrderStatusItemBinding.root.setTag(R.id.myOrderId, orderID)
+//        bindingLayoutOrderStatusItemBinding?.root?.setOnClickListener(View.OnClickListener {
 //        orderButton.setOnClickListener(View.OnClickListener {
 //            val v1 = it
 //            if(type == 1 ){
@@ -138,34 +200,47 @@ class Chat : AppCompatActivity() {
 //
 //            }
 //        })
-        layout1.addView(orderButton)
-        scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
+        binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
-    fun addMessageBox(message: String?, type: Int) {
-        val textView = TextView(this@Chat)
-        textView.text = message
-        val lp2 = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        lp2.weight = 7.0f
+    private fun addMessageBox(message: String?, type: Int) {
+
+        var viewBindingMessage: ViewBinding?
         if (type == 1) {
-            lp2.gravity = Gravity.RIGHT
-//            textView.setBackgroundResource()
+            viewBindingMessage =
+                LayoutMessageMineItemBinding.inflate(LayoutInflater.from(this@Chat))
+            viewBindingMessage.tvMessageMine.text = message
         } else {
-            lp2.gravity = Gravity.LEFT
-//            textView.setBackgroundResource(R.drawable.bubble_out)
+            viewBindingMessage = LayoutMessageItemBinding.inflate(LayoutInflater.from(this@Chat))
+            viewBindingMessage.tvMessage.text = message
         }
-        textView.layoutParams = lp2
-        //the layout1 and scrollview are ids of the parent elements
-        layout1.addView(textView)
-        scrollView.fullScroll(View.FOCUS_DOWN)
+
+//        val textView = TextView(this@Chat)
+//        textView.text = message
+        val lp2 = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        lp2.setMargins(10)
+        lp2.weight = 1.0f
+        if (type == 1) {
+            lp2.gravity = Gravity.END
+////            textView.setBackgroundResource()
+        } else {
+            lp2.gravity = Gravity.START
+////            textView.setBackgroundResource(R.drawable.bubble_out)
+        }
+//        textView.layoutParams = lp2
+        viewBindingMessage.root.layoutParams = lp2
+//        //the layout1 and scrollview are ids of the parent elements
+        binding.layout1.addView(viewBindingMessage.root)
+        binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    public fun sendMessage(v: View?) {
-        val messageText = messageArea.getText().toString()
+    //    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendMessage() {
+        val messageText = binding.messageLayout.messageArea.text.toString()
         if (messageText != "") {
             val map: MutableMap<String, Any> = HashMap()
             val time = LocalDateTime.now()
@@ -174,7 +249,7 @@ class Chat : AppCompatActivity() {
             map["time"] = time
             reference1.push().setValue(map)
             reference2.push().setValue(map)
-            messageArea.setText("")
+            binding.messageLayout.messageArea.setText("")
             sendMessageBroadCast(messageText, time, user2)
             var lastMessage = messageText
             //this way broadcast will update the home screen chat when this user sends a message and
@@ -183,11 +258,14 @@ class Chat : AppCompatActivity() {
         }
     }
 
-    public fun openOrder(view: View) {
+    fun openOrder(view: View) {
         val intent = Intent(this@Chat, orderList::class.java)
+        // TODO: 6/8/2021 Uncomment these 2 lines 
+/*
         intent.putExtra("user1", user1)
         intent.putExtra("user2", user2)
-        startActivityForResult(intent, LAUNCH_ORDER_LIST);
+*/
+        startActivityForResult(intent, LAUNCH_ORDER_LIST)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -254,27 +332,55 @@ class Chat : AppCompatActivity() {
         updateChats(user2, time, lastMessage, user1)
     }
 
-    public fun addOrderBox(orderID: String, type: Int, time: HashMap<String, Any>) {
+    fun addOrderBox(orderID: String, type: Int, time: HashMap<String, Any>) {
 
         //get a custom button + text view
         // as we have id , get the data about that order from the backend, and then
         //need to figure out as quickly as i can about the coroutine,with realtime db firebase, or this stuff
         //is gonna go to hell
         var date = getTime(time)
+
+        val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
+            LayoutOrderStatusItemBinding.inflate(
+                LayoutInflater.from(this@Chat),
+                null,
+                false
+            )
+
         val orderButton = Button(this)
-        var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
-        orderButton.text = "Order Sent\n" + date
+//        var params = LinearLayout.LayoutParams(
+////            500,
+//            ViewGroup.LayoutParams.WRAP_CONTENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+//        params.topMargin = 10
+//        params.marginEnd = 10
+//        orderButton.text = "Order Sent\n" + date
+
+        bindingLayoutOrderStatusItemBinding.tvOrderStatus.text = "Order Sent"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            bindingLayoutOrderStatusItemBinding.tvOrderStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.arrow_right,
+                0
+            )
+        }
+        bindingLayoutOrderStatusItemBinding.dateTime.text = date
+
 
         if (type == 1) {
-            params.gravity = Gravity.RIGHT
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.END
+//            params.gravity = Gravity.END
         } else {
-            params.gravity = Gravity.LEFT
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.START
+//            params.gravity = Gravity.START
         }
-        orderButton.layoutParams = params
+//        bindingLayoutOrderStatusItemBinding.root.layoutParams = params
+//        orderButton.layoutParams = params
 
-        orderButton.setTag(R.id.myOrderId, orderID)
-        orderButton.setOnClickListener(View.OnClickListener {
+        bindingLayoutOrderStatusItemBinding.root.setTag(R.id.myOrderId, orderID)
+        bindingLayoutOrderStatusItemBinding.root.setOnClickListener(View.OnClickListener {
             val v1 = it
             //check if the user1 is the guy who sent this message,if so send him to Order Sent
             //So if type is 1 then send to orderSent
@@ -291,25 +397,48 @@ class Chat : AppCompatActivity() {
                 startActivityForResult(intent, LAUNCH_ORDER_CONFIRMED)
             }
         })
-        layout1.addView(orderButton)
-        scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
+        binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
     private fun addOrderConfirmedBox(orderID: String, type: Int, time: HashMap<String, Any>) {
-        val orderButton = Button(this)
-        var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+//        val orderButton = Button(this)
+//        var params = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.WRAP_CONTENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+        val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
+            LayoutOrderStatusItemBinding.inflate(
+                LayoutInflater.from(this@Chat),
+                null,
+                false
+            )
         var date = getTime(time)
-        orderButton.text = "Order Confirmed\n" + date
-        if (type == 1) {
-            params.gravity = Gravity.RIGHT
-        } else {
-            params.gravity = Gravity.LEFT
+        bindingLayoutOrderStatusItemBinding.tvOrderStatus.text = "Order Confirmed"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            bindingLayoutOrderStatusItemBinding.tvOrderStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_baseline_check_24,
+                0
+            )
         }
-        orderButton.layoutParams = params
+        bindingLayoutOrderStatusItemBinding.dateTime.text = date
 
-        orderButton.setTag(R.id.myOrderId, orderID)
-        orderButton.setOnClickListener(View.OnClickListener {
+//        orderButton.text = "Order Confirmed\n" + date
+        if (type == 1) {
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.END
+
+//            params.gravity = Gravity.RIGHT
+        } else {
+            bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.START
+
+//            params.gravity = Gravity.LEFT
+        }
+//        orderButton.layoutParams = params
+
+        bindingLayoutOrderStatusItemBinding.root.setTag(R.id.myOrderId, orderID)
+        bindingLayoutOrderStatusItemBinding.root.setOnClickListener(View.OnClickListener {
             val v1 = it
             if (type == 1) {
                 //TYPE 1 MEANS the user who sent this message is looking at it
@@ -336,8 +465,8 @@ class Chat : AppCompatActivity() {
 
             }
         })
-        layout1.addView(orderButton)
-        scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
+        binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -376,15 +505,17 @@ class Chat : AppCompatActivity() {
 
     private fun setActionBar(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
-        val query: Query = reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val actionBar = supportActionBar
-                        actionBar!!.title = user.child("name").value as String
+//                        val actionBar = supportActionBar
+//                        actionBar!!.title = user.child("name").value as String
+                        binding.yourBusinessName.text = user.child("name").value as String
                     }
                 } else {
                 }
@@ -394,8 +525,12 @@ class Chat : AppCompatActivity() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendMessageBroadCast(lastMessageText: String, lastMessageTime: LocalDateTime, user2: String) {
+    //    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendMessageBroadCast(
+        lastMessageText: String,
+        lastMessageTime: LocalDateTime,
+        user2: String
+    ) {
         Log.d("receiverinChat", "hello")
         val intent = Intent("lastMessageData")
         intent.putExtra("lastMessageTime", lastMessageTime.toString())
@@ -405,17 +540,25 @@ class Chat : AppCompatActivity() {
     }
 
     private fun getTime(time: HashMap<String, Any>): String {
-        var myTime = time["dayOfMonth"].toString() + "/" + time["monthValue"].toString() + "/" + time["year"].toString()
+        var myTime =
+            time["dayOfMonth"].toString() + "/" + time["monthValue"].toString() + "/" + time["year"].toString()
         return myTime
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun updateChats(user2:String, time:LocalDateTime, lastMessage: String, user1:String){
+    //    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateChats(
+        user2: String,
+        time: LocalDateTime,
+        lastMessage: String,
+        user1: String
+    ) {
 
         var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user2)
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user2
+        )
         var myReference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user1)
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user1
+        )
 
         val map1: MutableMap<String, Any> = HashMap()
 
@@ -437,4 +580,27 @@ class Chat : AppCompatActivity() {
         myReference1.child(user1).child("lastMessageDetails").updateChildren(map1)
         myReference2.child(user2).child("lastMessageDetails").updateChildren(map1)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu_chat, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_search -> {
+            Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun backPressed(view: View) {
+        onBackPressed()
+    }
+
 }

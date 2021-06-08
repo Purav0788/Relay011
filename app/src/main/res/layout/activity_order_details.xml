@@ -1,174 +1,489 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:background="@color/blue_lighter_bg_color"
     tools:context=".orderDetails">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#6200ed"
-            android:orientation="horizontal">
-<!--            <ImageView-->
-<!--                android:layout_width="30dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:src="@drawable/ic_baseline_arrow_back_24"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginLeft="15dp"></ImageView>-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textSize="24dp"
-                android:textColor="#FFFFFF"
-                android:paddingLeft="30dp"
-                android:text="Order Details">
-            </TextView>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
+        android:layout_height="wrap_content"
+        android:background="@color/blue_500"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleEnabled="false">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:onClick="backPressed"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/order"
+        <TextView
+            android:id="@+id/yourBusinessName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:text="Order Details"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:drawableTint="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_above="@id/layoutPlaceOrder"
+            android:clipToPadding="false"
+            android:paddingBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:gravity="center_vertical"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:text="Order:"
-                    android:textSize="18dp"></TextView>
-            </RelativeLayout>
-        </LinearLayout>
+                    android:layout_marginHorizontal="35dp"
+                    android:foreground="?selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="false">
+
+                    <LinearLayout
+                        android:id="@+id/cardLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blue_lighter">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="6dp"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="13dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"
+                                android:text="Order"
+                                android:textColor="@color/blue_500"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:drawableTint="@color/blue_500"
+                                app:drawableLeftCompat="@drawable/cart" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
+                        </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:layout_marginLeft="12dp"
-            android:text="Select Delivery Date">
-        </TextView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
+                        <com.google.android.material.textfield.TextInputEditText
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Delivery Address"
-                android:gravity="center">
-            </TextView>
+                            android:background="@android:color/transparent"
+                            android:textColor="#615D5D"
+                            android:gravity="center_horizontal"
+                            android:id="@+id/orderItems"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="14dp"
+                            android:text="3 items"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_horizontal"
-                android:hint="The address is displayed here"
-                android:inputType="textPersonName"
-                />
+                    </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginTop="12dp"
-                android:text="Order Notes"
-                android:gravity="center">
-            </TextView>
+                </androidx.cardview.widget.CardView>
 
-            <EditText
-                android:id="@+id/notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:hint="Order notes are displayed here"
-                android:inputType="textPersonName"
-                android:textSize="12dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:foreground="?selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="false">
 
-        </LinearLayout>
-        <LinearLayout
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blue_lighter">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="6dp"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="13dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"
+                                android:text="Delivery Date"
+                                android:textColor="@color/blue_500"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:drawableTint="@color/blue_500"
+                                app:drawableLeftCompat="@drawable/cart" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText
+
+                                android:background="@android:color/transparent"
+                                android:textColor="#615D5D"
+                                android:id="@+id/dateTime"
+                                android:layout_toStartOf="@id/ibEditDeliveryDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="14dp"
+                                android:text="10 Feb, 2021"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:layout_toLeftOf="@id/ibEditDeliveryDate" />
+
+                            <ImageButton
+                                android:id="@+id/ibEditDeliveryDate"
+                                android:layout_marginEnd="13dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_baseline_edit_24"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="13dp"
+                                />
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:foreground="?selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blue_lighter">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="6dp"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="13dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"
+                                android:text="Delivery Location"
+                                android:textColor="@color/blue_500"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:drawableTint="@color/blue_500"
+                                app:drawableLeftCompat="@drawable/ic_baseline_location_on_24" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText
+
+                                android:background="@android:color/transparent"
+                                android:textColor="#615D5D"
+                                android:id="@+id/address"
+                                android:layout_toStartOf="@id/idEditDeliveryAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="14dp"
+                                android:text="Shop 3, Civil Lines, Ludhiana, Punjab"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:layout_toLeftOf="@id/idEditDeliveryAddress" />
+
+                            <ImageButton
+
+                                android:id="@+id/idEditDeliveryAddress"
+                                android:layout_marginEnd="13dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_baseline_edit_24"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="13dp" />
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:foreground="?selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blue_lighter">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="6dp"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="13dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"
+                                android:text="Order Notes"
+                                android:textColor="@color/blue_500"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:drawableTint="@color/blue_500"
+                                app:drawableLeftCompat="@drawable/ic_baseline_chat_24" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText
+
+                                android:background="@android:color/transparent"
+                                android:textColor="#615D5D"
+                                android:id="@+id/notes"
+                                android:layout_toStartOf="@id/ibEditNotes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="14dp"
+                                android:text="Deliver before 7 pm"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:layout_toLeftOf="@id/ibEditNotes" />
+
+                            <ImageButton
+                                android:id="@+id/ibEditNotes"
+                                android:layout_marginEnd="13dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_baseline_edit_24"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="13dp" />
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_marginTop="6dp"-->
+                <!--                android:layout_marginBottom="6dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:textSize="18dp"-->
+                <!--                android:gravity="center"-->
+                <!--                android:layout_marginLeft="12dp"-->
+                <!--                android:text="Select Delivery Date">-->
+                <!--            </TextView>-->
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="1dp"-->
+                <!--                android:background="#000000">-->
+                <!--            </TextView>-->
+
+                <!--            <CalendarView-->
+                <!--                android:id="@+id/calendarView"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="match_parent" />-->
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="1dp"-->
+                <!--                android:background="#000000">-->
+                <!--            </TextView>-->
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="vertical">-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:textSize="18dp"-->
+                <!--                    android:text="Delivery Address"-->
+                <!--                    android:gravity="center">-->
+                <!--                </TextView>-->
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/address"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="12dp"-->
+                <!--                    android:gravity="center_horizontal"-->
+                <!--                    android:hint="The address is displayed here"-->
+                <!--                    android:inputType="textPersonName"-->
+                <!--                    />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:background="#000000">-->
+                <!--                </TextView>-->
+
+                <!--            </LinearLayout>-->
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="vertical">-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:textSize="18dp"-->
+                <!--                    android:layout_marginTop="12dp"-->
+                <!--                    android:text="Order Notes"-->
+                <!--                    android:gravity="center">-->
+                <!--                </TextView>-->
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/notes"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="12dp"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:hint="Order notes are displayed here"-->
+                <!--                    android:inputType="textPersonName"-->
+                <!--                    android:textSize="12dp"-->
+                <!--                    />-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:background="#000000">-->
+                <!--                </TextView>-->
+
+                <!--            </LinearLayout>-->
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content">-->
+
+                <!--                <Button-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="36dp"-->
+                <!--                    android:layout_marginTop="12dp"-->
+                <!--                    android:layout_marginRight="36dp"-->
+                <!--                    android:onClick="placeOrder"-->
+                <!--                    android:text="Place Order">-->
+
+                <!--                </Button>-->
+
+                <!--            </LinearLayout>-->
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:padding="18dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/layoutPlaceOrder"
+            android:background="@drawable/rectangle_rounded_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="36dp"
+            <com.google.android.material.button.MaterialButton
+                android:text="Place Order"
+                app:icon="@drawable/ic_baseline_check_24"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp"
+                app:cornerRadius="20dp"
                 android:onClick="placeOrder"
-                android:text="Place Order">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            </Button>
+        </RelativeLayout>
 
-        </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
-</ScrollView>
+
+
+</LinearLayout>

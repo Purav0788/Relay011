@@ -24,4 +24,13 @@
     <string name="bell">Bell</string>
     <string name="help">Help</string>
     <string name="mr_gupta">Mr Gupta</string>
+    <string name="inbox">Inbox</string>
+    <string name="home">Home</string>
+    <string name="more">More</string>
+    <string name="hello_sir_delivery_kab_ayegi">Hello sir, delivery kab ayegi?</string>
+    <string name="aggarwal">Aggarwal</string>
+    <string name="_8_48_pm">8:48 pm</string>
+    <string name="search_your_network">Search your network</string>
+    <string name="order_sent">Order Sent</string>
+    <string name="search">Search</string>
 </resources>

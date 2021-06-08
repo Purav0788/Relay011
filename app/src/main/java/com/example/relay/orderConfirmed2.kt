@@ -113,7 +113,6 @@ class orderConfirmed2 : AppCompatActivity() {
         val query:Query = reference1
         query.addListenerForSingleValueEvent(object:ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {

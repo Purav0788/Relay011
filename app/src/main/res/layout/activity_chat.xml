@@ -1,38 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue_lighter_bg_color"
     tools:context=".Chat">
 
-    <ScrollView
+    <LinearLayout
+        android:layout_above="@id/messageLayoutContainer"
         android:layout_width="match_parent"
-        android:layout_weight="20"
-        android:layout_height="0dp"
-        android:id="@+id/scrollView">
-        <RelativeLayout
-            android:id="@+id/layout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/layout1">
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include
-        layout="@layout/message_place"
+        <androidx.appcompat.widget.Toolbar
+            app:contentInsetStart="0dp"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleEnabled="false">
+
+            <ImageButton
+                android:onClick="backPressed"
+                android:layout_marginHorizontal="10dp"
+                android:layout_gravity="center_vertical"
+                android:tint="@color/white"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/yourBusinessName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="Aggarwal"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:drawableTint="@color/white" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            android:paddingTop="10dp"
+            android:clipChildren="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView">
+            <RelativeLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/layout1">
+
+
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/messageLayoutContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:layout_marginTop="5dp"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <View
+
+            android:background="@color/divider_color"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <include
+            android:id="@+id/messageLayout"
+            layout="@layout/message_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="edit_text_radius">10dp</dimen>
+    <dimen name="edit_text_radius2">30dp</dimen>
+    <dimen name="spinner_radius">20dp</dimen>
+</resources>

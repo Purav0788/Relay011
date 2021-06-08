@@ -49,7 +49,7 @@ class myOrders : AppCompatActivity() {
 
         val startDateEditText = findViewById<View>(R.id.startDate) as EditText
         val startDate =
-                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> // TODO Auto-generated method stub
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myStartDateCalender.set(Calendar.YEAR, year)
                     myStartDateCalender.set(Calendar.MONTH, monthOfYear)
                     myStartDateCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -58,7 +58,6 @@ class myOrders : AppCompatActivity() {
 
         startDateEditText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                // TODO Auto-generated method stub
                 DatePickerDialog(
                         this@myOrders, startDate, myEndDateCalender
                         .get(Calendar.YEAR), myEndDateCalender.get(Calendar.MONTH),
@@ -69,7 +68,7 @@ class myOrders : AppCompatActivity() {
 
         val endDateEditText = findViewById<View>(R.id.endDate) as EditText
         val endDate =
-                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> // TODO Auto-generated method stub
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myEndDateCalender.set(Calendar.YEAR, year)
                     myEndDateCalender.set(Calendar.MONTH, monthOfYear)
                     myEndDateCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -78,7 +77,6 @@ class myOrders : AppCompatActivity() {
 
         endDateEditText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                // TODO Auto-generated method stub
                 DatePickerDialog(
                         this@myOrders, endDate, myEndDateCalender
                         .get(Calendar.YEAR), myEndDateCalender.get(Calendar.MONTH),
@@ -110,14 +108,13 @@ class myOrders : AppCompatActivity() {
     public fun startDateButton(view: View) {
         val startDateEditText = findViewById<View>(R.id.startDate) as EditText
         val startDate =
-                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> // TODO Auto-generated method stub
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myStartDateCalender.set(Calendar.YEAR, year)
                     myStartDateCalender.set(Calendar.MONTH, monthOfYear)
                     myStartDateCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     updateStartDateLabel()
                 }
 
-        // TODO Auto-generated method stub
         DatePickerDialog(
                 this@myOrders, startDate, myEndDateCalender
                 .get(Calendar.YEAR), myEndDateCalender.get(Calendar.MONTH),
@@ -128,7 +125,7 @@ class myOrders : AppCompatActivity() {
     public fun endDateButton(view: View) {
         val endDateEditText = findViewById<View>(R.id.endDate) as EditText
         val endDate =
-                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> // TODO Auto-generated method stub
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myEndDateCalender.set(Calendar.YEAR, year)
                     myEndDateCalender.set(Calendar.MONTH, monthOfYear)
                     myEndDateCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -195,21 +192,18 @@ class myOrders : AppCompatActivity() {
                     val query: Query = reference
                     query.addChildEventListener(object : ChildEventListener {
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
                         }
 
                         override fun onChildMoved(
                                 snapshot: DataSnapshot,
                                 previousChildName: String?
                         ) {
-                            TODO("Not yet implemented")
                         }
 
                         override fun onChildChanged(
                                 snapshot: DataSnapshot,
                                 previousChildName: String?
                         ) {
-                            TODO("Not yet implemented")
                         }
 
                         override fun onChildAdded(
@@ -293,7 +287,6 @@ class myOrders : AppCompatActivity() {
                                             query.addListenerForSingleValueEvent(object :
                                                     ValueEventListener {
                                                 override fun onCancelled(error: DatabaseError) {
-                                                    TODO("Not yet implemented")
                                                 }
 
                                                 override fun onDataChange(userSnapshot: DataSnapshot) {
@@ -343,7 +336,6 @@ class myOrders : AppCompatActivity() {
                         }
 
                         override fun onChildRemoved(snapshot: DataSnapshot) {
-                            TODO("Not yet implemented")
                         }
                     })
                 }
@@ -360,7 +352,6 @@ class myOrders : AppCompatActivity() {
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
                 //Should never happen
             }
 

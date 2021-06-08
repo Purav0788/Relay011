@@ -8,9 +8,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.relay.changeBusinessName
+import com.example.relay.changeName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
+import kotlinx.android.synthetic.main.activity_home_screen._yourBusinessName
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class settings : AppCompatActivity() {

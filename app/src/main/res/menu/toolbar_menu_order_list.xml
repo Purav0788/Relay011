@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"/>
+
+
+
+</menu>

@@ -1,48 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:paddingTop="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/messageArea"
-        android:layout_width="249dp"
-        android:layout_height="62dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:hint="write something"
-        android:maxHeight="80dp"
-        android:textColor="#CFD8DC"
-        android:textColorHint="#CFD8DC"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/messageAreaTextInputLayout"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/send"
+        app:endIconTint="@color/blue_500"
+        app:hintEnabled="false"
+        app:hintAnimationEnabled="false"
+        app:boxBackgroundColor="#F6F6F6"
+        android:layout_marginHorizontal="10dp"
+        app:boxCornerRadiusTopStart="@dimen/edit_text_radius2"
+        app:boxCornerRadiusBottomEnd="@dimen/edit_text_radius2"
+        app:boxCornerRadiusBottomStart="@dimen/edit_text_radius2"
+        app:boxCornerRadiusTopEnd="@dimen/edit_text_radius2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sendButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton6" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton6"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/sendButton"
-        android:layout_width="79dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="4"
-        android:onClick="sendMessage"
-        android:padding="4dp"
-        android:src="@android:drawable/ic_menu_send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/messageArea"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="match_parent"
+            android:hint="Type a message"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <!--    <EditText-->
+<!--        android:id="@+id/messageArea"-->
+<!--        android:layout_width="249dp"-->
+<!--        android:layout_height="62dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:gravity="center"-->
+<!--        android:hint="write something"-->
+<!--        android:maxHeight="80dp"-->
+<!--        android:textColor="#CFD8DC"-->
+<!--        android:textColorHint="#CFD8DC"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/sendButton"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/imageButton6" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/sendButton"-->
+<!--        android:layout_width="79dp"-->
+<!--        android:layout_height="58dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:layout_weight="4"-->
+<!--        android:onClick="sendMessage"-->
+<!--        android:padding="4dp"-->
+<!--        android:src="@android:drawable/ic_menu_send"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <ImageButton
+        android:layout_marginStart="5dp"
         android:id="@+id/imageButton6"
-        android:layout_width="82dp"
-        android:layout_height="57dp"
-        android:layout_marginBottom="4dp"
-        android:background="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
         android:onClick="openOrder"
-        android:scaleX="2"
-        android:scaleY="2"
+        android:src="@drawable/order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_action_name" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

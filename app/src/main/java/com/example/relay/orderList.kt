@@ -5,12 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.RelativeLayout
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_order_list.view.*
 import kotlinx.android.synthetic.main.order_list_item.view.*
 import java.util.*
@@ -27,9 +29,24 @@ class orderList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
+        // TODO: 6/8/2021 Uncomment this
+/*
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
+*/
+        // TODO: 6/8/2021 Remove this
+        addListItem();
+        addListItem();
+        addListItem();
+
+        // TODO: 6/8/2021 Uncomment this
+/*
         loadLastPrevOrder()
+*/
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
+
     }
 
     public fun addListItem(view:View = findViewById<View>(R.id.orderList)){
@@ -37,7 +54,7 @@ class orderList : AppCompatActivity() {
         val neu: View = layoutInflater.inflate(R.layout.order_list_item, parent, false)
         neu.id = layoutID
         var params = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
             )
             params.addRule(RelativeLayout.BELOW, layoutID-1)
@@ -55,12 +72,12 @@ class orderList : AppCompatActivity() {
         increaseTotalItems()
     }
 
-    private fun setUpSpinner(dropdown:Spinner){
+    private fun setUpSpinner(dropdown:AutoCompleteTextView){
         val dropdown = dropdown
         //create a list of items for the spinner.
         val items = arrayOf("kg", "gram", "packets", "bottles", "boxes")
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, items)
-        dropdown.adapter = adapter
+        dropdown.setAdapter(adapter)
     }
 
     public fun goToOrderDetails(view:View){
@@ -75,16 +92,19 @@ class orderList : AppCompatActivity() {
             }
             order = newOrderItem.orderName.text.toString()
             order = order + "#"+ newOrderItem.orderQuantity.text.toString()
-            order = order + "#" + newOrderItem.spinner.selectedItem.toString()
+            order = order + "#" + newOrderItem.spinner.text.toString()
             Log.d("orderlist", order)
             listOfOrders.add(order)
             Log.d("orderlistindex", listOfOrders.elementAt(0).toString())
         }
         if(listOfOrders.size != 0){
             val intent = Intent(this@orderList, orderDetails::class.java)
+            // TODO: 6/8/2021 Uncomment this
+/*
             intent.putExtra("listOfOrders", listOfOrders)
             intent.putExtra("user1", user1)
             intent.putExtra("user2", user2)
+*/
             startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
         }
 
@@ -118,7 +138,6 @@ class orderList : AppCompatActivity() {
                     + user1 + "_" + user2)
         reference1.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -178,6 +197,33 @@ class orderList : AppCompatActivity() {
             newOrderItem.orderQuantity.setText("0")
             val spinnerSelectedItemIndex:Int = arrayOf("kg", "gram", "packets", "bottles", "boxes").indexOf(unit)
             newOrderItem.spinner.setSelection(spinnerSelectedItemIndex)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu_order_list, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_info -> {
+            Toast.makeText(this, "Info clicked", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        android.R.id.home ->{
+            onBackPressed()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun backPressed(view: View) {
+        onBackPressed()
     }
 }
 
