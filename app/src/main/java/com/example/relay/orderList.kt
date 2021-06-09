@@ -30,19 +30,17 @@ class orderList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
         // TODO: 6/8/2021 Uncomment this
-/*
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
-*/
         // TODO: 6/8/2021 Remove this
+/*
         addListItem();
         addListItem();
         addListItem();
+*/
 
         // TODO: 6/8/2021 Uncomment this
-/*
         loadLastPrevOrder()
-*/
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
@@ -100,11 +98,9 @@ class orderList : AppCompatActivity() {
         if(listOfOrders.size != 0){
             val intent = Intent(this@orderList, orderDetails::class.java)
             // TODO: 6/8/2021 Uncomment this
-/*
             intent.putExtra("listOfOrders", listOfOrders)
             intent.putExtra("user1", user1)
             intent.putExtra("user2", user2)
-*/
             startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
         }
 

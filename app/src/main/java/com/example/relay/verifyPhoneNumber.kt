@@ -28,6 +28,7 @@ class verifyPhoneNumber : AppCompatActivity() {
     //initializing db
     var fb: DatabaseReference? = null
     var mobile:String? = null
+    val TAG:String = "popo"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +80,7 @@ class verifyPhoneNumber : AppCompatActivity() {
 
             override fun onVerificationFailed(e: FirebaseException) {
                 Toast.makeText(this@verifyPhoneNumber, e.message, Toast.LENGTH_LONG).show()
+                Log.d(TAG, "onVerificationFailed: " + e.message)
             }
 
             override fun onCodeSent(
@@ -89,11 +91,13 @@ class verifyPhoneNumber : AppCompatActivity() {
 
                 //storing the verification id that is sent to the user
                 mVerificationId = s
+                Log.d(TAG, "onCodeSent: $s" )
             }
         }
 
     private fun verifyVerificationCode(code: String) {
         //creating the credential
+        Log.d(TAG, "verifyVerificationCode: $mVerificationId $code");
         val credential = PhoneAuthProvider.getCredential(mVerificationId!!, code)
 
         //signing the user

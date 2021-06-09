@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             if (user != null) {
                 //already signed in
                 val myIntent = Intent(this, homeScreen::class.java)
-                var user1:String = user.phoneNumber!!
+                val user1:String = user.phoneNumber!!
 
                 var number = user1
 //                originalAddContactNumber = number1

@@ -30,7 +30,6 @@ class orderDetails : AppCompatActivity() {
 //        Change needed here where copied into original source code
         setContentView(R.layout.activity_order_details)
         // TODO: 6/8/2021 Uncomment this
-/*
         orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String>)
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
@@ -45,7 +44,6 @@ class orderDetails : AppCompatActivity() {
             orders += '\n';
         }
         textview.text = orders;
-*/
 
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/"

@@ -18,6 +18,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
+import kotlinx.android.synthetic.main.activity_home_screen._yourBusinessName
+import kotlinx.android.synthetic.main.activity_settings.*
 import java.net.URLEncoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -99,21 +101,19 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         setSupportActionBar(_toolbar)
         supportActionBar?.title = ""
         // TODO: 6/8/2021 Uncomment this
-/*
         user1 = intent.getStringExtra("user1")!!
         var user = findUserInDbAndRefreshData(user1)
-*/
         adapter = myCustomAdapter(this@homeScreen, chatsList)
         _listOfChats.adapter = adapter
         _listOfChats.setOnItemClickListener { parent, view, id, position ->
             // TODO: 6/7/2021 Uncomment this
-/*
             val user2ChatData = chatsList.get(position.toInt())
             val user1 = user1
             openChat(user1, user2ChatData.getphoneNumber())
-*/
             // TODO: 6/7/2021 Remove this. This is just for testing purpose
+/*
             openChat("", "")
+*/
         }
         detectChangeAndUpdateChats()
 
@@ -302,7 +302,7 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         val intent = Intent(this@homeScreen, Chat::class.java)
         intent.putExtra("user1", this.user1)
         intent.putExtra("user2", user2)
-//        intent.putExtra("user1Name", _yourName.text)
+        intent.putExtra("user1Name", _yourBusinessName.text)
         startActivity(intent)
 //        val reference = FirebaseDatabase.getInstance().reference
 //        val query: Query = reference.child("users").child(user1)
