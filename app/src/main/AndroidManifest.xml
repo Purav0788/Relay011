@@ -13,8 +13,8 @@
         android:theme="@style/Theme.Relay">
         <activity android:name=".myOrders" />
         <activity android:name=".orderCancel" />
-        <activity android:name=".changeName" />
-        <activity android:name=".changeBusinessName" />
+        <activity android:name=".ChangeName" />
+        <activity android:name=".ChangeBusinessName" />
         <activity android:name=".settings" />
         <activity android:name=".orderConfirmed2" />
         <activity android:name=".invoice" />

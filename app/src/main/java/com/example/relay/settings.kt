@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.relay.changeBusinessName
-import com.example.relay.changeName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_screen.*
@@ -89,12 +87,12 @@ class settings : AppCompatActivity() {
     }
 
     public fun changeBusinessName(view:View){
-        val intent = Intent(this@settings, changeBusinessName::class.java)
+        val intent = Intent(this@settings, ChangeBusinessName::class.java)
         intent.putExtra("user1", user1)
         startActivity(intent);
     }
     public fun changeName(view:View){
-        val intent = Intent(this@settings, changeName::class.java)
+        val intent = Intent(this@settings, ChangeName::class.java)
         intent.putExtra("user1", user1)
         startActivity(intent)
     }
