@@ -19,7 +19,6 @@ class myCustomAdapter(private var context: Context,
         var myView = convertView
         myView = LayoutInflater.from(context).inflate(R.layout.home_screen_chat_box, parent, false)
 
-        // TODO: 6/7/2021 Uncomment this
         var lastMessageView:TextView = myView.findViewById(R.id.lastMessage)
         var lastMessageTimeView:TextView = myView.findViewById(R.id.lastMessageTime)
         var chatUserView:TextView = myView.findViewById(R.id.chatUser)
@@ -40,11 +39,6 @@ class myCustomAdapter(private var context: Context,
     }
 
     override fun getCount(): Int {
-        // TODO: 6/9/2021 Remove this  
-/*
-        return 5;
-*/
-        //TODO: Uncomment this
         return arrayList.size
     }
 

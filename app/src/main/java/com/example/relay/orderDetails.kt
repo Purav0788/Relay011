@@ -29,7 +29,6 @@ class orderDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        Change needed here where copied into original source code
         setContentView(R.layout.activity_order_details)
-        // TODO: 6/8/2021 Uncomment this
         orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String>)
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!

@@ -100,20 +100,14 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         setContentView(R.layout.activity_home_screen)
         setSupportActionBar(_toolbar)
         supportActionBar?.title = ""
-        // TODO: 6/8/2021 Uncomment this
         user1 = intent.getStringExtra("user1")!!
         var user = findUserInDbAndRefreshData(user1)
         adapter = myCustomAdapter(this@homeScreen, chatsList)
         _listOfChats.adapter = adapter
         _listOfChats.setOnItemClickListener { parent, view, id, position ->
-            // TODO: 6/7/2021 Uncomment this
             val user2ChatData = chatsList.get(position.toInt())
             val user1 = user1
             openChat(user1, user2ChatData.getphoneNumber())
-            // TODO: 6/7/2021 Remove this. This is just for testing purpose
-/*
-            openChat("", "")
-*/
         }
         detectChangeAndUpdateChats()
 

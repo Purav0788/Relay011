@@ -48,23 +48,7 @@ class Chat : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // TODO: 6/8/2021 Remove this
-/*
-        val time: HashMap<String, Any> = HashMap<String, Any>()
-        time.put("dayOfMonth", "8")
-        time.put("monthValue", "6")
-        time.put("year", "2021")
-        addMessageBox("Bhai kab deliver hoga?", 1)
-        addMessageBox("Kal tak hoajye ga", 2)
-        addOrderBox("123", 1, time)
-        addOrderBox("123", 2, time)
-        addOrderCancelledBox("123", 1, time)
-        addOrderCancelledBox("123", 2, time)
-        addOrderConfirmedBox("123", 1, time)
-        addOrderConfirmedBox("123", 2, time)
-*/
 
-        // TODO: 6/8/2021 Uncomment this all
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
         user1Name = intent.getStringExtra("user1Name")!!
@@ -121,7 +105,6 @@ class Chat : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
 
-        // TODO: 6/8/2021 Uncomment this
         setActionBar(user2)
 
         binding.messageLayout.messageAreaTextInputLayout.setEndIconOnClickListener {
@@ -131,12 +114,7 @@ class Chat : AppCompatActivity() {
     }
 
     private fun addOrderCancelledBox(orderID: String, type: Int, time: HashMap<String, Any>) {
-        // TODO: 6/8/2021 Uncomment this
         val date = getTime(time)
-        // TODO: 6/8/2021 Remove this
-/*
-        val date = time
-*/
         val orderButton = Button(this)
 
         val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
@@ -260,7 +238,6 @@ class Chat : AppCompatActivity() {
 
     fun openOrder(view: View) {
         val intent = Intent(this@Chat, orderList::class.java)
-        // TODO: 6/8/2021 Uncomment these 2 lines 
         intent.putExtra("user1", user1)
         intent.putExtra("user2", user2)
         startActivityForResult(intent, LAUNCH_ORDER_LIST)
