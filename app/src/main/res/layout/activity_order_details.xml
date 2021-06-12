@@ -100,18 +100,42 @@
 
                         </RelativeLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:background="@android:color/transparent"
+                        <TextView
+                            android:paddingHorizontal="5dp"
+                            android:drawableTint="#615D5D"
+                            android:drawablePadding="5dp"
+                            android:onClick="expandCollapseItems"
+                            android:background="?selectableItemBackground"
                             android:textColor="#615D5D"
-                            android:gravity="center_horizontal"
-                            android:id="@+id/order"
-                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:id="@+id/orderItemsQty"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="14dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="5dp"
                             android:text="3 items"
                             android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24" />
+
+                        <net.cachapa.expandablelayout.ExpandableLayout
+                            android:id="@+id/expandableLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:el_duration="400"
+                            app:el_expanded="false"
+                            app:el_parallax="0.5">
+
+                            <LinearLayout
+                                android:id="@+id/expandedLayoutContainer"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </LinearLayout>
+
+                        </net.cachapa.expandablelayout.ExpandableLayout>
 
                     </LinearLayout>
 
@@ -171,7 +195,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="14dp"
-                                android:text="10 Feb, 2021"
+                                android:hint="Select Delivery Date"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:layout_toLeftOf="@id/ibEditDeliveryDate" />
@@ -250,7 +274,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="14dp"
-                                android:text="Shop 3, Civil Lines, Ludhiana, Punjab"
+                                android:hint="Enter Delivery Location"
                                 android:textSize="14dp"
                                 android:textStyle="bold"
                                 android:layout_toLeftOf="@id/idEditDeliveryAddress" />
@@ -330,7 +354,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="14dp"
-                                android:text="Deliver before 7 pm"
+                                android:hint="Enter Order Note"
                                 android:textSize="14dp"
                                 android:textStyle="bold"
                                 android:layout_toLeftOf="@id/ibEditNotes" />
@@ -469,11 +493,14 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.button.MaterialButton
+                android:textAllCaps="false"
                 android:text="Place Order"
                 app:icon="@drawable/ic_baseline_check_24"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:cornerRadius="20dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:onClick="placeOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

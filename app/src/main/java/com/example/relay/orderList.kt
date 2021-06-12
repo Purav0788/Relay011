@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_order_list.view.*
@@ -31,6 +30,7 @@ class orderList : AppCompatActivity() {
         setContentView(R.layout.activity_order_list)
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
+
 
         loadLastPrevOrder()
 
@@ -188,7 +188,26 @@ class orderList : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu_order_list, menu)
-        return true
+
+        val myActionMenuItem = menu!!.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.actionView as androidx.appcompat.widget.SearchView
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // Toast like print
+                Toast.makeText(this@orderList, "SearchOnQueryTextSubmit: $query", Toast.LENGTH_SHORT).show()
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true)
+                }
+                myActionMenuItem.collapseActionView()
+                return false
+            }
+
+            override fun onQueryTextChange(s: String?): Boolean {
+                Toast.makeText(this@orderList, "onQueryTextChange: $s", Toast.LENGTH_SHORT).show()
+                return false
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

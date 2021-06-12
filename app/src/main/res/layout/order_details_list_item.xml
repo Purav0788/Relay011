@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#E8E8E8" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:id="@+id/tvItemName"
+            android:textSize="14sp"
+            android:layout_weight="1.7"
+            android:textStyle="bold"
+            android:textColor="#615D5D"
+            android:text="Chocolates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:gravity="start"
+            android:layout_gravity="start"
+            android:id="@+id/tvItemQty"
+            android:textSize="14sp"
+            android:layout_weight="0.3"
+            android:textColor="#615D5D"
+            android:text="12 Packets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".homeScreen"
     android:background="@color/blue_lighter_bg_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/mainRoot">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/_toolbar"
@@ -25,13 +26,15 @@
             android:drawablePadding="8dp"
             android:text="@string/mr_gupta"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:drawableEndCompat="@drawable/ic_baseline_edit_24"
             app:drawableTint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
     <ViewAnimator
+        android:layout_marginTop="15dp"
+        android:paddingHorizontal="10dp"
         android:inAnimation="@android:anim/slide_in_left"
         android:id="@+id/viewAnimator"
         android:layout_width="match_parent"
@@ -41,28 +44,31 @@
         app:layout_constraintTop_toBottomOf="@+id/_toolbar">
 
         <RelativeLayout
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="11dp"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="11dp">
 
             <TextView
                 android:layout_alignParentStart="true"
                 android:id="@+id/tvMyNetwork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
                 android:text="My Network"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_alignParentLeft="true" />
 
             <ImageButton
+                android:layout_marginTop="5dp"
+                android:tint="#615D5D"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/imageButtonSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="25dp"
-                android:layout_marginVertical="21dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_baseline_search_24"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +83,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="20dp"
             android:gravity="center"
             app:boxCornerRadiusBottomEnd="@dimen/edit_text_radius"
             app:boxCornerRadiusBottomStart="@dimen/edit_text_radius"
@@ -89,7 +94,6 @@
             app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/_toolbar"
             app:startIconDrawable="@drawable/ic_baseline_arrow_back_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -103,153 +107,9 @@
 
     </ViewAnimator>
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/tILSearchView"-->
-<!--        app:startIconDrawable="@drawable/ic_baseline_arrow_back_24"-->
-<!--        app:endIconTint=""-->
-<!--        app:endIconDrawable="@drawable/ic_baseline_search_24"-->
-<!--        app:endIconMode="custom"-->
-<!--        app:boxCornerRadiusBottomStart="@dimen/edit_text_radius"-->
-<!--        app:boxCornerRadiusTopEnd="@dimen/edit_text_radius"-->
-<!--        app:boxCornerRadiusTopStart="@dimen/edit_text_radius"-->
-<!--        app:boxCornerRadiusBottomEnd="@dimen/edit_text_radius"-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--        android:layout_marginHorizontal="20dp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/_listOfChats"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_toolbar">-->
-
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/etSearch"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/imageButton4"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="25dp"-->
-<!--        android:layout_marginVertical="21dp"-->
-<!--        android:background="?selectableItemBackgroundBorderless"-->
-<!--        android:src="@drawable/ic_baseline_search_24"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_toolbar" />-->
-
-<!--    <TextView-->
-<!--        android:textStyle="bold"-->
-<!--        android:textSize="24sp"-->
-<!--        android:layout_margin="20dp"-->
-<!--        android:id="@+id/tvMyNetwork"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="My Network"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_toolbar" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/_yourBusinessName"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Your Business Name"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_toolbar" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/_yourName"-->
-<!--        android:layout_width="210dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:layout_marginTop="44dp"-->
-<!--        android:layout_marginEnd="196dp"-->
-<!--        android:layout_marginRight="196dp"-->
-<!--        android:text="yourName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_yourPhoneNumber" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/_yourPhoneNumber"-->
-<!--        android:layout_width="215dp"-->
-<!--        android:layout_height="29dp"-->
-<!--        android:layout_marginEnd="192dp"-->
-<!--        android:layout_marginRight="192dp"-->
-<!--        android:text="yourPhoneNumber"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/_toolbar" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button4"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginLeft="8dp"-->
-<!--        android:scaleX="0.5"-->
-<!--        android:scaleY="0.7"-->
-<!--        android:text="Bell"-->
-<!--        android:textSize="14sp"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/_yourBusinessName"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button5"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:scaleX="0.5"-->
-<!--        android:scaleY="0.7"-->
-<!--        android:text="Help"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button6"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="4dp"-->
-<!--        android:layout_marginLeft="4dp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        android:text="Home"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button7"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="56dp"-->
-<!--        android:layout_marginLeft="56dp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        android:onClick="goToMyOrders"-->
-<!--        android:text="Order"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/button6" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button8"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="52dp"-->
-<!--        android:layout_marginLeft="52dp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        android:onClick="more"-->
-<!--        android:text="More"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/button7" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button9"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginRight="16dp"-->
-<!--        android:layout_marginBottom="52dp"-->
-<!--        android:onClick="createChat"-->
-<!--        android:text="Add Contact"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/button8"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
     <ListView
+        android:paddingTop="10dp"
+        android:clipToPadding="false"
         android:id="@+id/_listOfChats"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -260,19 +120,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewAnimator" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
-        android:onClick="createChat"
-        android:text="Add Contact"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
+    <ViewAnimator
+        android:id="@+id/viewAnimatorFab"
+        android:inAnimation="@anim/slide_in_right"
+        android:layout_margin="15dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/_listOfChats"
         app:layout_constraintEnd_toEndOf="parent"
-         />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:onClick="expandFloatingActionButton"
+            android:layout_gravity="end"
+            app:tint="@color/white"
+            android:src="@drawable/ic_baseline_add_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Add Contact" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/expandedFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
+            android:onClick="createChat"
+            android:text="Add Contact"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            />
+
+
+    </ViewAnimator>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:itemIconTint="@color/white"

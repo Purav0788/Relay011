@@ -29,4 +29,8 @@ class LoginByNumber : AppCompatActivity() {
         myIntent.putExtra("mobile", mobile)
         startActivity(myIntent)
     }
+
+    fun backPressed(view: View) {
+        onBackPressed()
+    }
 }

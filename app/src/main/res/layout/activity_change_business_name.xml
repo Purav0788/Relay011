@@ -7,18 +7,40 @@
     android:onClick="changeBusinessName"
     tools:context=".ChangeBusinessName">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleEnabled="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:text="Relay"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:drawableTint="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+
     <TextView
         android:id="@+id/textView26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/inter_medium"
         android:text="CHANGE BUSINESS NAME"
         android:textColor="#615D5D"
         app:layout_constraintBottom_toTopOf="@+id/yourBusinessName"
         app:layout_constraintStart_toStartOf="@+id/yourBusinessName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <EditText
         android:id="@+id/yourBusinessName"

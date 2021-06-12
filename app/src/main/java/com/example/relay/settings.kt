@@ -97,4 +97,8 @@ class settings : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun backPressed(view: View) {
+        onBackPressed()
+    }
+
 }

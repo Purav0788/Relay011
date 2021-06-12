@@ -49,4 +49,8 @@ class getCustomerDetails : AppCompatActivity() {
         val chatRef = reference.child("chats")
         val map: MutableMap<String, String> = HashMap()
     }
+
+    fun backPressed(view: View) {
+        onBackPressed()
+    }
 }

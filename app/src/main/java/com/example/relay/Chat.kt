@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ import com.example.relay.databinding.LayoutMessageItemBinding
 import com.example.relay.databinding.LayoutMessageMineItemBinding
 import com.example.relay.databinding.LayoutOrderStatusItemBinding
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.my_orders_list_item.*
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.HashMap
@@ -65,6 +67,7 @@ class Chat : AppCompatActivity() {
         //reloadAllPastMessages
         reference1.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+                Log.d("popo", "onChildAdded: $dataSnapshot")
                 val map = dataSnapshot.value as Map<String, Any>
                 //checking if the message is actually an order:
                 val user = map["user"].toString()
@@ -72,7 +75,8 @@ class Chat : AppCompatActivity() {
                 var type = if (user == user1) 1 else 2
                 if (map["orderID"] != null) {
                     val orderID = map["orderID"].toString()
-
+                    // TODO: 6/12/2021 Change this to show time dynamically 
+                    addTime(time)
                     if (map["orderCancelled"] == "true") {
                         addOrderCancelledBox(orderID, type, time)
                     } else if (map["orderConfirmed"] == "true") {
@@ -112,6 +116,30 @@ class Chat : AppCompatActivity() {
         }
 
     }
+
+    private fun addTime(time: HashMap<String, Any>) {
+        val date = getTime(time)
+        val tvDate = TextView(this);
+        tvDate.setTextColor(ContextCompat.getColor(this,R.color.white))
+        val lp2 = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        lp2.gravity = Gravity.CENTER_HORIZONTAL
+        tvDate.setText(date);
+
+        tvDate.setPadding(pixelToDp(6), 0,pixelToDp(6),0);
+        tvDate.background = ContextCompat.getDrawable(this,R.drawable.rectangle_64);
+        tvDate.layoutParams = lp2
+        binding.layout1.addView(tvDate)
+
+    }
+
+    fun pixelToDp(paddingDp: Int): Int{
+        val density = resources.displayMetrics.density
+        return (paddingDp * density).toInt();
+    }
+
 
     private fun addOrderCancelledBox(orderID: String, type: Int, time: HashMap<String, Any>) {
         val date = getTime(time)
@@ -197,19 +225,18 @@ class Chat : AppCompatActivity() {
 //        val textView = TextView(this@Chat)
 //        textView.text = message
         val lp2 = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        lp2.setMargins(10)
-        lp2.weight = 1.0f
+//        lp2.weight = 1.0f
         if (type == 1) {
+        lp2.setMargins(pixelToDp(50),0,0,0)
             lp2.gravity = Gravity.END
-////            textView.setBackgroundResource()
+//////            textView.setBackgroundResource()
         } else {
+        lp2.setMargins(0,0,pixelToDp(50),0)
             lp2.gravity = Gravity.START
-////            textView.setBackgroundResource(R.drawable.bubble_out)
         }
-//        textView.layoutParams = lp2
         viewBindingMessage.root.layoutParams = lp2
 //        //the layout1 and scrollview are ids of the parent elements
         binding.layout1.addView(viewBindingMessage.root)

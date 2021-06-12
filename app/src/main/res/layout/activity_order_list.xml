@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
                 android:drawablePadding="8dp"
                 android:text="Order List"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:drawableTint="@color/white" />
         </androidx.appcompat.widget.Toolbar>
@@ -114,6 +115,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:textAllCaps="false"
                 android:id="@+id/button10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -122,8 +124,9 @@
                 android:layout_weight="1"
                 android:onClick="addListItem"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="15dp"
-                android:text="Add Item"
+                android:paddingVertical="10dp"                android:text="Add Item"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:cornerRadius="20dp"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -131,6 +134,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button11"
+                android:textAllCaps="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6.5dp"
@@ -138,8 +142,10 @@
                 android:layout_weight="1"
                 android:onClick="goToOrderDetails"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:cornerRadius="20dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:text="Continue"
                 app:icon="@drawable/ic_baseline_check_24"
                 app:layout_constraintBottom_toBottomOf="parent"

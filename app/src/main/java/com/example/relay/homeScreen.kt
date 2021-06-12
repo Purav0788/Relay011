@@ -3,6 +3,7 @@ package com.example.relay
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +11,12 @@ import android.provider.ContactsContract
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
@@ -28,6 +31,9 @@ import kotlin.collections.HashMap
 
 
 class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private var rect // Variable rect to hold the bounds of the view
+            : Rect? = null
 
     var chatsList = LinkedList<myDataClass>()
     private lateinit var adapter: myCustomAdapter
@@ -123,13 +129,15 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         tILSearchView.setEndIconOnClickListener {
             Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
         }
+
+
         //the idea is not to actually add the contact but rather to get the number
         // which the user wants to add to the app
         //my change starts from here, lets see if it works
 
 //        try{
 //            val reference = FirebaseDatabase.getInstance().reference
-//            val query: Query = reference.child("users")
+//            val query: Query = reference.homeScreen("users")
 //                    .orderByChild("phone_number").equalTo(mobile)
 //
 //        } catch(e:FirebaseException){
@@ -863,4 +871,24 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
             else -> false
         };
     }
+
+    fun expandFloatingActionButton(view: View) {
+        viewAnimatorFab.showNext()
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            if (expandedFab.isVisible) {
+                val outRect = Rect()
+                expandedFab.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(
+                        event.rawX.toInt(),
+                        event.rawY.toInt()
+                    )
+                ) viewAnimatorFab.showPrevious()
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+    
 }

@@ -5,11 +5,13 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.relay.databinding.OrderDetailsListItemBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_order_details.*
@@ -18,13 +20,16 @@ import java.util.*
 
 
 class orderDetails : AppCompatActivity() {
-    val MONTHS = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec");
+    val MONTHS =
+        arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
 
     private var deliveryDate = ""
-    lateinit var reference1: DatabaseReference;
+    lateinit var reference1: DatabaseReference
     private var orderList: ArrayList<kotlin.String> = ArrayList<kotlin.String>()
     private lateinit var user1: String
     private lateinit var user2: String
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        Change needed here where copied into original source code
@@ -32,23 +37,23 @@ class orderDetails : AppCompatActivity() {
         orderList = (intent.getSerializableExtra("listOfOrders") as ArrayList<kotlin.String>)
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
-        val textview = findViewById<TextView>(R.id.order)
+        orderItemsQty.text = "${orderList.size} items"
         val delimiter = '#'
-
-        var orders = "";
+        var orders = ""
 
         for (i in this.orderList) {
-            val splitString = i.split(delimiter).toTypedArray();
-            orders += splitString[0] + " " + splitString[1] + " " + splitString[2]
-            orders += '\n';
+            Log.d("popo", "onCreate: $i")
+            val splitString = i.split(delimiter).toTypedArray()
+            val orderDetailsListItemBinding: OrderDetailsListItemBinding = OrderDetailsListItemBinding.inflate(layoutInflater);
+            orderDetailsListItemBinding.tvItemName.text = splitString[0]
+            orderDetailsListItemBinding.tvItemQty.text = splitString[1] + " " + splitString[2]
+            expandedLayoutContainer.addView(orderDetailsListItemBinding.root)
         }
-        textview.text = orders;
-
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/"
         )
-        ibEditDeliveryDate.setOnClickListener{
-            showDatePickerDialog();
+        ibEditDeliveryDate.setOnClickListener {
+            showDatePickerDialog()
         }
     }
 
@@ -60,19 +65,25 @@ class orderDetails : AppCompatActivity() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
 
-        val dpd = DatePickerDialog(this@orderDetails, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dpd = DatePickerDialog(
+            this@orderDetails,
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
 
-            // Display Selected date in textbox
-            deliveryDate = "$dayOfMonth ${MONTHS[monthOfYear]}, $year";
-            dateTime.setText(deliveryDate)
+                // Display Selected date in textbox
+                deliveryDate = "$dayOfMonth ${MONTHS[monthOfYear]}, $year"
+                dateTime.setText(deliveryDate)
 
-        }, year, month, day)
+            },
+            year,
+            month,
+            day
+        )
 
         dpd.show()
     }
 
-    public fun placeOrder(myview: View) {
+    fun placeOrder(myview: View) {
         val textView = findViewById<TextView>(R.id.address)
         val addressEntered: String = textView.text.toString()
         val textView1 = findViewById<TextView>(R.id.notes)
@@ -104,5 +115,24 @@ class orderDetails : AppCompatActivity() {
 
     fun backPressed(view: View) {
         onBackPressed()
+    }
+
+    fun expandCollapseItems(view: View) {
+        if (expandableLayout.isExpanded) {
+            expandableLayout.collapse(true)
+            orderItemsQty.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_baseline_arrow_drop_up_24,
+                0
+            )
+        } else
+            expandableLayout.expand(true)
+            orderItemsQty.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_baseline_arrow_drop_down_24,
+                0
+            )
     }
 }

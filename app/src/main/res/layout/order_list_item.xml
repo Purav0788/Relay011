@@ -28,7 +28,6 @@
                 android:textColor="@color/black"
                 android:background="@android:color/transparent"
                 android:hint="Enter item"
-                android:text="Chocolates"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="5dp"
                 android:id="@+id/orderName"
@@ -42,7 +41,7 @@
                 android:layout_marginLeft="15dp" />
 
             <ImageButton
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="15dp"
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +82,7 @@
                 android:layout_marginHorizontal="15dp"
                 android:id="@+id/textInputLayout"
                 style="@style/MySpinnerStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginVertical="10dp"
                 app:boxCornerRadiusBottomEnd="@dimen/spinner_radius"
@@ -102,7 +101,7 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type"
+                    android:hint="Unit"
                     android:paddingStart="5dp"
                     android:paddingLeft="5dp" />
 

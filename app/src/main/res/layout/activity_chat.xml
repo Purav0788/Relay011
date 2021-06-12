@@ -34,16 +34,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/yourBusinessName"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:text="Aggarwal"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:drawableTint="@color/white" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/yourBusinessName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="Aggarwal"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:drawableTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/yourPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="+91 1234567899"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:drawableTint="@color/white" />
+
+
+
+
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
