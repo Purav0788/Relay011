@@ -36,7 +36,7 @@
             android:drawablePadding="8dp"
             android:text="Order Details"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:drawableTint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
