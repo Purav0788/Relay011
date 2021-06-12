@@ -182,8 +182,9 @@ class orderList : AppCompatActivity() {
             var newOrderItem:View = findViewById<View>(layoutID-1)
             newOrderItem.orderName.setText(orderName)
             newOrderItem.orderQuantity.setText("0")
-            val spinnerSelectedItemIndex:Int = arrayOf("kg", "gram", "packets", "bottles", "boxes").indexOf(unit)
-            newOrderItem.spinner.setSelection(spinnerSelectedItemIndex)
+//            Log.d("unit", unit)
+//            val spinnerSelectedItemIndex:Int = arrayOf("kg", "gram", "packets", "bottles", "boxes").indexOf(unit)
+            newOrderItem.spinner.setText(unit)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
