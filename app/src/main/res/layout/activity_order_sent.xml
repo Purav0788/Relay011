@@ -77,6 +77,18 @@
 
                 </TextView>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/_sellerName"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Name of Seller" />
+
+            <TextView
+                android:id="@+id/_orderID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OrderID" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,7 +202,8 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="Order Notes displayed here"
-                android:textSize="12dp"></TextView>
+                android:textSize="12dp">
+            </TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -219,12 +232,13 @@
                 android:gravity="center"
                 android:text="Total items displayed here"
                 android:textSize="12dp"></TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
 
+            <Button
+                android:id="@+id/_cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="cancelOrder"
+                android:text="Cancel Order" />
 
         </LinearLayout>
 

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".invoice">
+    tools:context=".invoiceUser2">
 
 
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/_sellerName"
         android:layout_width="323dp"
         android:layout_height="63dp"
         android:layout_marginTop="4dp"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/_sellerName">
 
         <ScrollView
             android:layout_width="407dp"
@@ -55,6 +55,31 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/_orderId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="orderID" />
+
+        <TextView
+            android:id="@+id/deliveryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery Date" />
+
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="total Price" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="cancelOrder"
+            android:text="Cancel Order" />
 
         <TextView
             android:id="@+id/textView9"

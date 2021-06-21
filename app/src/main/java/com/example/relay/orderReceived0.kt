@@ -1,19 +1,25 @@
 package com.example.relay
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.my_orders_list_item.*
+import kotlinx.android.synthetic.main.order_confirm_list_item.view.*
+import java.util.*
+import kotlin.collections.HashMap
 
-class orderSent : AppCompatActivity() {
+class orderReceived0 : AppCompatActivity() {
     private lateinit var orderID:String
     lateinit var reference1: DatabaseReference;
     private lateinit var user1:String
     private lateinit var user2:String
+    private var LAUNCH_ORDER_RECEIVED:Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         orderID = intent.getStringExtra("orderID")!!
@@ -29,8 +35,6 @@ class orderSent : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var isOrderCancelled = snapshot.child("orderCancelled").value.toString()
                 var isOrderConfirmed = snapshot.child("orderConfirmed").value.toString()
-                Log.d("isOrderCancelled", isOrderCancelled)
-                Log.d("isOrderConfirmed", isOrderConfirmed)
                 lateinit var orderStatus:String
                 if(isOrderCancelled == "true"){
                     orderStatus = "orderCancelled"
@@ -39,13 +43,12 @@ class orderSent : AppCompatActivity() {
                 }else{
                     orderStatus = "orderSent"
                 }
-                Log.d("orderStatus", orderStatus)
                 if(orderStatus == "orderCancelled"){
-                    renderOrderSentAndCancelled(snapshot)
+                    renderOrderReceivedAndCancelled(snapshot)
                 }else if (orderStatus == "orderConfirmed"){
-                    renderOrderSentAndConfirmed(snapshot)
+                    renderOrderReceivedAndConfirmed(snapshot)
                 }else{
-                    renderOrderSent(snapshot)
+                    renderOrderReceived(snapshot)
                 }
             }
 
@@ -53,12 +56,12 @@ class orderSent : AppCompatActivity() {
 
     }
 
-    private fun renderOrderSent(snapshot:DataSnapshot){
-        setContentView(R.layout.activity_order_sent)
+    private fun renderOrderReceived(snapshot:DataSnapshot){
+        setContentView(R.layout.activity_order_received0)
         setUpCommonData(snapshot)
     }
-    private fun renderOrderSentAndConfirmed(snapshot:DataSnapshot){
-        setContentView(R.layout.activity_order_sent_and_confirmed)
+    private fun renderOrderReceivedAndConfirmed(snapshot:DataSnapshot){
+        setContentView(R.layout.activity_order_received0_and_confirmed)
         setUpCommonData(snapshot)
         setUpConfirmedDialogBox()
     }
@@ -68,10 +71,14 @@ class orderSent : AppCompatActivity() {
         textView.text = "This order was confirmed"
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun cancelOrder(view:View){
+        myHelper.sendOrderCancellationMessage(orderID,user1, user2)
+        finish()
+    }
 
-
-    private fun renderOrderSentAndCancelled(snapshot:DataSnapshot){
-        setContentView(R.layout.activity_order_sent_and_cancelled)
+    private fun renderOrderReceivedAndCancelled(snapshot:DataSnapshot){
+        setContentView(R.layout.activity_order_received0_and_cancelled)
         setUpCommonData(snapshot)
         setUpCancelledDialogBox()
     }
@@ -85,9 +92,9 @@ class orderSent : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     var myOrderMap = snapshot.value as HashMap<String, Any>
-             /*       Log.d("myOrderMap", myOrderMap.toString())
-                    if (myOrderMap["orderCancelled"] == "true") {*/
-                        setUpCancellerName(myOrderMap["orderCancelledBy"].toString())
+                    /*       Log.d("myOrderMap", myOrderMap.toString())
+                           if (myOrderMap["orderCancelled"] == "true") {*/
+                    setUpCancellerName(myOrderMap["orderCancelledBy"].toString())
                     /*} else {
                         *//*Toast.makeText(this@orderSent, "order is already cancelled once!",
                             Toast.LENGTH_LONG).show();*//*
@@ -126,28 +133,28 @@ class orderSent : AppCompatActivity() {
         val textView4 = findViewById(R.id.items) as TextView
         textView4.text = count.toString()
 
-        setUpSellerName(snapshot.child("orderTo").value.toString())
+        setUpBuyerName(snapshot.child("orderFrom").value.toString())
         setUpOrderID()
     }
 
-    private fun setUpSellerName(phoneNumber:String) {
-            val reference = FirebaseDatabase.getInstance().reference
-            val query: Query =
-                reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
-                        for (user in dataSnapshot.children) {
-                            // do something with the individual "user"
-                            val textView = findViewById(R.id._sellerName) as TextView
-                            textView.text = user.child("business_name").value as String
-                        }
-                    } else {
+    private fun setUpBuyerName(phoneNumber:String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        val textView = findViewById(R.id._sellerName) as TextView
+                        textView.text = user.child("business_name").value as String
                     }
+                } else {
                 }
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     private fun setUpOrderID() {
@@ -157,7 +164,6 @@ class orderSent : AppCompatActivity() {
     }
 
     private fun setUpCancellerName(cancellerNumber:String){
-        Log.d("cancellerNumber", cancellerNumber)
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query =
             reference.child("users").orderByChild("phone_number").equalTo(cancellerNumber)
@@ -167,10 +173,9 @@ class orderSent : AppCompatActivity() {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                            Log.d("here","hi")
-                        val textView = findViewById<TextView>(R.id._cancellerName)
+                        val textView = findViewById(R.id._cancellerName) as TextView
                         val cancellerName = user.child("business_name").value as String
-                        textView.text = cancellerName
+                        textView.text = "This Order Was Cancelled By$cancellerName"
                     }
                 } else {
                 }
@@ -179,9 +184,22 @@ class orderSent : AppCompatActivity() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    public fun cancelOrder(view:View){
-        myHelper.sendOrderCancellationMessage(orderID,user1, user2)
-        finish()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LAUNCH_ORDER_RECEIVED) {
+            if (resultCode == Activity.RESULT_OK) {
+                finish()
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+    public fun quotePrice(view: View){
+        val intent = Intent(this@orderReceived0, orderReceived1::class.java)
+        intent.putExtra("orderID", orderID)
+        intent.putExtra("user1",user1)
+        intent.putExtra("user2",user2)
+        startActivityForResult(intent, LAUNCH_ORDER_RECEIVED)
     }
 }

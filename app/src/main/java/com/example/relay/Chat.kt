@@ -14,8 +14,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.setMargins
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewbinding.ViewBinding
 import com.example.relay.databinding.ActivityChatBinding
 import com.example.relay.databinding.LayoutMessageItemBinding
@@ -40,7 +38,6 @@ class Chat : AppCompatActivity() {
     private val LAUNCH_INVOICE: Int = 5
     private val LAUNCH_MYORDERS: Int = 6
     private val LAUNCH_ORDER_CANCEL: Int = 7
-    private lateinit var user1Name: String
     private lateinit var binding: ActivityChatBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +50,7 @@ class Chat : AppCompatActivity() {
 
         user1 = intent.getStringExtra("user1")!!
         user2 = intent.getStringExtra("user2")!!
-        user1Name = intent.getStringExtra("user1Name")!!
+
 
         reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
                 "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
@@ -162,50 +159,36 @@ class Chat : AppCompatActivity() {
             )
         }
         bindingLayoutOrderStatusItemBinding.dateTime.text = date
-//        val params = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.WRAP_CONTENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//        params.weight = 0.7f
-//        orderButton.text = "Order Canceled\n" + date
         if (type == 1) {
             bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.END
 //            params.gravity = Gravity.END
         } else {
             bindingLayoutOrderStatusItemBinding.root.gravity = Gravity.START
-//            params.gravity = Gravity.START
         }
-//        params.topMargin = 10
-//        bindingLayoutOrderStatusItemBinding.root.layoutParams = params
+        bindingLayoutOrderStatusItemBinding.root.setOnClickListener(View.OnClickListener {
+            val v1 = it
+            //check if the user1 is the guy who sent this message,if so send him to Order Sent
+            //So if type is 1 then send to orderSent
+            //otherwise send him to orderReceived1
+            if (type == 1) {
+                val intent = Intent(this@Chat, orderCancel::class.java)
+                val orderID: String = v1.getTag(R.id.myOrderId) as String
+                intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2", user2)
+                startActivityForResult(intent, LAUNCH_ORDER_CANCEL)
+            } else {
+                val intent = Intent(this@Chat, orderCancel::class.java)
+                //order confirmed is basically order received
+                val orderID: String = v1.getTag(R.id.myOrderId) as String
+                intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2", user2)
+                startActivityForResult(intent, LAUNCH_ORDER_CANCEL)
+            }
+        })
 
         bindingLayoutOrderStatusItemBinding.root.setTag(R.id.myOrderId, orderID)
-//        bindingLayoutOrderStatusItemBinding?.root?.setOnClickListener(View.OnClickListener {
-//        orderButton.setOnClickListener(View.OnClickListener {
-//            val v1 = it
-//            if(type == 1 ){
-//                //TYPE 1 MEANS the user who sent this message is looking at it
-//                //so the order confirmed box is sent by the supplier
-//                //so if he clicks at it, he should be taken to invoice
-//                Log.d("launching Invoice", "hi")
-//                val intent = Intent(this@Chat, invoice::class.java)
-//                val orderID:String = v1.getTag(R.id.myOrderId) as String
-//                intent.putExtra("orderID",orderID)
-//                startActivityForResult(intent, LAUNCH_INVOICE)
-//            }else{
-//                //take the buyer to go to myOrders, which is not yet implemented
-////                val intent = Intent(this@Chat, myOrders::class.java)
-////                val orderID:String = v1.getTag(R.id.myOrderId) as String
-////                intent.putExtra("orderID",orderID)
-////                startActivityForResult(intent,LAUNCH_MYORDERS)
-//                Log.d("launching Invoice", "bye")
-////                here order cancel will be launched
-//                val intent = Intent(this@Chat, orderCancel::class.java)
-//                val orderID:String = v1.getTag(R.id.myOrderId) as String
-//                intent.putExtra("orderID",orderID)
-//                startActivityForResult(intent, LAUNCH_ORDER_CANCEL)
-//
-//            }
-//        })
         binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
         binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
@@ -222,17 +205,15 @@ class Chat : AppCompatActivity() {
             viewBindingMessage.tvMessage.text = message
         }
 
-//        val textView = TextView(this@Chat)
-//        textView.text = message
         val lp2 = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-//        lp2.weight = 1.0f
+
         if (type == 1) {
         lp2.setMargins(pixelToDp(50),0,0,0)
             lp2.gravity = Gravity.END
-//////            textView.setBackgroundResource()
+
         } else {
         lp2.setMargins(0,0,pixelToDp(50),0)
             lp2.gravity = Gravity.START
@@ -255,11 +236,10 @@ class Chat : AppCompatActivity() {
             reference1.push().setValue(map)
             reference2.push().setValue(map)
             binding.messageLayout.messageArea.setText("")
-            sendMessageBroadCast(messageText, time, user2)
+//            sendMessageBroadCast(messageText, time, user2)
             var lastMessage = messageText
-            //this way broadcast will update the home screen chat when this user sends a message and
-            //realtime db listener will update the home screen chat when the user2 sends a message
-            updateChats(user2, time, lastMessage, user1)
+
+            myHelper.updateLastMessages(user2, time, lastMessage, user1)
         }
     }
 
@@ -293,13 +273,14 @@ class Chat : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val result: String = data!!.getStringExtra("result")!!
                 var uuidResult = UUID.fromString(result)
-                saveOrderConfirmation(uuidResult)
+//                saveOrderConfirmation(uuidResult)
+                myHelper.sendOrderConfirmationMessage(result,user1, user2)
                 Log.d("I am here", "in here in activity for order confirmation")
             }
         }
 
         if (requestCode == LAUNCH_INVOICE) {
-            //this happens when supplier clicks on orderConfirmed box which he himself created
+            //this happens when supplier clicks on orderReceived1 box which he himself created
         }
         if (requestCode == LAUNCH_MYORDERS) {
 
@@ -308,10 +289,11 @@ class Chat : AppCompatActivity() {
         if (requestCode == LAUNCH_ORDER_CANCEL) {
             //this happens when the user cancels the order
             if (resultCode == Activity.RESULT_OK) {
-                val result: String = data!!.getStringExtra("result")!!
+                /*val result: String = data!!.getStringExtra("result")!!
                 var uuidResult = UUID.fromString(result)
-                saveOrderCancellation(uuidResult)
-                Log.d("I am here", "in here in activity for order confirmation")
+//                saveOrderCancellation(uuidResult)
+                myHelper.sendOrderConfirmationMessage(result,user1, user2)
+                Log.d("I am here", "in here in activity for order confirmation")*/
             }
         }
     }
@@ -327,11 +309,11 @@ class Chat : AppCompatActivity() {
         map["time"] = time
         reference1.push().setValue(map)
         reference2.push().setValue(map)
-        sendMessageBroadCast("An Order Saved", time, user2)
+//        sendMessageBroadCast("An Order Saved", time, user2)
         var lastMessage = "An Order Saved"
         //this way broadcast will update the home screen chat when this user sends a message and
         //realtime db listener will update the home screen chat when the user2 sends a message
-        updateChats(user2, time, lastMessage, user1)
+        myHelper.updateLastMessages(user2, time, lastMessage, user1)
     }
 
     fun addOrderBox(orderID: String, type: Int, time: HashMap<String, Any>) {
@@ -386,16 +368,21 @@ class Chat : AppCompatActivity() {
             val v1 = it
             //check if the user1 is the guy who sent this message,if so send him to Order Sent
             //So if type is 1 then send to orderSent
-            //otherwise send him to orderConfirmed
+            //otherwise send him to orderReceived1
             if (type == 1) {
                 val intent = Intent(this@Chat, orderSent::class.java)
                 val orderID: String = v1.getTag(R.id.myOrderId) as String
                 intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2", user2)
                 startActivityForResult(intent, LAUNCH_ORDER_SENT)
             } else {
-                val intent = Intent(this@Chat, orderConfirmed::class.java)
+                val intent = Intent(this@Chat, orderReceived0::class.java)
+                //order confirmed is basically order received
                 val orderID: String = v1.getTag(R.id.myOrderId) as String
                 intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2", user2)
                 startActivityForResult(intent, LAUNCH_ORDER_CONFIRMED)
             }
         })
@@ -445,12 +432,14 @@ class Chat : AppCompatActivity() {
             if (type == 1) {
                 //TYPE 1 MEANS the user who sent this message is looking at it
                 //so the order confirmed box is sent by the supplier
-                //so if he clicks at it, he should be taken to invoice
+                //so if he clicks at it, he should be taken to invoiceuser1
 
                 Log.d("launching Invoice", "hi")
-                val intent = Intent(this@Chat, invoice::class.java)
+                val intent = Intent(this@Chat, invoiceuser1::class.java)
                 val orderID: String = v1.getTag(R.id.myOrderId) as String
                 intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2",user2)
                 startActivityForResult(intent, LAUNCH_INVOICE)
             } else {
                 //take the buyer to go to myOrders, which is not yet implemented
@@ -460,50 +449,51 @@ class Chat : AppCompatActivity() {
 //                startActivityForResult(intent,LAUNCH_MYORDERS)
                 Log.d("launching Invoice", "bye")
 //                here order cancel will be launched
-                val intent = Intent(this@Chat, orderCancel::class.java)
+                val intent = Intent(this@Chat, invoiceUser2::class.java)
                 val orderID: String = v1.getTag(R.id.myOrderId) as String
                 intent.putExtra("orderID", orderID)
+                intent.putExtra("user1",user1)
+                intent.putExtra("user2",user2)
                 startActivityForResult(intent, LAUNCH_ORDER_CANCEL)
-
             }
         })
         binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
         binding.scrollView.fullScroll(View.FOCUS_DOWN)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveOrderConfirmation(result: UUID) {
-        val map: MutableMap<String, Any> = HashMap()
-        val time = LocalDateTime.now()
-        map["orderID"] = result.toString()
-        map["user"] = user1
-        map["orderConfirmed"] = "true"
-        map["time"] = time
-        reference1.push().setValue(map)
-        reference2.push().setValue(map)
-        sendMessageBroadCast("An order Confirmed", time, user2)
-        var lastMessage = "An Order Saved"
-        //this way broadcast will update the home screen chat when this user sends a message and
-        //realtime db listener will update the home screen chat when the user2 sends a message
-        updateChats(user2, time, lastMessage, user1)
-    }
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private fun saveOrderConfirmation(result: UUID) {
+//        val map: MutableMap<String, Any> = HashMap()
+//        val time = LocalDateTime.now()
+//        map["orderID"] = result.toString()
+//        map["user"] = user1
+//        map["orderConfirmed"] = "true"
+//        map["time"] = time
+//        reference1.push().setValue(map)
+//        reference2.push().setValue(map)
+////        sendMessageBroadCast("An order Confirmed", time, user2)
+//        var lastMessage = "An Order Saved"
+//        //this way broadcast will update the home screen chat when this user sends a message and
+//        //realtime db listener will update the home screen chat when the user2 sends a message
+//        updateChats(user2, time, lastMessage, user1)
+//    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveOrderCancellation(result: UUID) {
-        val map: MutableMap<String, Any> = HashMap()
-        val time = LocalDateTime.now()
-        map["orderID"] = result.toString()
-        map["user"] = user1
-        map["orderCancelled"] = "true"
-        map["time"] = time
-        reference1.push().setValue(map)
-        reference2.push().setValue(map)
-        sendMessageBroadCast("An order Cancelled", time, user2)
-        var lastMessage = "An Order Cancelled"
-        //this way broadcast will update the home screen chat when this user sends a message and
-        //realtime db listener will update the home screen chat when the user2 sends a message
-        updateChats(user2, time, lastMessage, user1)
-    }
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private fun saveOrderCancellation(result: UUID) {
+//        val map: MutableMap<String, Any> = HashMap()
+//        val time = LocalDateTime.now()
+//        map["orderID"] = result.toString()
+//        map["user"] = user1
+//        map["orderCancelled"] = "true"
+//        map["time"] = time
+//        reference1.push().setValue(map)
+//        reference2.push().setValue(map)
+//        sendMessageBroadCast("An order Cancelled", time, user2)
+//        var lastMessage = "An Order Cancelled"
+//        //this way broadcast will update the home screen chat when this user sends a message and
+//        //realtime db listener will update the home screen chat when the user2 sends a message
+//        updateChats(user2, time, lastMessage, user1)
+//    }
 
     private fun setActionBar(phoneNumber: String) {
         val reference = FirebaseDatabase.getInstance().reference
@@ -527,19 +517,7 @@ class Chat : AppCompatActivity() {
         })
     }
 
-    //    @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendMessageBroadCast(
-        lastMessageText: String,
-        lastMessageTime: LocalDateTime,
-        user2: String
-    ) {
-        Log.d("receiverinChat", "hello")
-        val intent = Intent("lastMessageData")
-        intent.putExtra("lastMessageTime", lastMessageTime.toString())
-        intent.putExtra("lastMessageText", lastMessageText)
-        intent.putExtra("user2", user2)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }
+
 
     private fun getTime(time: HashMap<String, Any>): String {
         var myTime =
@@ -547,41 +525,6 @@ class Chat : AppCompatActivity() {
         return myTime
     }
 
-    //    @RequiresApi(Build.VERSION_CODES.O)
-    private fun updateChats(
-        user2: String,
-        time: LocalDateTime,
-        lastMessage: String,
-        user1: String
-    ) {
-
-        var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user2
-        )
-        var myReference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
-            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user1
-        )
-
-        val map1: MutableMap<String, Any> = HashMap()
-
-        map1["sentByUser"] = user1
-        map1["sentByUserName"] = user1Name
-        map1["time"] = time
-        map1["lastSentOrReceivedMessage"] = lastMessage
-//
-//        val map2: MutableMap<String, Any> = HashMap()
-//        map2["sentByUser"] = user1
-//        map2["sentByUserName"] = user1Name
-//        map2["time"] = time
-//        map2["lastSentOrReceivedMessage"] = lastMessage
-
-        //this seems counter intuitive as to why there is no user2Name here, but thats because
-        //this guy is responsible to just change the db whenever it sends a message and then
-        //it updates that to both user1 and user2
-        //need to make sure this stuff is there in the init
-        myReference1.child(user1).child("lastMessageDetails").updateChildren(map1)
-        myReference2.child(user2).child("lastMessageDetails").updateChildren(map1)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu_chat, menu)

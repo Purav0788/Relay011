@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".orderConfirmed2">
+    android:onClick="confirmOrder"
+    tools:context=".orderReceived1">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/_sellerName"
         android:layout_width="323dp"
         android:layout_height="63dp"
         android:layout_marginTop="4dp"
@@ -20,60 +21,53 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="371dp"
-        android:layout_height="80dp"
+        android:layout_width="409dp"
+        android:layout_height="121dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/confirmOrder"
+        android:id="@+id/button11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginRight="148dp"
         android:layout_marginBottom="16dp"
         android:onClick="confirmOrder"
         android:text="Confirm Order"
         android:textColor="#0B0000"
         app:backgroundTint="#FAF8F8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView6"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
-        android:layout_width="364dp"
-        android:layout_height="270dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_width="411dp"
+        android:layout_height="298dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="83dp">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_height="526dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
             android:isScrollContainer="false">
 
             <RelativeLayout
-                android:id="@+id/orders"
+                android:id="@+id/orderList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:isScrollContainer="false">
 
             </RelativeLayout>
+
         </ScrollView>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -86,6 +80,18 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+        <TextView
+            android:id="@+id/deliveryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery Date" />
+
+        <TextView
+            android:id="@+id/_orderId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order ID" />
 
         <TextView
             android:id="@+id/textView9"
@@ -114,25 +120,26 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView13"
-        android:layout_width="134dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="52dp"
+        android:id="@+id/textView11"
+        android:layout_width="143dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
         android:text="Total Price"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/totalPrice"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
+    <EditText
         android:id="@+id/totalPrice"
-        android:layout_width="114dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginRight="88dp"
+        android:layout_width="97dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        android:text="0"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

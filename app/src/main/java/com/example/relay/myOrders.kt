@@ -296,7 +296,7 @@ class myOrders : AppCompatActivity() {
                                                                     userSnapshotItem.child("name").value.toString()
                                                             orderUser2Name = user2Name
                                                             //handling the case that this should only show the final order
-                                                            //which is either orderConfirmed or Awaiting Order Confirmed
+                                                            //which is either orderReceived1 or Awaiting Order Confirmed
                                                             //it is showing one for each order message for now
                                                             //whenever the orderStatus is higher than the message status
                                                             //then continue

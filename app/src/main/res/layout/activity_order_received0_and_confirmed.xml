@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="30dp"
-                android:text="Order Cancelled"
+                android:text="Order Sent"
                 android:textColor="#FFFFFF"
                 android:textSize="24dp">
 
@@ -85,7 +85,7 @@
                 android:text="Name of Seller" />
 
             <TextView
-                android:id="@+id/_orderId"
+                android:id="@+id/_orderID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="OrderID" />
@@ -134,6 +134,12 @@
 
                 </TextView>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/_confirmed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirmed" />
         </LinearLayout>
 
 
@@ -232,6 +238,14 @@
                 android:gravity="center"
                 android:text="Total items displayed here"
                 android:textSize="12dp"></TextView>
+
+            <Button
+                android:id="@+id/_cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="cancelOrder"
+                android:text="Cancel Order" />
+
 
         </LinearLayout>
 

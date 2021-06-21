@@ -11,28 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Relay">
+        <activity android:name=".invoiceUser2"></activity>
+        <activity android:name=".orderReceived0" />
         <activity android:name=".myOrders" />
         <activity android:name=".orderCancel" />
         <activity android:name=".ChangeName" />
         <activity android:name=".ChangeBusinessName" />
         <activity android:name=".settings" />
-        <activity android:name=".orderConfirmed2" />
-        <activity android:name=".invoice" />
-        <activity android:name=".orderConfirmed" />
+        <activity android:name=".invoiceuser1" />
+        <activity android:name=".orderReceived1" />
         <activity android:name=".orderSent" />
-        <activity android:name=".orderDetails" >
-
-        </activity>
-        <activity android:name=".orderList" >
-
-        </activity>
-        <activity android:name=".Chat">
-
-        </activity>
+        <activity android:name=".orderDetails" />
+        <activity android:name=".orderList" />
+        <activity android:name=".Chat" />
         <activity android:name=".verifyPhoneNumber" />
-        <activity android:name=".homeScreen" >
-
-        </activity>
+        <activity android:name=".homeScreen" />
         <activity android:name=".getCustomerDetails" />
         <activity android:name=".LoginByNumber" />
         <activity android:name=".MainActivity">

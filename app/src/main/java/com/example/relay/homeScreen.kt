@@ -44,32 +44,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         private const val SELECT_PHONE_NUMBER = 111
     }
 
-//    private val lastChatMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        @RequiresApi(Build.VERSION_CODES.O)
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            //get the item which is the user2 chatlist item and update that item and then put that item on
-//            //the first of this chatslist and datasetnotified
-//            val user2 = intent!!.getStringExtra("user2")!!
-//            val lastMessage = intent.getStringExtra("lastMessageText")!!
-//            val lastMessageTime = intent.getStringExtra("lastMessageTime")!!
-//            lateinit var user2Name: String
-//            val iterator = chatsList.listIterator()
-//            //assumption is that all the names are in chat and thus user2Name will always be populate, which
-//            //may not be true
-//            while (iterator.hasNext()) {
-//                val it = iterator.next()
-//                if (it.getphoneNumber() == user2) {
-//                    user2Name = it.getName()
-//                    iterator.remove()
-//                }
-//            }
-//            val chatItem =
-//                    myDataClass(LocalDateTime.parse(lastMessageTime), lastMessage, user2Name, user2)
-//            chatsList.add(0, chatItem)
-//            adapter.notifyDataSetChanged()
-//            Log.d("receiver", "in my tempreceiver")
-//        }
-//    }
 
     private val businessNameChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -84,22 +58,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
 //            _yourName.setText(userName)
         }
     }
-
-//    private lateinit var originalAddContactNumber: String
-
-//    var receiver2:BroadcastReceiver =object: BroadcastReceiver(){
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            // Unregister self right away
-//            context!!.unregisterReceiver(this);
-//
-//            // Component will hold the package info of the app the user chose
-//            var component = intent!!.getParcelableExtra<ComponentName>(Intent.EXTRA_CHOSEN_COMPONENT);
-//            for (key in intent.extras!!.keySet()) {
-//                Log.d(javaClass.simpleName, " " + intent.extras!![key])
-//                Log.d("register","I am here")
-//            }
-//        }
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,20 +87,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         tILSearchView.setEndIconOnClickListener {
             Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
         }
-
-
-        //the idea is not to actually add the contact but rather to get the number
-        // which the user wants to add to the app
-        //my change starts from here, lets see if it works
-
-//        try{
-//            val reference = FirebaseDatabase.getInstance().reference
-//            val query: Query = reference.homeScreen("users")
-//                    .orderByChild("phone_number").equalTo(mobile)
-//
-//        } catch(e:FirebaseException){
-//
-//        }
         setActionBar(user1)
 //        applicationContext.registerReceiver(receiver2, IntentFilter("SHARE_ACTION"));
 //        LocalBroadcastManager.getInstance(this)
@@ -153,16 +97,7 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
             .registerReceiver(userNameChangeReceiver, IntentFilter("changedUserName"))
     }
 
-//    private fun hideSearchView() {
-//        tILSearchView.visibility = View.GONE
-//        imageButton4.visibility = View.VISIBLE
-//        tvMyNetwork.visibility = View.VISIBLE
-//    }
-//
-//    private fun showSearchView() {
-//        imageButton4.visibility = View.VISIBLE
-//        tvMyNetwork.visibility = View.VISIBLE
-//    }
+
 
 
     override fun onDestroy() {
@@ -196,11 +131,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
 
     private fun refreshData(myUser: DataSnapshot) {
         _yourBusinessName.text = myUser.child("business_name").value.toString()
-//        _yourName.text = myUser.child("name").value.toString()
-//        _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
-        //because on resume even gets called when the activity starts for the first time, we dont need to load data here
-        //because on resume is already loading the data here
-//        loadAllPastChats(user1)
     }
 
     fun createChat(view: View) {
@@ -277,14 +207,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
             map["user"] = user1
             map["message"] = " "
 
-            //whoever is the initializing user sends the first message
-//need to change some stuff here, for fetching the name as the user initializes
-            //basically loadAllpastchats , reinit the chatslist tehre and then add that stuff from loadall past chats
-            //and here attach listener on reference1.push() then run the loadallpast chats
-
-            //will need to make several of these requests atomic down the line like makeUser and these re
-            //reference1 push etc
-
             reference1.push().setValue(map)
             reference2.push().setValue(map)
         }
@@ -294,10 +216,6 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         makeUser1InUser2Chat(user1, user2)
         //add the newly initiated chat to the user chat
 
-        //here if one removes the " " value , then it would mean chat has initialzied in the chats but
-        //but there wont be any message or even the parent key in the messages
-        //which is bad, while it will still work, but things can indeed crash and its just
-        //bad stuff
     }
 
     fun openChat(user1: String, user2: String) {
@@ -306,26 +224,12 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         intent.putExtra("user2", user2)
         intent.putExtra("user1Name", _yourBusinessName.text)
         startActivity(intent)
-//        val reference = FirebaseDatabase.getInstance().reference
-//        val query: Query = reference.child("users").child(user1)
-//        query.addListenerForSingleValueEvent(object : ValueEventListener {
-//            @RequiresApi(Build.VERSION_CODES.O)
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    var user1Name = dataSnapshot.child("name").value.toString()
-//                    Log.d("user1Name", user1Name)
-//
-//                } else {}
-//            }
-//            override fun onCancelled(databaseError: DatabaseError) {}
-//        })
-
     }
 
 
-    fun reloadChat(user1: String, user2: String) {
+/*    fun reloadChat(user1: String, user2: String) {
         openChat(user1, user2)
-    }
+    }*/
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -338,14 +242,11 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         var time = LocalDateTime.now()
         val map1: MutableMap<String, Any> = HashMap()
         map1["sentByUser"] = user1
-//        map1["sentByUserName"] = _yourName.text
         map1["lastSentOrReceivedMessage"] = " "
         map1["time"] = time
         map["lastMessageDetails"] = map1
-//        map["lastMessageDetails"] = map1
         myChatRef.child(user1).child(user2).setValue(map)
-//        myChatRef.child(user1).child(user2).child("lastMessageDetails").setValue(map1)
-        //rather than
+
     }
 
 
@@ -398,24 +299,18 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun makeUser1InUser2Chat(user1: String, user2: String) {
-        Log.d("arpan", "i am here")
         val reference = FirebaseDatabase.getInstance().reference
         val chatRef = reference.child("chats")
         val map: MutableMap<String, Any> = HashMap()
         var time = LocalDateTime.now()
         val map1: MutableMap<String, Any> = HashMap()
         map1["sentByUser"] = user1
-//        map1["sentByUserName"] = _yourName.text
         map1["lastSentOrReceivedMessage"] = " "
         map1["time"] = time
-//        map["lastMessageDetails"] = map1
+
         map["user2"] = user1
         map["lastMessageDetails"] = map1
         chatRef.child(user2).child(user1).setValue(map)
-//        chatRef.child(user2).child(user1).child("lastMessageDetails").setValue(map1)
-//        myChatRef.child(user2).setValue(map)
-//        myChatRef.child(user2).child("lastMessageDetails").setValue(map)
-
     }
 
     private fun onWhatsAppClick(phone: String) {
@@ -491,30 +386,9 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         startActivity(intent)
     }
 
-    private fun findUserInDbAndRefreshData2(phoneNumber: String) {
-        val reference = FirebaseDatabase.getInstance().reference
-        val query: Query =
-            reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
-                    for (user in dataSnapshot.children) {
-                        // do something with the individual "user"
-                        refreshData2(user)
-                    }
-                } else {
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
 
     private fun refreshData2(myUser: DataSnapshot) {
         _yourBusinessName.text = myUser.child("business_name").value.toString()
-//        _yourName.text = myUser.child("name").value.toString()
-//        _yourPhoneNumber.text = myUser.child("phone_number").value.toString()
     }
 
 
@@ -572,9 +446,9 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateChatsListInUIThread(myDataClass: myDataClass) {
+    fun updateChatsListInUIThread(myChatData: myDataClass) {
         //hopefully this function gets called in the ui thread
-        chatsList.add(0, myDataClass)
+        chatsList.add(0, myChatData)
         adapter.notifyDataSetChanged()
     }
 
@@ -595,19 +469,7 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
             .setNegativeButton("No", dialogClickListener).show()
     }
 
-    //update chats whenever the last message sent by user2 is changed(not user 1 as its already detected(from broadcast)
-    //update chats whenever the name of a user2 is changed(still keep the chats sorted according to the message time)
-    //or some other user initiated a chat with user1, all three dimensions will need to detect
-    //set that listener in teh oncreate, which strictly runs on such an operation(and doesnt detect the initial values, or set them on loadall past chats
-    //but just detects changes
-    //i can put those listeners in between the already implemented single value event listeners, but that will be a pain
-    // should i change the db strucuture, nah lets not do that, its a pain to now update from other activities
-    //need to change the db and the calls related to that, I can remove those 3 listeners
-
-
     private fun detectChangeAndUpdateChats() {
-        //this guy is not reponsible to update the chat when this user sends a message, but rather it just listens t
-        //to when the other user sends a message
         var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/chats/"
         )
@@ -615,20 +477,13 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 if (dataSnapshot.exists()) {
-//                val map0 = dataSnapshot.value as Map<String, Any>
-                    //checking if the message is actually an order:
-                    //will need to fix makeUser1inUser2schat and vice versa as well
                     val map = dataSnapshot.value
                     Log.d("myMap", map.toString())
                     val map1 = dataSnapshot.child("lastMessageDetails").value as HashMap<Any, Any>
-//                    datasnapshot.child("time").value as HashMap<Any, Any>
                     val user2 = dataSnapshot.child("user2").value.toString()
-//                val user2Name = map["sentByUserName"].toString()
                     val timeHashMap = map1["time"] as HashMap<Any, Any>
                     val lastMessageTime = getLocalDateTime(timeHashMap)
                     val lastSentOrReceivedMessage = map1["lastSentOrReceivedMessage"].toString()
-
-
                     val reference = FirebaseDatabase.getInstance().reference
                     val query: Query = reference.child("users")
                         .orderByChild("phone_number").equalTo(user2)
@@ -656,6 +511,7 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
                                 }
                             }
                         }
+
                     })
                 }
             }
@@ -665,18 +521,17 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
                 dataSnapshot: DataSnapshot,
                 s: String?
             ) {
+                //last Sent or Received Message Changed
                 val map = dataSnapshot.value as Map<String, Any>
-                //checking if the message is actually an order:
-                //will need to fix makeUser1inUser2schat and vice versa as well
                 val map1 = map["lastMessageDetails"] as Map<String, Any>
-
                 val user2 = map["user2"].toString()
-//                val user2Name = map["sentByUserName"].toString()
+//                val sentBYUserName = map1["sentByUserName"].toString()
+   /*             Log.d("user2Nameanhi", user2Name)
+                Log.d("user2abhi", user2)*/
                 val timeHashMap = map1["time"] as HashMap<Any, Any>
                 val lastMessageTime = getLocalDateTime(timeHashMap)
                 val lastSentOrReceivedMessage = map1["lastSentOrReceivedMessage"].toString()
-
-                sendMessageBroadCast(lastSentOrReceivedMessage, lastMessageTime, user2)
+                updateChats(user2, lastSentOrReceivedMessage, lastMessageTime)
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
@@ -694,18 +549,24 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendMessageBroadCast(
-        lastMessageText: String,
-        lastMessageTime: LocalDateTime,
-        user2: String
-    ) {
-        Log.d("receiverinChat", "hello")
-        val intent = Intent("lastMessageData")
-        intent.putExtra("lastMessageTime", lastMessageTime.toString())
-        intent.putExtra("lastMessageText", lastMessageText)
-        intent.putExtra("user2", user2)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    private fun updateChats(user2: String, lastSentOrReceivedMessage:String, lastMessageTime: LocalDateTime) {
+        var myIndex:Int = 0
+        var user2Name:String = ""
+        chatsList.forEachIndexed{index, myChatData -> if(user2 == myChatData.getphoneNumber()){
+        myIndex = index
+            user2Name = myChatData.getName()
+        }
+       }
+        chatsList.removeAt(myIndex)
+        chatsList.add(0,myDataClass(
+            lastMessageTime,
+            lastSentOrReceivedMessage,
+            user2Name,
+            user2
+        ))
+        adapter.notifyDataSetChanged()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu_home, menu)
@@ -768,5 +629,4 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
         }
         return super.dispatchTouchEvent(event)
     }
-    
 }
