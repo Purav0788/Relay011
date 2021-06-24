@@ -7,7 +7,7 @@
     tools:context=".orderCancel">
 
     <TextView
-        android:id="@+id/_sellerName"
+        android:id="@+id/_buyerName"
         android:layout_width="323dp"
         android:layout_height="63dp"
         android:layout_marginTop="4dp"
@@ -34,7 +34,7 @@
         android:layout_marginRight="4dp"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_sellerName"
+        app:layout_constraintTop_toBottomOf="@+id/_buyerName"
         app:layout_constraintVertical_bias="0.0">
 
         <ScrollView

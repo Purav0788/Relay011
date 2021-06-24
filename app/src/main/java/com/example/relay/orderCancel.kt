@@ -1,6 +1,5 @@
 package com.example.relay
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +7,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.order_confirm_list_item.view.*
 import java.util.ArrayList
@@ -44,20 +42,31 @@ class orderCancel : AppCompatActivity() {
                 var unit:String = ""
                 var count = 0;
                 var priceNumber:Int = 0
+                var totalPrice:Long = 0
                 for(i in listOfUnitPricesSnapshot.children){
                     if(i != null){
                         var t = i.value as Long
+                        totalPrice += t
                         listOfUnitPrices.add(t)
                         Log.d("t", "${t}")
                     }
                 }
+
                 if(listOfUnitPrices.size !=0 ){
                     setContentView(R.layout.activity_order_cancel_and_confirmed)
+                    setUpTotalPrice(totalPrice.toString())
                     //if the user cancelled the order before confirming
                     //listofUnitPrices will be null from the database
-                    setUpSellerName(snapshot.child("orderTo").value.toString())
+                    if(user1 == snapshot.child("orderTo").value.toString()){
+                        //received from
+                        setUpBuyerName(snapshot.child("orderFrom").value.toString())
+                    }else{
+                        //sold to
+                        setUpSellerName(snapshot.child("orderTo").value.toString())
+                    }
                     setUpOrderID()
                     setUpCancellerName(snapshot.child("orderCancelledBy").value.toString())
+
                     var deliveryAddress = findViewById(R.id.deliveryAddress) as TextView
                     deliveryAddress.setText(address.toString())
                     var orderNotes = findViewById(R.id.orderNotes) as TextView
@@ -80,6 +89,7 @@ class orderCancel : AppCompatActivity() {
                     setContentView(R.layout.activity_order_cancel)
                     //TODO set up the rest of this stuff like order sent,
                     setUpCommonData(snapshot)
+
                    // in that case dynamically show received from
                     //orderTo and the user1 match then show the Received from orderFrom
                     //if they dont match show the sent to orderTO
@@ -151,7 +161,7 @@ class orderCancel : AppCompatActivity() {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val textView = findViewById(R.id._sellerName) as TextView
+                        val textView = findViewById(R.id._buyerName) as TextView
                         textView.text = user.child("business_name").value as String
                     }
                 } else {
@@ -211,7 +221,7 @@ class orderCancel : AppCompatActivity() {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val textView = findViewById(R.id._sellerName) as TextView
+                        val textView = findViewById(R.id._buyerName) as TextView
                         textView.text = user.child("business_name").value as String
                     }
                 } else {
@@ -224,5 +234,10 @@ class orderCancel : AppCompatActivity() {
     private fun setUpTotalItems(count:Int){
         val textView4 = findViewById(R.id.items) as TextView
         textView4.text = count.toString()
+    }
+
+    private fun setUpTotalPrice(totalPrice:String){
+        val textView4 = findViewById(R.id.totalPrice) as TextView
+        textView4.text = totalPrice.toString()
     }
 }

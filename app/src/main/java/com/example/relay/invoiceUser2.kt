@@ -68,6 +68,7 @@ class invoiceUser2 : AppCompatActivity() {
                 var orderNotes = findViewById(R.id.orderNotes) as TextView
                 orderNotes.setText(notes.toString())
                 setUpOrderID()
+                setUpCancellerName(snapshot.child("orderCancelledBy").value.toString())
                 var orderList: DataSnapshot = snapshot.child("orderList")
                 val delimiter = "#"
                 var orderName = ""
@@ -138,7 +139,7 @@ class invoiceUser2 : AppCompatActivity() {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val textView = findViewById(R.id._sellerName) as TextView
+                        val textView = findViewById(R.id._buyerName) as TextView
                         textView.text = user.child("business_name").value as String
                     }
                 } else {
@@ -175,5 +176,29 @@ class invoiceUser2 : AppCompatActivity() {
     private fun setUpTotalItems(count:Int){
         val textView4 = findViewById(R.id.items) as TextView
         textView4.text = count.toString()
+    }
+
+    private fun setUpCancellerName(cancellerNumber:String){
+        Log.d("cancellerNumber", cancellerNumber)
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(cancellerNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        Log.d("here","hi")
+                        val textView = findViewById<TextView>(R.id._cancellerName)
+                        val cancellerName = user.child("business_name").value as String
+                        Log.d("cancellerName",cancellerName)
+                        textView.text =  cancellerName
+                    }
+                } else {
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 }

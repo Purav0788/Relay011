@@ -79,7 +79,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/_sellerName"
+                android:id="@+id/_buyerName"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:text="Name of Seller" />

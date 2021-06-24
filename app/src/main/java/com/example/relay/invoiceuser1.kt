@@ -61,13 +61,14 @@ class invoiceuser1 : AppCompatActivity() {
                 var deliveryDate = snapshot.child("deliveryDate").value
                 val textView = findViewById(R.id.deliveryDate) as TextView
                 textView.text= deliveryDate.toString()
-                setUpSellerName(snapshot.child("orderTo").value.toString())
+                setUpBuyerName(snapshot.child("orderFrom").value.toString())
                 var listOfUnitPricesSnapshot = snapshot.child("listOfUnitPrices")
                 var deliveryAddress = findViewById(R.id.deliveryAddress) as TextView
                 deliveryAddress.setText(address.toString())
                 var orderNotes = findViewById(R.id.orderNotes) as TextView
                 orderNotes.setText(notes.toString())
                 setUpOrderID()
+                setUpCancellerName(snapshot.child("orderCancelledBy").value.toString())
                 var orderList: DataSnapshot = snapshot.child("orderList")
                 val delimiter = "#"
                 var orderName = ""
@@ -95,6 +96,7 @@ class invoiceuser1 : AppCompatActivity() {
                     }
                 }
                 setUpTotalItems(count)
+
             }
         })
     }
@@ -128,7 +130,7 @@ class invoiceuser1 : AppCompatActivity() {
         textView.text = fakeOrderID.toString()
     }
 
-    private fun setUpSellerName(phoneNumber:String) {
+    private fun setUpBuyerName(phoneNumber:String) {
         val reference = FirebaseDatabase.getInstance().reference
         val query: Query =
             reference.child("users").orderByChild("phone_number").equalTo(phoneNumber)
@@ -138,7 +140,7 @@ class invoiceuser1 : AppCompatActivity() {
                     // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                     for (user in dataSnapshot.children) {
                         // do something with the individual "user"
-                        val textView = findViewById(R.id._sellerName) as TextView
+                        val textView = findViewById(R.id._buyerName) as TextView
                         textView.text = user.child("business_name").value as String
                     }
                 } else {
@@ -147,6 +149,8 @@ class invoiceuser1 : AppCompatActivity() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     public fun _cancelOrder(){
@@ -175,5 +179,30 @@ class invoiceuser1 : AppCompatActivity() {
     private fun setUpTotalItems(count:Int){
         val textView4 = findViewById(R.id.items) as TextView
         textView4.text = count.toString()
+    }
+
+    private fun setUpCancellerName(cancellerNumber:String){
+        Log.d("dev", cancellerNumber)
+        Log.d("cancellerNumber", cancellerNumber)
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(cancellerNumber)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        // do something with the individual "user"
+                        Log.d("here","hi")
+                        var textView = findViewById<TextView>(R.id._cancellerName)
+                        var cancellerName = user.child("business_name").value as String
+                        Log.d("dev2",cancellerName)
+                        textView.text =  cancellerName
+                    }
+                } else {
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 }

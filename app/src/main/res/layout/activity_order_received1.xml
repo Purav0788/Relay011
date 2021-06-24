@@ -8,7 +8,7 @@
     tools:context=".orderReceived1">
 
     <TextView
-        android:id="@+id/_sellerName"
+        android:id="@+id/_buyerName"
         android:layout_width="323dp"
         android:layout_height="63dp"
         android:layout_marginTop="4dp"
@@ -44,8 +44,8 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="411dp"
         android:layout_height="298dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="83dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/_buyerName">
 
         <ScrollView
             android:layout_width="match_parent"

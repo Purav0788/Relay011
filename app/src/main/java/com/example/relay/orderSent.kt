@@ -142,7 +142,7 @@ class orderSent : AppCompatActivity() {
                         // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
                         for (user in dataSnapshot.children) {
                             // do something with the individual "user"
-                            val textView = findViewById(R.id._sellerName) as TextView
+                            val textView = findViewById(R.id._buyerName) as TextView
                             textView.text = user.child("business_name").value as String
                         }
                     } else {

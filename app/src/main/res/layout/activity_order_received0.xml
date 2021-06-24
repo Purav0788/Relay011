@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="30dp"
-                android:text="Order Sent"
+                android:text="Order Received"
                 android:textColor="#FFFFFF"
                 android:textSize="24dp">
 
@@ -79,7 +79,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/_sellerName"
+                android:id="@+id/_buyerName"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:text="Name of Seller" />
