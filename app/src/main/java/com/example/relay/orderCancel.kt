@@ -75,6 +75,7 @@ class orderCancel : AppCompatActivity() {
                             priceNumber++
                         }
                     }
+                    setUpTotalItems(count)
                 }else if(listOfUnitPrices.size ==0){
                     setContentView(R.layout.activity_order_cancel)
                     //TODO set up the rest of this stuff like order sent,
@@ -218,5 +219,10 @@ class orderCancel : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    private fun setUpTotalItems(count:Int){
+        val textView4 = findViewById(R.id.items) as TextView
+        textView4.text = count.toString()
     }
 }

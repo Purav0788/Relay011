@@ -1,5 +1,7 @@
 package com.example.relay
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -92,6 +94,7 @@ class invoiceUser2 : AppCompatActivity() {
                         priceNumber++
                     }
                 }
+                setUpTotalItems(count)
             }
         })
     }
@@ -146,8 +149,31 @@ class invoiceUser2 : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    public fun cancelOrder(view:View){
-        myHelper.sendOrderCancellationMessage(orderID,user1,user2)
+    public fun _cancelOrder(){
+
+        myHelper.sendOrderCancellationMessage(orderID,user1, user2)
         finish()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun cancelOrder(view:View){
+        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    _cancelOrder()
+                }
+                DialogInterface.BUTTON_NEGATIVE -> {
+                }
+            }
+        }
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@invoiceUser2)
+        builder.setMessage("Do you want to cancel the order?")
+            .setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener).show()
+    }
+
+    private fun setUpTotalItems(count:Int){
+        val textView4 = findViewById(R.id.items) as TextView
+        textView4.text = count.toString()
     }
 }

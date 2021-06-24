@@ -134,6 +134,11 @@
 
                 </TextView>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/_cancellerName"
+                android:layout_width="match_parent"
+                android:layout_height="35dp" />
         </LinearLayout>
 
 

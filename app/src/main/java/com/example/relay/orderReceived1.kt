@@ -99,14 +99,19 @@ class orderReceived1 : AppCompatActivity() {
         unitPrice.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
-                totalPrice = totalPrice + s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
-                var totalPriceView = findViewById(R.id.totalPrice) as EditText
-                totalPriceView.setText(totalPrice.toString())
+                if(!s.isEmpty()){
+                    totalPrice = totalPrice + s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
+                    var totalPriceView = findViewById(R.id.totalPrice) as EditText
+                    totalPriceView.setText(totalPrice.toString())
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int,
                                            count: Int, after: Int) {
-                totalPrice = totalPrice - s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
+                if(!s.isEmpty()){
+                    totalPrice = totalPrice - s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
+                }
+
             }
 
             override fun onTextChanged(s: CharSequence, start: Int,

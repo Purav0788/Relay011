@@ -172,6 +172,7 @@ class orderList : AppCompatActivity() {
                         setUpItem(orderName, unit)
                     }
                 }
+
             }
         })
 
