@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="317dp"
+    android:layout_height="81dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_blue">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete 2 selected orders ?"
+            android:textSize="14dp"
+            android:textColor="#615D5D"
+            android:fontFamily="@font/inter_semibold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"/>
+        <RelativeLayout
+            android:layout_width="82dp"
+            android:layout_height="23dp"
+            android:background="@drawable/rectangle_64"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="59dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:textSize="14dp"
+                android:fontFamily="@font/inter_medium"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="82dp"
+            android:layout_height="23dp"
+            android:background="@drawable/rectangle_64"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="185dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:textSize="14dp"
+                android:fontFamily="@font/inter_medium"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
