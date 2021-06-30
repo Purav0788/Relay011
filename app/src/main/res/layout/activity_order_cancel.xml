@@ -1,247 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
-    tools:context=".orderCancel">
-
-    <LinearLayout
+    android:background="#E5E5E5">
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_height="60dp"
+        android:background="#0752AD">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#6200ed"
-            android:orientation="horizontal">
-            <!--            <ImageView-->
-            <!--                android:layout_width="30dp"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:src="@drawable/ic_baseline_arrow_back_24"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:layout_marginLeft="15dp"></ImageView>-->
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_marginTop="20dp"
+                />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Order Cancelled"
-                android:textColor="#FFFFFF"
-                android:textSize="24dp">
-
-            </TextView>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/deliveryD"
-                android:layout_width="396dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_vertical"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:text="Delivery Date:"
-                android:textSize="18dp">
-
-            </TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/deliveryDate"
-                    android:layout_width="396dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:gravity="center_vertical"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:text="Delivery Date will be displayed here"
-                    android:textSize="18dp">
-
-                </TextView>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/_buyerName"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:text="Name of Seller" />
-
-            <TextView
-                android:id="@+id/_orderId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="OrderID" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/order1"
-                android:layout_width="396dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_vertical"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:text="Order:"
-                android:textSize="18dp">
-
-            </TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000">
-                </TextView>
-
-                <TextView
-                    android:id="@+id/order"
-                    android:layout_width="396dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:gravity="center_vertical"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:text="Order will be displayed here."
-                    android:textSize="18dp">
-
-                </TextView>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/_cancellerName"
-                android:layout_width="match_parent"
-                android:layout_height="35dp" />
-
-        </LinearLayout>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000">
-        </TextView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Delivery Address"
-                android:gravity="center">
-            </TextView>
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_semibold"
                 android:layout_marginTop="12dp"
-                android:gravity="center_horizontal"
-                android:text="The Address is displayed here">
-
-            </TextView>
+                android:textSize="20dp"
+                android:layout_marginLeft="36dp"
+                />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginTop="12dp"
-                android:text="Order Notes"
-                android:gravity="center">
-            </TextView>
+                android:text="By Aggarwal Suppliers"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="12dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="37dp"
+                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_chat_bubble_outline_24"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="21dp"/>
 
-            <TextView
-                android:id="@+id/notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="Order Notes displayed here"
-                android:textSize="12dp">
-            </TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000">
-            </TextView>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginTop="12dp"
-                android:text="Total Items"
-                android:gravity="center">
-            </TextView>
-
-            <TextView
-                android:id="@+id/items"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="Total items displayed here"
-                android:textSize="12dp"></TextView>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        </RelativeLayout>
 
 
-</ScrollView>
+
+
+    </androidx.appcompat.widget.Toolbar>
+</RelativeLayout>
