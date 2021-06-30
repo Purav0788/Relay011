@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingBottom="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/blue_circle">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/r_logo"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="49dp"
+        android:fontFamily="@font/roboto"
+        android:text="Relay"
+        android:textColor="#212121"
+        android:textSize="17dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="115dp"
+        android:fontFamily="@font/roboto"
+        android:text="now"
+        android:textColor="#212121"
+        android:textSize="17dp"
+        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:backgroundTint="@color/black"
+        app:cardCornerRadius="250dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="102dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="150dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Armida"
+        android:textColor="#212121"
+        android:textSize="19dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="16dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="This is a random text message."
+        android:textColor="#212121"
+        android:textSize="18dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginLeft="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="This is the second text but this one is longer beca..."
+            android:textColor="#212121"
+            android:textSize="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="102dp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="145dp"
+            android:fontFamily="@font/roboto_medium_italic"
+            android:text="confirmed order"
+            android:textStyle="italic"
+            android:textColor="#212121"
+            android:textSize="18dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DADADA"
+            android:layout_marginTop="185dp"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
