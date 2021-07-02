@@ -27,9 +27,9 @@
             android:text="@string/mr_gupta"
             android:textColor="@color/white"
             android:textSize="22sp"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_baseline_edit_24"
-            app:drawableTint="@color/white" />
+            android:textStyle="bold"/>
+            <!--app:drawableEndCompat="@drawable/ic_baseline_edit_24"
+            app:drawableTint="@color/white" />-->
     </androidx.appcompat.widget.Toolbar>
 
     <ViewAnimator

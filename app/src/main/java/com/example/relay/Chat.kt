@@ -72,8 +72,7 @@ class Chat : AppCompatActivity() {
                 var type = if (user == user1) 1 else 2
                 if (map["orderID"] != null) {
                     val orderID = map["orderID"].toString()
-                    // TODO: 6/12/2021 Change this to show time dynamically 
-                    addTime(time)
+                    // TODO: 6/12/2021 Change this to show time dynamically
                     if (map["orderCancelled"] == "true") {
                         addOrderCancelledBox(orderID, type, time)
                     } else if (map["orderConfirmed"] == "true") {
@@ -82,8 +81,8 @@ class Chat : AppCompatActivity() {
                         addOrderBox(orderID, type, time)
                     }
                 } else {
-                    val message = map["message"].toString()
-                    addMessageBox(message, type)
+
+                    addMessageBox(map, type)
                 }
             }
 
@@ -112,9 +111,15 @@ class Chat : AppCompatActivity() {
             sendMessage()
         }
 
+        setUser2PhoneNumber(user2)
+
     }
 
-    private fun addTime(time: HashMap<String, Any>) {
+    private fun setUser2PhoneNumber(user2:String){
+        val user2PhoneNumberView:TextView = findViewById(R.id.yourPhoneNumber) as TextView
+        user2PhoneNumberView.text = user2
+    }
+    private fun addDate(time: HashMap<String, Any>) {
         val date = getTime(time)
         val tvDate = TextView(this);
         tvDate.setTextColor(ContextCompat.getColor(this,R.color.white))
@@ -190,20 +195,43 @@ class Chat : AppCompatActivity() {
 
         bindingLayoutOrderStatusItemBinding.root.setTag(R.id.myOrderId, orderID)
         binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
-        binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.scrollView.post {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
     }
 
-    private fun addMessageBox(message: String?, type: Int) {
+    private fun addMessageBox(messageMap:Map<String, Any>, type: Int) {
+
+
+        val message = messageMap["message"].toString()
+        if(message == " "){
+            return
+        }
+        val messageTime : Map<String, Any> = messageMap["time"] as Map<String, Any>
+        val messageTimeHour = messageTime["hour"].toString()
+        val messageTimeMinute = messageTime["minute"].toString()
+        lateinit var hourAndMinute:String
+        if(messageTimeHour.toInt() > 12) {
+        hourAndMinute = (messageTimeHour.toInt()%12).toString() + ":"+messageTimeMinute + " p.m"
+        } else if(messageTimeHour.toInt() == 12){
+            hourAndMinute = messageTimeHour + ":"+messageTimeMinute + " p.m."
+        } else{
+            hourAndMinute = messageTimeHour + ":"+messageTimeMinute + " a.m."
+        }
 
         var viewBindingMessage: ViewBinding?
         if (type == 1) {
             viewBindingMessage =
                 LayoutMessageMineItemBinding.inflate(LayoutInflater.from(this@Chat))
             viewBindingMessage.tvMessageMine.text = message
+            viewBindingMessage.tvMessageTime.text = hourAndMinute
         } else {
             viewBindingMessage = LayoutMessageItemBinding.inflate(LayoutInflater.from(this@Chat))
             viewBindingMessage.tvMessage.text = message
+            viewBindingMessage.tvMessageTime.text = hourAndMinute
         }
+
+
 
         val lp2 = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -221,13 +249,16 @@ class Chat : AppCompatActivity() {
         viewBindingMessage.root.layoutParams = lp2
 //        //the layout1 and scrollview are ids of the parent elements
         binding.layout1.addView(viewBindingMessage.root)
-        binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.scrollView.post {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
+
     }
 
     //    @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage() {
         val messageText = binding.messageLayout.messageArea.text.toString()
-        if (messageText != "") {
+        if (!messageText.isBlank()) {
             val map: MutableMap<String, Any> = HashMap()
             val time = LocalDateTime.now()
             map["message"] = messageText
@@ -387,7 +418,9 @@ class Chat : AppCompatActivity() {
             }
         })
         binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
-        binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.scrollView.post {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
     }
 
     private fun addOrderConfirmedBox(orderID: String, type: Int, time: HashMap<String, Any>) {
@@ -458,7 +491,9 @@ class Chat : AppCompatActivity() {
             }
         })
         binding.layout1.addView(bindingLayoutOrderStatusItemBinding.root)
-        binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        binding.scrollView.post {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
     }
 
 //    @RequiresApi(Build.VERSION_CODES.O)

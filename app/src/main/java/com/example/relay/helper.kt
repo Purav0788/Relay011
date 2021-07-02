@@ -1,11 +1,23 @@
 package com.example.relay
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.order_confirm_list_item.view.*
 import java.time.LocalDateTime
+import java.util.*
 import kotlin.collections.HashMap
+import kotlin.collections.MutableMap
+import kotlin.collections.elementAt
+import kotlin.collections.set
 
 
 object myHelper {
@@ -17,8 +29,8 @@ object myHelper {
         var reference = FirebaseDatabase.getInstance().getReferenceFromUrl(
             "https://relay-28f2e-default-rtdb.firebaseio.com/orders/" + orderID
         )
-        val query:Query = reference
-        query.addListenerForSingleValueEvent(object:ValueEventListener {
+        val query: Query = reference
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
@@ -76,7 +88,7 @@ object myHelper {
         })
     }
 
-    public fun setOrderStatusCancelled(orderID:String, user1:String) {
+    public fun setOrderStatusCancelled(orderID: String, user1: String) {
         var orderCancelled: String = "true"
         val myMap: MutableMap<String, Any> = HashMap()
         var reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
@@ -84,8 +96,8 @@ object myHelper {
         )
         myMap["orderCancelled"] = orderCancelled
         myMap["orderCancelledBy"] = user1
-        val query:Query = reference1
-        query.addListenerForSingleValueEvent(object:ValueEventListener {
+        val query: Query = reference1
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
@@ -95,9 +107,9 @@ object myHelper {
                     Log.d("myOrderMap", myOrderMap.toString())
                     if (myOrderMap["orderCancelled"] == "false") {
                         reference1.updateChildren(myMap)
-                       /* val intent = Intent()
-                        intent.putExtra("result", orderID)
-                       *//* setResult(Activity.RESULT_OK, intent)
+                        /* val intent = Intent()
+                         intent.putExtra("result", orderID)
+                        *//* setResult(Activity.RESULT_OK, intent)
                         finish()*/
                     } else {
                         /*Toast.makeText(this@orderSent, "order is already cancelled once!",
@@ -107,6 +119,7 @@ object myHelper {
             }
         })
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     public fun sendOrderCancellationMessage2(orderID: String, user1: String, user2: String) {
         val map: MutableMap<String, Any> = HashMap()
@@ -132,8 +145,9 @@ object myHelper {
         updateLastMessages(user2, time, lastMessage, user1)
         setOrderStatusCancelled(orderID, user1)
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    public fun sendOrderConfirmationMessage(orderID:String, user1:String, user2:String) {
+    public fun sendOrderConfirmationMessage(orderID: String, user1: String, user2: String) {
         val map: MutableMap<String, Any> = HashMap()
         val time = LocalDateTime.now()
         map["orderID"] = orderID
@@ -157,4 +171,35 @@ object myHelper {
         //realtime db listener will update the home screen chat when the user2 sends a message
         updateLastMessages(user2, time, lastMessage, user1)
     }
+
+  /*  public fun addListItem(listOfUnitPrices: ArrayList<Long>, layoutID:Int, activity:Activity, orderName: String, quantity: Int, unit: String, priceNumber: Int) :Int{
+        var layout = layoutID
+          Log.d("confirm", " I am here in addlistitem")
+        val layoutInflater: LayoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        var parent = activity.findViewById<View>(R.id.orders) as RelativeLayout
+        val neu: View = layoutInflater.inflate(R.layout.order_confirm_list_item, parent, false)
+        neu.id = layoutID
+        var params = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.addRule(RelativeLayout.BELOW, layoutID - 1)
+        activity.runOnUiThread {
+            neu.layoutParams = params
+            parent.addView(neu)
+            neu.orderName.setText(orderName)
+            neu.orderQuantity.setText(quantity.toString())
+            neu.unit.setText(unit)
+            val unitPrice = neu.unitPrice as EditText
+            unitPrice.setText(listOfUnitPrices.elementAt(priceNumber).toString())
+            Log.d("price and quantity", listOfUnitPrices.elementAt(priceNumber).toString())
+            Log.d("quantity", quantity.toString())
+            Log.d("priceNumber", priceNumber.toString())
+            neu.itemPrice.setText((listOfUnitPrices.elementAt(priceNumber) * quantity).toString())
+        }
+        layout++
+        return layout
+    }*/
+
 }

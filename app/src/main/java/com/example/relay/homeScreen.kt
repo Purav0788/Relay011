@@ -253,7 +253,7 @@ class homeScreen : AppCompatActivity(), BottomNavigationView.OnNavigationItemSel
     fun isUser2InUser1sChat(user1: String, user2: String) {
         //whichever is not make that and update that
         val reference = FirebaseDatabase.getInstance().reference
-        val query: Query = reference.child("chats/$user1").orderByChild("username").equalTo(user2)
+        val query: Query = reference.child("chats/$user1").child(user2)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
