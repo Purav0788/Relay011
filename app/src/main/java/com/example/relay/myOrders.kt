@@ -13,16 +13,15 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+//import com.example.relay.R.layout.activity_my_orders
 import com.google.firebase.database.*
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,7 +46,7 @@ class myOrders : AppCompatActivity() {
 
     private fun setupDates() {
 
-        val startDateEditText = findViewById<View>(R.id.startDate) as EditText
+        val startDateEditText = findViewById<View>(R.id.startDate) as TextView
         val startDate =
                 OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myStartDateCalender.set(Calendar.YEAR, year)
@@ -66,7 +65,7 @@ class myOrders : AppCompatActivity() {
             }
         })
 
-        val endDateEditText = findViewById<View>(R.id.endDate) as EditText
+        val endDateEditText = findViewById<View>(R.id.endDate) as TextView
         val endDate =
                 OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myEndDateCalender.set(Calendar.YEAR, year)
@@ -88,7 +87,7 @@ class myOrders : AppCompatActivity() {
     }
 
     private fun updateStartDateLabel() {
-        val startDateEditText = findViewById<View>(R.id.startDate) as EditText
+        val startDateEditText = findViewById<View>(R.id.startDate) as TextView
         val myFormat = "dd/MM/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         startDateEditText.setText(sdf.format(myStartDateCalender.getTime()))
@@ -97,7 +96,7 @@ class myOrders : AppCompatActivity() {
     }
 
     private fun updateEndDateLabel() {
-        val endDateEditText = findViewById<View>(R.id.endDate) as EditText
+        val endDateEditText = findViewById<View>(R.id.endDate) as TextView
         val myFormat = "dd/MM/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         endDateEditText.setText(sdf.format(myEndDateCalender.getTime()))
@@ -106,7 +105,7 @@ class myOrders : AppCompatActivity() {
     }
 
     public fun startDateButton(view: View) {
-        val startDateEditText = findViewById<View>(R.id.startDate) as EditText
+        val startDateEditText = findViewById<View>(R.id.startDate) as TextView
         val startDate =
                 OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myStartDateCalender.set(Calendar.YEAR, year)
@@ -123,7 +122,7 @@ class myOrders : AppCompatActivity() {
     }
 
     public fun endDateButton(view: View) {
-        val endDateEditText = findViewById<View>(R.id.endDate) as EditText
+        val endDateEditText = findViewById<View>(R.id.endDate) as TextView
         val endDate =
                 OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     myEndDateCalender.set(Calendar.YEAR, year)

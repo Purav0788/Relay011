@@ -25,6 +25,7 @@
                 android:text="Order Cancelled"
                 android:textColor="@color/white"
                 android:fontFamily="@font/inter_semibold"
+                android:textStyle="bold"
                 android:layout_marginTop="12dp"
                 android:textSize="20dp"
                 android:layout_marginLeft="36dp"
@@ -108,8 +109,9 @@
                         android:textColor="#615D5D"
                         android:textSize="14dp"
                         android:fontFamily="@font/inter_medium"
+                        android:layout_alignParentRight="true"
                         android:layout_marginTop="22dp"
-                        android:layout_marginLeft="186dp"
+                        android:layout_marginRight="35dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -119,7 +121,8 @@
                         android:textColor="#615D5D"
                         android:fontFamily="@font/inter_semibold"
                         android:layout_marginTop="39dp"
-                        android:layout_marginLeft="181dp"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="30dp"/>
 
                 </RelativeLayout>
 

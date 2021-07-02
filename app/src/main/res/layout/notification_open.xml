@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:text="Armida"
+        android:textStyle="bold"
         android:textColor="#212121"
         android:textSize="19dp"
         android:layout_marginTop="50dp"
