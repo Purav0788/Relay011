@@ -195,7 +195,7 @@ class orderReceived0 : AppCompatActivity() {
                         // do something with the individual "user"
                         val textView = findViewById(R.id._cancellerName) as TextView
                         val cancellerName = user.child("business_name").value as String
-                        textView.text = "This Order Was Cancelled By$cancellerName"
+                        textView.text = "This Order Was Cancelled By $cancellerName"
                     }
                 } else {
                 }

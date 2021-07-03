@@ -78,27 +78,34 @@
                         android:layout_height="85dp"
                         android:layout_centerHorizontal="true"
                         android:background="#E8E8E8"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" From"
-                        android:textColor="#615D5D"
-                        android:textSize="14dp"
-                        android:fontFamily="@font/inter_medium"
-                        android:layout_marginTop="22dp"
-                        android:layout_marginLeft="60dp"
-                        />
-                    <TextView
-                        android:id="@+id/_buyerName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kanishk"
-                        android:textStyle="bold"
-                        android:textSize="18dp"
-                        android:textColor="#615D5D"
-                        android:fontFamily="@font/inter_semibold"
-                        android:layout_marginTop="39dp"
-                        android:layout_marginLeft="43dp"/>
+                    <RelativeLayout
+                        android:layout_width="170dp"
+                        android:layout_height="match_parent">
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" From"
+                            android:textColor="#615D5D"
+                            android:textSize="14dp"
+                            android:fontFamily="@font/inter_medium"
+                            android:layout_marginTop="22dp"
+                            android:layout_centerHorizontal="true"
+                            />
+                        <TextView
+                            android:id="@+id/_buyerName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kanishk"
+                            android:textStyle="bold"
+                            android:textSize="18dp"
+                            android:textColor="#615D5D"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_marginTop="39dp"
+                            android:layout_centerHorizontal="true"/>
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/deliveryD"
                         android:layout_width="wrap_content"
@@ -130,7 +137,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="35dp"
-                android:layout_height="194dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="10dp"
@@ -167,14 +174,13 @@
                         app:drawableLeftCompat="@drawable/cart" />
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="38dp"
                         android:orientation="vertical">
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="36dp">
                             <TextView
-                                android:id="@+id/_orderID"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Order ID : "
@@ -185,7 +191,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="17dp"/>
                             <TextView
-                                android:id="@+id/order"
+                                android:id="@+id/_orderId"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12ABCD"
@@ -196,10 +202,22 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="87dp"/>
                             <TextView
+                                android:id="@+id/items"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#615D5D"
-                                android:text="3 items"
+                                android:text="3"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/inter_semibold"
+                                android:textSize="14dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="82dp"
+                                android:layout_alignParentRight="true"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#615D5D"
+                                android:text="items"
                                 android:textStyle="bold"
                                 android:fontFamily="@font/inter_semibold"
                                 android:textSize="14dp"
@@ -222,90 +240,15 @@
                             android:background="#E8E8E8"
                             />
                         <RelativeLayout
+                            android:id="@+id/orderList"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Chocolates"
-                                android:textStyle="bold"
-                                android:textSize="14dp"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="5 boxes"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="35dp"
-                                android:layout_alignParentRight="true"/>
+                            android:layout_height="wrap_content">
+
 
                         </RelativeLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#E8E8E8"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Blue Lays"
-                                android:textStyle="bold"
-                                android:textSize="14dp"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="3 packets"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="22dp"
-                                android:layout_alignParentRight="true"/>
 
-                        </RelativeLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#E8E8E8"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="37dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Coke"
-                                android:textSize="14dp"
-                                android:textStyle="bold"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="10 bottles"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="22dp"
-                                android:layout_alignParentRight="true"/>
 
-                        </RelativeLayout>
+
 
                     </LinearLayout>
 
@@ -313,6 +256,8 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="81dp"
@@ -354,7 +299,7 @@
 
                     </RelativeLayout>
                     <TextView
-                        android:id="@+id/address"
+                        android:id="@+id/deliveryAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Shop 3, Civil Lines, Ludhiana, Punjab"
@@ -414,7 +359,7 @@
                         android:text="Deliver before 7 pm"
                         android:textSize="14dp"
                         android:textStyle="bold"
-                        android:id="@+id/notes"
+                        android:id="@+id/orderNotes"
                         android:textColor="#615D5D"
                         android:fontFamily="@font/inter_semibold"
                         android:layout_marginTop="43dp"
@@ -478,13 +423,12 @@
 
 
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/button11"
                 android:textAllCaps="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6.5dp"
-                android:layout_marginLeft="6.5dp"
+
                 android:layout_weight="1"
                 android:onClick="confirmOrder"
                 android:paddingHorizontal="80dp"
@@ -495,13 +439,19 @@
                 android:text="Confirm Order"
                 app:icon="@drawable/ic_baseline_check_24"
                 android:layout_marginBottom="10dp"
-               />
+                />
 
 
         </LinearLayout>
 
 
     </LinearLayout>
+
+
+
+
+
+
 
 
 

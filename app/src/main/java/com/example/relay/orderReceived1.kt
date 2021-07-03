@@ -102,7 +102,7 @@ class orderReceived1 : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 if(!s.isEmpty()){
                     totalPrice = totalPrice + s.toString().toInt()*neu.orderQuantity.orderQuantity.text.toString().toInt()
-                    var totalPriceView = findViewById(R.id.totalPrice) as EditText
+                    var totalPriceView = findViewById(R.id.totalPrice) as TextView
                     totalPriceView.setText(totalPrice.toString())
                 }
             }

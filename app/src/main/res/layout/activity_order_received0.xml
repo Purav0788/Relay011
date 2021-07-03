@@ -136,7 +136,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="35dp"
-                android:layout_height="194dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="10dp"
@@ -180,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="36dp">
                             <TextView
-                                android:id="@+id/_orderID"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Order ID : "
@@ -191,7 +191,8 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="17dp"/>
                             <TextView
-                                android:id="@+id/order"
+                                android:id="@+id/_orderID"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12ABCD"
@@ -202,6 +203,7 @@
                                 android:layout_marginTop="8dp"
                                 android:layout_marginLeft="87dp"/>
                             <TextView
+                                android:id="@+id/order"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#615D5D"
@@ -209,7 +211,7 @@
                                 android:textStyle="bold"
                                 android:fontFamily="@font/inter_semibold"
                                 android:textSize="14dp"
-                                android:layout_centerVertical="true"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="37dp"
                                 android:layout_alignParentRight="true"/>
                             <ImageView
@@ -227,91 +229,7 @@
                             android:layout_height="1dp"
                             android:background="#E8E8E8"
                             />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="36dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Chocolates"
-                                android:textStyle="bold"
-                                android:textSize="14dp"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="5 boxes"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="35dp"
-                                android:layout_alignParentRight="true"/>
 
-                        </RelativeLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#E8E8E8"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Blue Lays"
-                                android:textStyle="bold"
-                                android:textSize="14dp"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="3 packets"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="22dp"
-                                android:layout_alignParentRight="true"/>
-
-                        </RelativeLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#E8E8E8"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="37dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Coke"
-                                android:textSize="14dp"
-                                android:textStyle="bold"
-                                android:textColor="#615D5D"
-                                android:fontFamily="@font/inter_semibold"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="17dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#615D5D"
-                                android:text="10 bottles"
-                                android:fontFamily="@font/inter_medium"
-                                android:textSize="14dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="22dp"
-                                android:layout_alignParentRight="true"/>
-
-                        </RelativeLayout>
 
                     </LinearLayout>
 
@@ -484,8 +402,8 @@
                 android:textAllCaps="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6.5dp"
-                android:layout_marginRight="6.5dp"
+
+
                 android:layout_weight="1"
                 android:onClick="quotePrice"
                 android:paddingHorizontal="10dp"
@@ -502,16 +420,15 @@
                 android:textAllCaps="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6.5dp"
-                android:layout_marginLeft="6.5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:onClick="cancelOrder"
-                android:paddingHorizontal="5dp"
+                android:paddingHorizontal="17dp"
                 android:paddingVertical="10dp"
                 app:cornerRadius="20dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="Cancel Order"
+                android:text="Cancel"
                 app:icon="@drawable/ic_baseline_clear_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
