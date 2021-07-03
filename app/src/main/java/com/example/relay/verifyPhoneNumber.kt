@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -39,6 +40,8 @@ class verifyPhoneNumber : AppCompatActivity() {
         mobile = intent.getStringExtra("mobile")
         sendVerificationCode(mobile!!)
         Log.d("verify", "I am here")
+        var phoneNumberView = findViewById(R.id.phoneNumber) as TextView
+        phoneNumberView.setText(mobile)
 
     }
 

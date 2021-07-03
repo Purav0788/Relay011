@@ -53,13 +53,29 @@ class orderList : AppCompatActivity() {
         setUpSpinner(neu.spinner)
         parent.addView(neu)
         neu.imageButton.setOnClickListener(View.OnClickListener {
+                if(neu.orderQuantity.text.toString().toInt() == 0){
+                    increaseTotalItems()
+                }
                 neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()+1).toString())
             })
         neu.imageButton2.setOnClickListener(View.OnClickListener {
-            neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()-1).toString())
+            if(neu.orderQuantity.text.toString().toInt() == 1){
+                decreaseTotalItems()
+            }
+            if(neu.orderQuantity.text.toString().toInt()>0){
+                neu.orderQuantity.setText((neu.orderQuantity.text.toString().toInt()-1).toString())
+            }
         })
         layoutID++
-        increaseTotalItems()
+
+    }
+
+    private fun decreaseTotalItems() {
+        var totalItems = findViewById<View>(R.id.totalItems)
+        var quantity = totalItems.totalItems.text.toString().toInt()
+        Log.d("quantity",quantity.toString())
+        quantity = quantity - 1
+        totalItems.totalItems.setText(quantity.toString())
     }
 
     private fun setUpSpinner(dropdown:AutoCompleteTextView){
@@ -77,7 +93,10 @@ class orderList : AppCompatActivity() {
             Log.d("orderlist", "I am in for loop")
             var order:String
             var newOrderItem:View = findViewById<View>(i)
-            if((newOrderItem.orderName.text.toString() == "") ||(newOrderItem.orderQuantity.text.toString().toInt() == 0)){
+            if( (newOrderItem.orderName.text.toString() == "") ||
+                (newOrderItem.orderQuantity.text.toString().toInt() == 0) ||
+                (newOrderItem.spinner.text.isEmpty())
+            ){
                 continue
             }
             order = newOrderItem.orderName.text.toString()
@@ -94,6 +113,7 @@ class orderList : AppCompatActivity() {
             intent.putExtra("user2", user2)
             startActivityForResult(intent, LAUNCH_ORDER_DETAILS);
         }
+
 
     }
 

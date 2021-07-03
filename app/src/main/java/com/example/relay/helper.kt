@@ -121,6 +121,101 @@ object myHelper {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    public fun sendOrderSentMessage(result: UUID, user1:String, user2:String) {
+        //make it atomic with the orderplacement, its like a transaction,what would happen if this
+        //call doesnt happen, but the order gets placed
+        val map: MutableMap<String, Any> = HashMap()
+        val time = LocalDateTime.now()
+        map["orderID"] = result.toString()
+        val reference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
+                    + user1 + "_" + user2)
+
+        val reference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/messages/"
+                    + user2 + "_" + user1)
+        map["user"] = user1
+        map["time"] = time
+        reference1.push().setValue(map)
+        reference2.push().setValue(map)
+//        sendMessageBroadCast("An Order Saved", time, user2)
+        var lastMessage = "Order Sent"
+        //this way broadcast will update the home screen chat when this user sends a message and
+        //realtime db listener will update the home screen chat when the user2 sends a message
+        myHelper.updateLastMessageForUser1(user2, time, lastMessage, user1)
+        lastMessage = "Order Received"
+        myHelper.updateLastMessageForUser2(user2, time, lastMessage, user1)
+    }
+
+    private fun updateLastMessageForUser2(user2: String, time: LocalDateTime, lastMessage: String, user1: String) {
+        var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user2
+        )
+        /*var myReference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user1
+        )
+*/
+        val map1: MutableMap<String, Any> = HashMap()
+        map1["sentByUser"] = user1
+        map1["time"] = time
+        map1["lastSentOrReceivedMessage"] = lastMessage
+
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(user1)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        val user1Name = user.child("name").value as String
+                        map1["sentByUserName"] = user1Name
+                        myReference1.child(user1).child("lastMessageDetails").updateChildren(map1)
+                       /* myReference2.child(user2).child("lastMessageDetails").updateChildren(map1)*/
+                    }
+                } else {
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun updateLastMessageForUser1(user2: String, time: LocalDateTime, lastMessage: String, user1: String) {
+       /* var myReference1 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user2
+        )*/
+        var myReference2 = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/chats/" + user1
+        )
+
+        val map1: MutableMap<String, Any> = HashMap()
+        map1["sentByUser"] = user1
+        map1["time"] = time
+        map1["lastSentOrReceivedMessage"] = lastMessage
+
+        val reference = FirebaseDatabase.getInstance().reference
+        val query: Query =
+            reference.child("users").orderByChild("phone_number").equalTo(user1)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "users" node with all children with phone_number = phoneNumber
+                    for (user in dataSnapshot.children) {
+                        val user1Name = user.child("name").value as String
+                        map1["sentByUserName"] = user1Name
+                        /*myReference1.child(user1).child("lastMessageDetails").updateChildren(map1)*/
+                        myReference2.child(user2).child("lastMessageDetails").updateChildren(map1)
+                    }
+                } else {
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     public fun sendOrderCancellationMessage2(orderID: String, user1: String, user2: String) {
         val map: MutableMap<String, Any> = HashMap()
         val time = LocalDateTime.now()
@@ -139,7 +234,7 @@ object myHelper {
         )
         reference1.push().setValue(map)
         reference2.push().setValue(map)
-        var lastMessage = "An Order Cancelled"
+        var lastMessage = "Order Cancelled"
         //this way broadcast will update the home screen chat when this user sends a message and
         //realtime db listener will update the home screen chat when the user2 sends a message
         updateLastMessages(user2, time, lastMessage, user1)
@@ -166,7 +261,7 @@ object myHelper {
         reference1.push().setValue(map)
         reference2.push().setValue(map)
 //        sendMessageBroadCast("An order Confirmed", time, user2)
-        var lastMessage = "An Order Saved"
+        var lastMessage = "Order Confirmed"
         //this way broadcast will update the home screen chat when this user sends a message and
         //realtime db listener will update the home screen chat when the user2 sends a message
         updateLastMessages(user2, time, lastMessage, user1)

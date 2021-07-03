@@ -20,6 +20,7 @@ import com.example.relay.databinding.LayoutMessageItemBinding
 import com.example.relay.databinding.LayoutMessageMineItemBinding
 import com.example.relay.databinding.LayoutOrderStatusItemBinding
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_order_cancel.*
 import kotlinx.android.synthetic.main.my_orders_list_item.*
 import java.time.LocalDateTime
 import java.util.*
@@ -71,17 +72,9 @@ class Chat : AppCompatActivity() {
                 val time: HashMap<String, Any> = map["time"] as HashMap<String, Any>
                 var type = if (user == user1) 1 else 2
                 if (map["orderID"] != null) {
-                    val orderID = map["orderID"].toString()
                     // TODO: 6/12/2021 Change this to show time dynamically
-                    if (map["orderCancelled"] == "true") {
-                        addOrderCancelledBox(orderID, type, time)
-                    } else if (map["orderConfirmed"] == "true") {
-                        addOrderConfirmedBox(orderID, type, time)
-                    } else {
-                        addOrderBox(orderID, type, time)
-                    }
+                    getDeliveryDate(map, type, time)
                 } else {
-
                     addMessageBox(map, type)
                 }
             }
@@ -115,6 +108,47 @@ class Chat : AppCompatActivity() {
 
     }
 
+    private fun getDeliveryDate(map:Map<String,Any>, type:Int, time: HashMap<String, Any>){
+        //this increases the rendering time, can have a copy of order stored
+        //in the messages itself, rather than having a separate copy of it
+        // as this is creating too many calls to db, even when its cached
+        //it should have been there with the messages itself, so there was no need of a
+        //second call to the db for each of the order box message
+        // store delivery date and items in the message , leave it as it is
+        val orderID = map["orderID"].toString()
+        var orderRef = FirebaseDatabase.getInstance().getReferenceFromUrl(
+            "https://relay-28f2e-default-rtdb.firebaseio.com/orders/" + orderID)
+        orderRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var deliveryDate = snapshot.child("deliveryDate").value
+                var orderList: DataSnapshot = snapshot.child("orderList")
+                val delimiter = "#"
+                var orders = ""
+                var count = 0;
+                for ( i in orderList.children){
+                    if ( i!= null) {
+                        var t = i.value as String
+                        count++;
+                        val splitString = t.split(delimiter).toTypedArray();
+                        orders+=splitString[0]+" "+splitString[1]+" "+splitString[2]
+                        orders += '\n';
+                    }
+                }
+               var totalItems = count.toString()
+                if (map["orderCancelled"] == "true") {
+                    addOrderCancelledBox(orderID, type, deliveryDate.toString(), totalItems)
+                } else if (map["orderConfirmed"] == "true") {
+                    addOrderConfirmedBox(orderID, type, deliveryDate.toString(), totalItems)
+                } else {
+                    addOrderBox(orderID, type, deliveryDate.toString(), totalItems)
+                }
+            }
+        })
+    }
+
     private fun setUser2PhoneNumber(user2:String){
         val user2PhoneNumberView:TextView = findViewById(R.id.yourPhoneNumber) as TextView
         user2PhoneNumberView.text = user2
@@ -143,8 +177,8 @@ class Chat : AppCompatActivity() {
     }
 
 
-    private fun addOrderCancelledBox(orderID: String, type: Int, time: HashMap<String, Any>) {
-        val date = getTime(time)
+    private fun addOrderCancelledBox(orderID: String, type: Int, deliveryDate:String, totalItems:String) {
+        val date = totalItems + "items | Delivery Date:" + deliveryDate
         val orderButton = Button(this)
 
         val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
@@ -286,8 +320,8 @@ class Chat : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LAUNCH_ORDER_LIST) {
             if (resultCode == Activity.RESULT_OK) {
-                val result: UUID = data!!.getSerializableExtra("result") as UUID
-                saveOrderUUID(result)
+               /* val result: UUID = data!!.getSerializableExtra("result") as UUID
+                saveOrderUUID(result)*/
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -329,7 +363,7 @@ class Chat : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+/*    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveOrderUUID(result: UUID) {
         //make it atomic with the orderplacement, its like a transaction,what would happen if this
         //call doesnt happen, but the order gets placed
@@ -345,15 +379,15 @@ class Chat : AppCompatActivity() {
         //this way broadcast will update the home screen chat when this user sends a message and
         //realtime db listener will update the home screen chat when the user2 sends a message
         myHelper.updateLastMessages(user2, time, lastMessage, user1)
-    }
+    }*/
 
-    fun addOrderBox(orderID: String, type: Int, time: HashMap<String, Any>) {
+    fun addOrderBox(orderID: String, type: Int, deliveryDate: String, totalItems: String) {
 
         //get a custom button + text view
         // as we have id , get the data about that order from the backend, and then
         //need to figure out as quickly as i can about the coroutine,with realtime db firebase, or this stuff
         //is gonna go to hell
-        var date = getTime(time)
+        var date = totalItems + "items | Delivery Date:" + deliveryDate
 
         val bindingLayoutOrderStatusItemBinding: LayoutOrderStatusItemBinding =
             LayoutOrderStatusItemBinding.inflate(
@@ -423,7 +457,7 @@ class Chat : AppCompatActivity() {
         }
     }
 
-    private fun addOrderConfirmedBox(orderID: String, type: Int, time: HashMap<String, Any>) {
+    private fun addOrderConfirmedBox(orderID: String, type: Int,deliveryDate: String,totalItems: String) {
 //        val orderButton = Button(this)
 //        var params = LinearLayout.LayoutParams(
 //            LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -435,7 +469,7 @@ class Chat : AppCompatActivity() {
                 null,
                 false
             )
-        var date = getTime(time)
+        var date = totalItems + "items | Delivery Date:" + deliveryDate
         bindingLayoutOrderStatusItemBinding.tvOrderStatus.text = "Order Confirmed"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             bindingLayoutOrderStatusItemBinding.tvOrderStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
