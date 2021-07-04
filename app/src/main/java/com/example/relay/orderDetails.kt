@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.relay.databinding.OrderDetailsListItemBinding
 import com.google.firebase.database.DatabaseReference
@@ -83,6 +85,7 @@ class orderDetails : AppCompatActivity() {
         dpd.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun placeOrder(myview: View) {
         val textView = findViewById<TextView>(R.id.address)
         val addressEntered: String = textView.text.toString()
@@ -109,6 +112,7 @@ class orderDetails : AppCompatActivity() {
         val intent = Intent()
         val result = key
         intent.putExtra("result", result)
+        myHelper.sendOrderSentMessage(result, user1, user2)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
