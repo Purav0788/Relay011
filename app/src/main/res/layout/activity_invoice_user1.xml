@@ -24,6 +24,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ic_baseline_arrow_back_24"
                 android:layout_marginTop="20dp"
+                android:layout_marginLeft="-5dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +41,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_chat_bubble_outline_24"
+                android:src="@drawable/ic_baseline_chat_new_24"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="21dp"/>
@@ -61,6 +62,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+
 
             android:orientation="vertical">
             <com.google.android.material.card.MaterialCardView
@@ -74,7 +77,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white">
+                    android:background="@drawable/background_grey">
                     <View
                         android:layout_width="1dp"
                         android:layout_height="85dp"
@@ -92,7 +95,7 @@
                             android:text=" From"
                             android:textColor="#615D5D"
                             android:textSize="14dp"
-                            android:fontFamily="@font/inter_medium"
+                            android:fontFamily="@font/inter_semibold"
                             android:layout_marginTop="22dp"
                             android:layout_centerHorizontal="true"
                             />
@@ -271,15 +274,12 @@
                     android:background="@drawable/background_grey">
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:background="#330752AD">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="6dp"
-                            android:layout_marginStart="13dp"
-                            android:layout_marginLeft="13dp"
-                            android:drawablePadding="5dp"
                             android:gravity="center"
                             android:layout_centerInParent="true"
                             android:text="Delivery Location"
@@ -287,14 +287,10 @@
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:drawableTint="@color/blue_500"
-                            app:drawableLeftCompat="@drawable/ic_baseline_location_on_24" />
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_baseline_arrow_drop_up_blue_24"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="69dp"/>
+                            app:drawableLeftCompat="@drawable/ic_baseline_location_on_24"
+                            app:drawableRightCompat="@drawable/ic_baseline_arrow_drop_up_blue_24"
+                            android:drawablePadding="2dp"
+                            />
 
 
                     </RelativeLayout>
@@ -326,14 +322,12 @@
                     android:background="@drawable/background_grey">
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:background="#330752AD">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="6dp"
-                            android:layout_marginStart="13dp"
-                            android:layout_marginLeft="13dp"
                             android:drawablePadding="5dp"
                             android:gravity="center"
                             android:layout_centerInParent="true"
@@ -342,14 +336,8 @@
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:drawableTint="@color/blue_500"
-                            app:drawableLeftCompat="@drawable/ic_baseline_chat_24" />
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_baseline_arrow_drop_up_blue_24"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="91dp"/>
+                            app:drawableLeftCompat="@drawable/ic_baseline_chat_24"
+                            app:drawableRightCompat="@drawable/ic_baseline_arrow_drop_up_blue_24"/>
 
 
                     </RelativeLayout>
@@ -368,6 +356,11 @@
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                />
         </LinearLayout>
     </ScrollView>
     <LinearLayout
@@ -401,10 +394,11 @@
                 android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="  0"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:layout_marginLeft="3dp"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>

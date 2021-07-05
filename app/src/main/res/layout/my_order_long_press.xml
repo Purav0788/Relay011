@@ -32,7 +32,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:background="#140752AD">
             <TextView
                 android:id="@+id/user2Name"
                 android:layout_width="wrap_content"
@@ -85,17 +85,18 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="26dp"
                 />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_check_circle_blue_24"
+                android:layout_toRightOf="@id/user2Name"
+                android:layout_marginTop="19dp"/>
 
 
 
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-    <View
-        android:layout_below="@id/view"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"/>
-
     <TextView
         android:id="@+id/orderStatus"
         android:layout_width="wrap_content"

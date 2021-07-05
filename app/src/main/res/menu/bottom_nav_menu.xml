@@ -9,7 +9,7 @@
     <item
         android:id="@+id/nav_inbox"
         android:icon="@drawable/inbox"
-        android:title="@string/inbox"/>
+        android:title="My Order"/>
     <item
         android:id="@+id/nav_more"
         android:icon="@drawable/more"

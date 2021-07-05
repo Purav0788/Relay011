@@ -24,12 +24,13 @@
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₹45"
+            android:text=""
             android:textColor="#615D5D"
             android:textSize="14dp"
             android:fontFamily="@font/inter_semibold"
             android:textStyle="bold"
             android:layout_alignParentRight="true"
+            android:editable="false"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"/>
 
@@ -47,7 +48,8 @@
             android:id="@+id/unitPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₹9"
+            android:text=""
+            android:inputType="numberDecimal"
             android:textColor="#615D5D"
             android:textSize="14dp"
             android:textStyle="bold"
@@ -62,7 +64,7 @@
             android:textSize="20dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="6dp"
-            android:layout_marginRight="107dp"/>
+            android:layout_marginRight="115dp"/>
 
 
 

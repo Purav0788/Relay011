@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_lighter_bg_color"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,12 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:titleEnabled="false">
-
-
         <TextView
             android:id="@+id/yourBusinessName"
             android:layout_width="wrap_content"
@@ -29,43 +25,126 @@
             app:drawableTint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+
+
+
+
 
     <TextView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="17dp"
         android:fontFamily="@font/inter_semibold"
-        android:text="Select your Language"
+        android:text="Select Language"
         android:textColor="#615D5D"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView23"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        android:textStyle="bold"
+
+
+      />
 
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="17dp"
         android:fontFamily="@font/inter_medium"
         android:text="Please select a language that you can read and understand comfortably."
         android:textColor="#615D5D"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_below="@id/textView"
+        android:layout_marginRight="44dp"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp"
+
+       />
 
     <ListView
         android:id="@+id/bunchOfButtons"
-        android:layout_width="405dp"
-        android:layout_height="617dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:entries="@array/bunchOfButtons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+        android:layout_marginTop="150dp"
+        android:layout_below="@id/textView23" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="121dp"
+            android:layout_height="64dp"
+            android:layout_below="@id/textView23"
+            android:layout_marginTop="29dp"
+            app:cardCornerRadius="20dp"
+            android:layout_marginLeft="41dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/select_language_background">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="English"
+                    android:textSize="14dp"
+
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="121dp"
+            android:layout_height="64dp"
+            android:layout_below="@id/textView23"
+            android:layout_marginTop="29dp"
+            android:layout_alignParentRight="true"
+            app:cardCornerRadius="20dp"
+            android:layout_marginRight="41dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/select_language_background">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="हिंदी"
+                    android:textSize="14dp"
+
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="107dp"
+            app:cornerRadius="20dp"
+            android:textSize="18sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:text="Continue"
+            android:drawableRight="@drawable/arrow_right"
+            android:layout_marginBottom="31dp"
+            />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
