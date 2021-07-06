@@ -121,7 +121,7 @@ object myHelper {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    public fun sendOrderSentMessage(result: UUID, user1:String, user2:String) {
+    public fun sendOrderSentMessage(deliveryDate:String, orderList:ArrayList<String>,result: UUID, user1:String, user2:String) {
         //make it atomic with the orderplacement, its like a transaction,what would happen if this
         //call doesnt happen, but the order gets placed
         val map: MutableMap<String, Any> = HashMap()
@@ -136,6 +136,8 @@ object myHelper {
                     + user2 + "_" + user1)
         map["user"] = user1
         map["time"] = time
+        map["deliveryDate"] = deliveryDate
+        map["totalItems"] = orderList.size
         reference1.push().setValue(map)
         reference2.push().setValue(map)
 //        sendMessageBroadCast("An Order Saved", time, user2)
