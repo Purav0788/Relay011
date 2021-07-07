@@ -112,7 +112,7 @@ class orderDetails : AppCompatActivity() {
         val intent = Intent()
         val result = key
         intent.putExtra("result", result)
-        myHelper.sendOrderSentMessage(result, user1, user2)
+        myHelper.sendOrderSentMessage(deliveryDate, orderList, result, user1, user2)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
