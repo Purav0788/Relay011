@@ -29,11 +29,34 @@
                 android:layout_height="wrap_content"
                 android:text="Order Cancelled"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:fontFamily="@font/inter_semibold"
-                android:layout_marginTop="18dp"
-                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"
+                android:textSize="20dp"
                 android:layout_marginLeft="36dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By "
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_semibold"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginLeft="37dp"
+                />
+            <TextView
+                android:id="@+id/_cancellerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_semibold"
+                android:textSize="12dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginLeft="55dp"
                 />
 
             <ImageView
@@ -65,7 +88,7 @@
         android:orientation="vertical">
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="83dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         android:layout_marginHorizontal="35dp"
         android:layout_gravity="center_horizontal"
@@ -89,7 +112,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" From"
+                    android:text="Sent To"
                     android:textColor="#615D5D"
                     android:textSize="14dp"
                     android:fontFamily="@font/inter_medium"
@@ -101,7 +124,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Kanishk"
+                    android:paddingHorizontal="8dp"
                     android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
                     android:textSize="18dp"
                     android:textColor="#615D5D"
                     android:fontFamily="@font/inter_semibold"
@@ -344,41 +370,18 @@
     </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/rectangle_rounded_top"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/_cancellerName"
-                android:layout_width="wrap_content"
-                android:layout_marginHorizontal="55dp"
-                android:layout_height="wrap_content"
-                android:text="This order was cancelled by You"
-                android:textColor="#DE1B1B"
-                android:fontFamily="@font/inter_semibold"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_centerHorizontal="true"
-                android:padding="10dp"
-                android:gravity="center_horizontal" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_cancel_circle_24"
-                android:layout_marginTop="13dp"
-                android:layout_toLeftOf="@id/_cancellerName"
-                android:layout_marginRight="-70dp"
 
-                />
-        </RelativeLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_alignParentBottom="true"
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="-18dp">
+
 
 
         <LinearLayout
@@ -386,14 +389,19 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rectangle_59"
             android:gravity="center"
-            android:layout_marginBottom="15dp"
-            android:padding="10dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+
+            android:layout_marginTop="21dp"
+            >
+
 
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Items :"
+                android:text="Total items :"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -404,13 +412,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  0"
-                android:layout_marginLeft="3dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:layout_marginLeft="3dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
 
@@ -422,7 +431,6 @@
 
 
 
-    </LinearLayout>
 
 
 

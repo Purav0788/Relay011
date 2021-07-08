@@ -141,7 +141,7 @@
                 android:layout_marginLeft="6.5dp"
                 android:layout_weight="1"
                 android:onClick="goToOrderDetails"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="25dp"
                 android:paddingVertical="10dp"
                 app:cornerRadius="20dp"
                 android:textSize="18sp"

@@ -83,6 +83,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:textColor="#0752AD"
                     android:textSize="16dp"
+
                     android:text="Start Date"
                     />
                 <ImageView
@@ -130,13 +131,10 @@
                     android:src="@drawable/ic_baseline_arrow_drop_down_blue_24"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="17dp"/>
-
-
-
-
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -154,6 +152,7 @@
                     android:layout_height="match_parent"
                     android:queryHint="Search merchants"
                     android:iconifiedByDefault="true"
+                    android:background="@drawable/background_blue"
 
                     android:searchHintIcon="@drawable/ic_baseline_search_24"/>
                 <androidx.cardview.widget.CardView
@@ -186,12 +185,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="160dp"
             android:layout_above="@id/_bottom_nav"
-
             />
-
-
-
-
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/box"

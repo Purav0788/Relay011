@@ -68,7 +68,7 @@
             android:orientation="vertical">
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="83dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="35dp"
                 android:layout_gravity="center_horizontal"
@@ -104,12 +104,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kanishk"
+                            android:paddingHorizontal="8dp"
                             android:textStyle="bold"
+                            android:layout_gravity="center_horizontal"
+                            android:textAlignment="center"
                             android:textSize="18dp"
                             android:textColor="#615D5D"
                             android:fontFamily="@font/inter_semibold"
                             android:layout_marginTop="39dp"
-                            android:layout_centerHorizontal="true"/>
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center_horizontal" />
                     </RelativeLayout>
                     <TextView
                         android:id="@+id/deliveryD"

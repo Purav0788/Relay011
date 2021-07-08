@@ -133,7 +133,7 @@
         android:fontFamily="@font/inter_medium"
         android:text="Enter your 10-digit mobile number"
         android:textColor="#615D5D"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toBottomOf="@id/userNumber" />
 
@@ -147,6 +147,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="107dp"
         app:cornerRadius="20dp"
+        android:textStyle="bold"
         android:textSize="18sp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
