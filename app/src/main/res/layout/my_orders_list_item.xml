@@ -105,14 +105,15 @@
 
     <TextView
         android:id="@+id/orderStatus"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text="Awaiting Confirmation"
         android:textSize="10dp"
         android:textColor="#0752AD"
+        android:textStyle="bold"
         android:layout_alignParentRight="true"
         android:fontFamily="@font/inter_medium"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
         android:gravity="center_horizontal" />
 

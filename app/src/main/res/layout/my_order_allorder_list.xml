@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#330752AD">
+            <TextView
+                android:id="@+id/allorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Orders"
+                android:textColor="#0752AD"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="16dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/allorder"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_baseline_check_blue_24"
+                android:layout_marginTop="8dp"/>
+
+            <View
+                android:id="@+id/viewww1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#BDBDBD"
+                android:layout_below="@id/allorder"
+                android:layout_marginTop="5dp"
+                />
+            <TextView
+                android:id="@+id/ordersent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orders Sent"
+                android:textColor="#0752AD"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_regular"
+                android:layout_below="@id/viewww1"
+                android:textSize="16dp"/>
+            <View
+                android:id="@+id/viewww2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#BDBDBD"
+                android:layout_below="@id/ordersent"
+                android:layout_marginTop="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Received"
+                android:textColor="#0752AD"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_regular"
+                android:layout_below="@id/viewww2"
+                android:layout_marginBottom="9dp"
+                android:textSize="16dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
+
        >
         <TextView
             android:id="@+id/orderName"
@@ -33,8 +34,21 @@
             android:textStyle="bold"
             android:layout_alignParentRight="true"
             android:editable="false"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="#615D5D"
+            android:textSize="14dp"
+            android:fontFamily="@font/inter_semibold"
+            android:textStyle="bold"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/itemPrice"
+            android:layout_marginRight="-2dp"
+
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,17 +70,34 @@
             android:textSize="14dp"
             android:textStyle="bold"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="85dp"/>
         <TextView
+            android:id="@+id/rupee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="#615D5D"
+            android:textSize="14dp"
+            android:fontFamily="@font/inter_semibold"
+            android:textStyle="bold"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/unitPrice"
+            android:layout_marginRight="-2dp"
+
+            />
+        <TextView
+            android:id="@+id/x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="x"
             android:textColor="#615D5D"
             android:textSize="20dp"
-            android:layout_alignParentRight="true"
+
             android:layout_marginTop="6dp"
-            android:layout_marginRight="115dp"/>
+            android:layout_toLeftOf="@id/rupee"
+            android:layout_marginRight="8dp"
+            />
 
 
 
@@ -77,8 +108,8 @@
             android:id="@+id/relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="135dp">
+            android:layout_toLeftOf="@id/x"
+            android:layout_marginRight="10dp">
             <TextView
                 android:id="@+id/orderQuantity"
                 android:layout_width="wrap_content"

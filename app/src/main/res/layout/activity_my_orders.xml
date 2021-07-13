@@ -83,6 +83,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:textColor="#0752AD"
                     android:textSize="16dp"
+                    android:textStyle="bold"
 
                     android:text="Start Date"
                     />
@@ -121,6 +122,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:textColor="#0752AD"
                     android:textSize="16dp"
+                    android:textStyle="bold"
                     android:text="End Date"
                     />
                 <ImageView

@@ -33,6 +33,19 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="17dp"
             android:layout_marginRight="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="#615D5D"
+            android:textSize="14dp"
+            android:fontFamily="@font/inter_semibold"
+            android:textStyle="bold"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/itemPrice"
+            android:layout_marginRight="2dp"
+
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,6 +69,19 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="13dp"
             android:layout_marginRight="80dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="#615D5D"
+            android:textSize="14dp"
+            android:fontFamily="@font/inter_semibold"
+            android:textStyle="bold"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/unitPrice"
+            android:layout_marginRight="2dp"
+
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

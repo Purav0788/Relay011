@@ -423,14 +423,24 @@
 
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="3dp"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
                 android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_marginLeft="3dp"
                 android:textStyle="bold"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>
