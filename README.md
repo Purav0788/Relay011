@@ -6,5 +6,5 @@ Developed an android app to ease order management and chat for suppliers and ven
 Firebase Real Time Database
 </br>Android Studio
 </br>Kotlin
-</brFigma for UI designs
+</br>Figma for UI designs
 
